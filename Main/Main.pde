@@ -31,10 +31,23 @@ void draw(){
     textSize(40);
     text("Play!",400,412);
   } else if(screen == 1){
-    displayBackground();
+    background(0);
     textAlign(CENTER);
-    textSize(40);
+    textSize(25);
     fill(255);
+    text("Your star began in a nebula, where a cloud of dust and gas",400,150);
+    text("were squeezed together by density compressional waves.",400,225);
+    text("Over time, gravitational heating helped your star reach",400,300);
+    text("a temperature of 1,000 degrees Kelvin.",400,375);
+    text("now fusion can begin.",400,450);
+    textSize(20);
+    text("Press the space bar to continue",400,500);
+  } else if(screen == 2){
+    text("Now you must choose a path:",400,300);
+    fill(0,227,255);
+    rect(400,400,200,100);
+    fill(255,0,0);
+    rect(400,575,200,100);
   }
 }
 
@@ -47,7 +60,11 @@ void mousePressed(){
 }
 
 void keyPressed(){
-  
+  if(key == ' '){
+    if(screen == 1){
+      screen = 2;
+    }
+  }
 }
 
 void initBackground(){
