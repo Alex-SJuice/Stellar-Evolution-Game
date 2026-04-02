@@ -1,6 +1,7 @@
 
 
 int screen;
+int difficulty; //0 = low/medium mass, 1 = high mass
 
 int numBackgroundStars;
 int[] backgroundStarX;
@@ -31,6 +32,9 @@ void draw(){
     text("Play!",400,412);
   } else if(screen == 1){
     displayBackground();
+    textAlign(CENTER);
+    textSize(40);
+    fill(255);
   }
 }
 
