@@ -24,7 +24,7 @@ class Atom {
     }
     for(int i = protons; i < protons + neutrons; i++){
       PVector rd = pv(1,1).setMag(radius).setHeading(random(2*PI));
-      particles[i+protons] = new Particle(pos.add(rd),vel,0);
+      particles[i+protons] = new Particle(pos.add(rd),vel,1);
     }
   }
   
@@ -53,11 +53,10 @@ class Atom {
       if(calcDst(mouse, p.pos) > radius || !mousePressed){
         p.pos.add(p.vel);
       } else {
-        println("hi");
-        PVector diff = p.pos.copy().sub(mouse);
-        p.pos = mouse.add(diff);
+        p.pos = mouse.copy();
       }
     }
+    
     for(Particle p : particles){
       p.vel = p.pos.copy().sub(p.prevPos);
     }
