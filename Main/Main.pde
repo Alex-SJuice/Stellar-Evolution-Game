@@ -47,7 +47,7 @@ void draw(){
     textAlign(CENTER);
     textSize(25);
     fill(255);
-    text("Your star began in a nebula, where a cloud of dust and gas",400,150);
+    displayText("Your star began in a nebula, where a cloud of dust and gas",400,150);
     text("were squeezed together by density compressional waves.",400,225);
     text("Over time, gravitational heating helped your star reach",400,300);
     text("a temperature of 1,000 degrees Kelvin.",400,375);
@@ -84,18 +84,14 @@ void keyPressed(){
   }
 }
 
-boolean displayText(String tempText,int x, int y){
+void displayText(String tempText,int x, int y){
   if(textTimer % 5 == 0 && textIndex <= tempText.length()){
     textIndex++;
   }
   textAlign(CENTER);
-  text(tempText.substring(0, textIndex), x, y);
-  if(textIndex > tempText.length()){
-    textIndex = 0;
-    textTimer = 0;
-    return true;
+  while(textIndex <= tempText.length()){
+    text(tempText.substring(0, textIndex), x, y);
   }
-  return false;
 }
 
 void initBackground(){
