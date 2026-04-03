@@ -11,9 +11,8 @@ int textTimer;
 
 Atom a;
 
-Text textOne = new Text("Over time, gravitational heating helped your star reach",400,300);
-Text textTwo = new Text("a temperature of 1,000 degrees Kelvin.",400,350);
-
+Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("were squeezed together by density compressional waves.",400,250),new Text("Over time, gravitational heating helped your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350)};
+  
 void setup(){
   size(800,800);
   screen = 0;
@@ -48,12 +47,14 @@ void draw(){
     textAlign(CENTER);
     textSize(25);
     fill(255);
-    if(textOne.displayText()){
-      textTwo.displayText();
+    for(int i = 0; i <texts.length; i++){
+      if(i == 0){
+        texts[0].displayText();
+      }else if(texts[(i-1)].checkDone()){
+        texts[i].displayText();        
+      }
     }
-    //text("Over time, gravitational heating helped your star reach",400,300);
-    //text("a temperature of 1,000 degrees Kelvin.",400,375);
-    text("now fusion can begin.",400,450);
+    text("Now fusion can begin.",400,450);
     textSize(20);
     text("Press the space bar to continue",400,500);
   } else if(screen == 2){

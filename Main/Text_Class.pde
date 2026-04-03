@@ -13,7 +13,7 @@ class Text{
     text = tempText;
   }
   
-  boolean displayText(){
+  void displayText(){
     if(textTimer % 5 == 0 && textIndex < text.length() && textDone == false){
       textDone = false;
       textIndex++;
@@ -21,8 +21,10 @@ class Text{
     text(text.substring(0, textIndex), xCoor, yCoor);
     if(textIndex >= text.length()){
       textDone = true;
-      return true;
     }
-    return false;
+  }
+  
+  boolean checkDone(){
+    return textDone;
   }
 }
