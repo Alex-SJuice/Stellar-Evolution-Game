@@ -11,7 +11,7 @@ int textTimer;
 
 Atom a;
 
-Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("were squeezed together by density compressional waves.",400,250),new Text("Over time, gravitational heating helped your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350)};
+Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by gravity.",400,250),new Text("Over time, the pressure caused your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350)};
   
 void setup(){
   size(800,800);
