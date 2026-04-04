@@ -25,8 +25,8 @@ public void updateAll()
 public void load(String file, String fontAddress)
 {
   try{
-    BufferedReader input = new BufferedReader(new FileReader(file));
-    PFont font = createFont(fontAddress,16);
+    BufferedReader input = new BufferedReader(new FileReader(dataPath(file)));
+    PFont font = createFont(dataPath(fontAddress),16);
     int iter = Integer.parseInt(input.readLine());
     int  i = 0;
     while (i < iter)
@@ -176,8 +176,4 @@ class slider extends ui
   {
     return value;
   }
-}
-PVector pv(float a, float b, float c)
-{
-  return new PVector(a,b,c);
 }

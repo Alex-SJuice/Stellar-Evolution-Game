@@ -13,8 +13,11 @@ PVector convert (PVector cord) //coord to screen
 }
 PVector pv (float a, float b)
 {
-  PVector out = new PVector (a,b,0);
-  return out;
+  return new PVector (a,b,0);
+}
+PVector pv(float a, float b, float c)
+{
+  return new PVector(a,b,c);
 }
 float calcDst (PVector a, PVector b)
 {
