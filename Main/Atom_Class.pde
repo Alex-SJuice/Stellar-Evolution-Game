@@ -14,12 +14,12 @@ class Atom {
   }
   Particle [] particles;
   float diameter;
-  int grabbed;
+  int grabbed = -1;
   int total;
   PVector avgPos;
   PVector avgVel;
   
-  public Atom (int protons, int neutrons, PVector vel, PVector pos, float diameter) {
+  public Atom (int protons, int neutrons, PVector vel, PVector[] pos, float diameter) {
     this.diameter = diameter;
     this.total = protons + neutrons;
     
@@ -27,10 +27,11 @@ class Atom {
     particles = new Particle[total];
     for(int i = 0; i < total; i++){
       int rndm = (int)random(protons + neutrons);
-      PVector rd = pv(1,1).setMag(diameter).setHeading(random(2*PI));
-      particles[i] = new Particle(pos.copy().add(rd),vel,rndm < protons? 0 : 1);
+      particles[i] = new Particle(pos[i].copy(),
+                                  vel,
+                                  rndm < protons? 0 : 1);
       if(rndm < protons){protons--;} else {neutrons--;}
-      sum.add(particles[i].pos.copy());
+      sum.add(pos[i].copy());
     }
     avgPos = sum.div(total);
     avgVel = vel.copy();
@@ -40,8 +41,6 @@ class Atom {
     for(int i = 0; i < total; i++){
       fill(particles[i].type == 0? color(255,0,0):color(255,255,255));
       cir(particles[i].pos,diameter);
-      fill(0);
-      text(i,convert(particles[i].pos).x,convert(particles[i].pos).y);
     }
   }
   
@@ -50,30 +49,35 @@ class Atom {
     for(int t = 0; t < this.total; t++){
       for(int o = 0; o < other.total; o++) {
         if(calcDst(this.particles[t].pos,other.particles[o].pos) < (other.diameter + this.diameter)/2) {
-          PVector offset = particles[t].pos.copy().sub(particles[o].pos.copy()).setMag((other.diameter+this.diameter)/2 - calcDst(particles[t].pos.copy(),particles[o].pos.copy()));
-          particles[i].pos.sub(offset.copy().div(2));
-          particles[p].pos.add(offset.copy().div(2));
+          
+          PVector offset = this.particles[t].pos.copy().sub(other.particles[o].pos.copy());
+                                                       offset.setMag((other.diameter+this.diameter)/2 
+                                                                - calcDst(this.particles[t].pos,other.particles[o].pos));
+          other.particles[o].pos.sub(offset.copy().div(2));
+          this.particles[t].pos.add(offset.copy().div(2));
         }
       }
     }
+    
+    PVector dir = this.avgPos.sub(other.avgPos).normalize();
+    if(other.avgVel.dot(dir) - this.avgVel.dot(dir) >= 12){
+      return true;
+    }
+    return false;
   }
   
   public void update() {
-   
+    
     for(int p = 0; p < total; p++){
       particles[p].prevPos = particles[p].pos.copy();
     }
     
-    PVector sum = pv(0,0);
     for(int p = 0; p < total; p++){
       particles[p].pos.add(particles[p].vel);
-      
-      sum.add(particles[p].pos.copy());
     }
-    avgPos = sum.div(total);
+    
+    PVector sum = pv(0,0);
     //println(avgVel.x + " " + avgVel.y);
-  
-    avgVel = sum.div(total);
     for(int p = 0; p < total; p++){
       for(int i = 0; i < total; i++){
           if(i==p){continue;}
@@ -86,22 +90,25 @@ class Atom {
             particles[p].pos.sub(offset.copy().div(2));
             particles[i].pos.add(offset.copy().div(2));
           }
-        }
+       }
+       sum.add(particles[p].pos.copy());
     }
+    avgPos = sum.div(total);
     
     sum = pv(0,0);
     for(int p = 0; p < total; p++){
       particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos);
       sum.add(particles[p].vel.copy());
     }
+    avgVel = sum.div(total);
     
-    for(int p = 0; p < total; p++){  
+    for(int p = 0; p < total; p++){
       PVector mouse = pv(mouseX-width/2,-mouseY+height/2);
       if(p == grabbed){
-        if(calcDst(mouse, particles[p].pos) > diameter || !mousePressed){
+        if(!mousePressed){
           grabbed = -1;
           PVector prevAvgPos = avgPos.copy();
-          avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy()));
+          avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy().mult(1.1)));
           avgVel = avgPos.copy().sub(prevAvgPos.copy());
           
           for(int i = 0; i < total; i++){
@@ -109,30 +116,30 @@ class Atom {
             particles[i].vel = avgVel.copy().add(particles[i].vel).add(pv(1,1).setHeading(random(2*PI)).setMag(1));
           }
         } else {
+          grabbed = p;
           particles[p].pos = mouse.copy();
         }
-      } else if(calcDst(mouse, particles[p].pos) <= diameter && mousePressed && grabbed == -1){
+      } else if(calcDst(mouse, particles[p].pos) <= diameter/2 && mousePressed && grabbed == -1){
         particles[p].pos = mouse.copy();
         grabbed = p;
-      }
-      
+      }    
+    }
+    //println(particles[0].vel);
+    for(int p = 0; p < total; p++){  
       if(particles[p].pos.x > width/2 - diameter/2) {
         particles[p].pos.x = width/2 - diameter/2;
-        particles[p].vel.x *= -1;
+        particles[p].vel.x *= -0.7;
       } else if(particles[p].pos.x < -width/2 + diameter/2) {
         particles[p].pos.x = -width/2 + diameter/2;
-        particles[p].vel.x *= -1;
+        particles[p].vel.x *= -0.7;
       }
       if(particles[p].pos.y > height/2 - diameter/2) {
         particles[p].pos.y = height/2 - diameter/2;
-        particles[p].vel.y *= -1;
+        particles[p].vel.y *= -0.7;
       } else if(particles[p].pos.y < -height/2 + diameter/2) {
         particles[p].pos.y = -height/2 + diameter/2;
-        particles[p].vel.y *= -1;
+        particles[p].vel.y *= -0.7;
       }
-      
     }
-    
-
   }
 }
