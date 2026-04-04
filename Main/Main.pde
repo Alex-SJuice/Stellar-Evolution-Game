@@ -15,7 +15,6 @@ Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and
   
 void setup(){
   size(800,800);
-  load("Stellar_Evolution.txt","MPLUSRounded1c-Bold.ttf");
   screen = 0;
   textTimer = 0;
   numBackgroundStars = 100;

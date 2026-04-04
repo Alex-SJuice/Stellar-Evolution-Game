@@ -45,9 +45,9 @@ class Atom {
     }
   }
   
-  //public boolean collision(Atom other) {
+  public boolean collision(Atom other) {
     
-  //}
+  }
   
   public void update() {
    
