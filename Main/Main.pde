@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 //int textTimer;
 
-int aCount = 10;
+int aCount = 64;
 float diameter = 30;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
@@ -31,7 +31,7 @@ void setup(){
     float dir = random(2*PI);
     //pv(diameter*cos(dir),diameter*sin(dir)),pv(diameter*cos(dir),diameter*sin(dir))
     //dir = random(2*PI);
-    atoms.add(new Atom(1,1,pv(10*cos(dir),10*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+    atoms.add(new Atom(1,0,pv(10*cos(dir),10*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
     atomDestroy = new ArrayList<Integer>();
     atomMake = new ArrayList<PVector>();
   }  

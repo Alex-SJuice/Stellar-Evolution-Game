@@ -39,6 +39,7 @@ class Atom {
     avgPos = sum.copy();
     avgVel = vel.copy();
   }
+  
   public Atom (Particle[] particles, float diameter) {
     this.diameter = diameter;
     this.total = particles.length;
@@ -48,6 +49,7 @@ class Atom {
     this.particles = particles;
     for(int i = 0; i < total; i++){
       if(particles[i].type == 0){protons++;}else{neutrons++;}
+      particles[i].type = (int)random(2);
       sum1.add(particles[i].pos.copy());
       sum2.add(particles[i].vel.copy());
     }
@@ -78,7 +80,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 20){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= total*5){
       return true;
     }
     return false;
@@ -104,10 +106,13 @@ class Atom {
             particles[i].pos.sub(offset.copy().div(2));
             particles[p].pos.add(offset.copy().div(2));
           } else {
-            PVector offset = particles[p].pos.copy().sub(particles[i].pos.copy()).setMag(calcDst(particles[p].pos.copy(),particles[i].pos.copy())/2-diameter/2).div(total*2);
+            PVector offset = particles[p].pos.copy().sub(particles[i].pos.copy()).setMag(calcDst(particles[p].pos.copy(),particles[i].pos.copy())/2-diameter/2).div(pow(total,1.5));
             particles[p].pos.sub(offset.copy().div(2));
             particles[i].pos.add(offset.copy().div(2));
           }
+       }
+       if(p == grabbed){
+         sum.add(particles[p].pos.copy());
        }
        sum.add(particles[p].pos.copy());
     }
@@ -127,7 +132,7 @@ class Atom {
           grabbed = -1;
           PVector prevAvgPos = avgPos.copy();
           avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy().mult(1.0)));
-          avgVel = avgPos.copy().sub(prevAvgPos.copy());
+          avgVel.add(avgPos.copy().sub(prevAvgPos.copy()).mult(0.5));
           
           for(int i = 0; i < total; i++){
             particles[i].pos = avgPos.copy().add(particles[i].pos.copy().sub(prevAvgPos.copy()));
