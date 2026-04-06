@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 //int textTimer;
 
-int aCount = 64;
+int aCount = 25;
 float diameter = 30;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
@@ -31,19 +31,19 @@ void setup(){
     float dir = random(2*PI);
     //pv(diameter*cos(dir),diameter*sin(dir)),pv(diameter*cos(dir),diameter*sin(dir))
     //dir = random(2*PI);
-    atoms.add(new Atom(1,0,pv(10*cos(dir),10*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
-    atomDestroy = new ArrayList<Integer>();
-    atomMake = new ArrayList<PVector>();
+    atoms.add(new Atom(1,0,pv(1*cos(dir),1*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
   }  
+  atomDestroy = new ArrayList<Integer>();
+  atomMake = new ArrayList<PVector>();
 }
 
 void draw(){
   background(0);
-
+  println(millis()%1000);
   for(int a = 0; a < aCount; a++){
     for(int b = 0; b < aCount; b++){
       if(a == b){continue;}
-      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b) && atoms.get(a).total == atoms.get(b).total){
+      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b)){
         atomMake.add(pv(a,b));
         atomDestroy.add(a);
         atomDestroy.add(b);
@@ -51,8 +51,17 @@ void draw(){
     }
   }
   for(int i = 0; i < atomMake.size(); i++) {
-    Atom a = atoms.get((int)atomMake.get(i).x);
-    Atom b = atoms.get((int)atomMake.get(i).y);
+    Atom a = atoms.get(0);
+    Atom b = atoms.get(0);
+    try{
+      a = atoms.get((int)atomMake.get(i).x);
+      b = atoms.get((int)atomMake.get(i).y);
+    } catch (Exception e){
+      atomDestroy.remove(atomDestroy.indexOf((int)atomMake.get(i).x));
+      atomDestroy.remove(atomDestroy.indexOf((int)atomMake.get(i).y));
+      atomMake.remove(i);
+      continue;
+    }
     
     Particle[] particles = new Particle[a.total+b.total];
     System.arraycopy(a.particles, 0, particles, 0, a.particles.length);
@@ -139,7 +148,7 @@ void draw(){
 //}
 
 //void displayBackground(){
-//  background(0);
+//  background(0); //<>//
 //  fill(255);
 //  for(int i = 0; i<numBackgroundStars; i++){
 //    rect(backgroundStarX[i],backgroundStarY[i],5,5);

@@ -48,8 +48,7 @@ class Atom {
     PVector sum2 = pv(0,0);
     this.particles = particles;
     for(int i = 0; i < total; i++){
-      if(particles[i].type == 0){protons++;}else{neutrons++;}
-      particles[i].type = (int)random(2);
+      particles[i].type = i < total/2?0:1;
       sum1.add(particles[i].pos.copy());
       sum2.add(particles[i].vel.copy());
     }
@@ -80,7 +79,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= total*5){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= (this.total+other.total-1)*5){
       return true;
     }
     return false;
