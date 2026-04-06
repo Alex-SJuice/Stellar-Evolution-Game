@@ -35,13 +35,15 @@ void setup(){
 
 void draw(){
   background(0);
-  for(int a = 0; a < aCount; a++){
-    atoms.get(a).update();
-  }
+
   for(int a = 0; a < aCount; a++){
     for(int b = 0; b < aCount; b++){
+      if(a == b){continue;}
       atoms.get(a).collision(atoms.get(b));
     }
+  }
+  for(int a = 0; a < aCount; a++){
+    atoms.get(a).update();
   }
   for(int a = 0; a < aCount; a++){
     atoms.get(a).display();

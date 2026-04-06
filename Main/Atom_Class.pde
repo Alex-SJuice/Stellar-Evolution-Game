@@ -50,17 +50,17 @@ class Atom {
       for(int o = 0; o < other.total; o++) {
         if(calcDst(this.particles[t].pos,other.particles[o].pos) < (other.diameter + this.diameter)/2) {
           
-          PVector offset = this.particles[t].pos.copy().sub(other.particles[o].pos.copy());
-                                                       offset.setMag((other.diameter+this.diameter)/2 
-                                                                - calcDst(this.particles[t].pos,other.particles[o].pos));
+          PVector offset = this.particles[t].pos.copy().sub(other.particles[o].pos).setMag((other.diameter+this.diameter)/2 - calcDst(this.particles[t].pos,other.particles[o].pos));
+          this.particles[t].vel.add(offset.copy().setMag(other.particles[o].vel.copy().dot(offset.copy().normalize())));
+          other.particles[o].vel.sub(offset.copy().setMag(this.particles[t].vel.copy().dot(offset.copy().normalize())));
           other.particles[o].pos.sub(offset.copy().div(2));
           this.particles[t].pos.add(offset.copy().div(2));
         }
       }
     }
     
-    PVector dir = this.avgPos.sub(other.avgPos).normalize();
-    if(other.avgVel.dot(dir) - this.avgVel.dot(dir) >= 12){
+    PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 12){
       return true;
     }
     return false;
@@ -108,7 +108,7 @@ class Atom {
         if(!mousePressed){
           grabbed = -1;
           PVector prevAvgPos = avgPos.copy();
-          avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy().mult(1.1)));
+          avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy().mult(1.0)));
           avgVel = avgPos.copy().sub(prevAvgPos.copy());
           
           for(int i = 0; i < total; i++){
