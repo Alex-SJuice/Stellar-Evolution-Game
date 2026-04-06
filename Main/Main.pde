@@ -43,7 +43,7 @@ void draw(){
   for(int a = 0; a < aCount; a++){
     for(int b = 0; b < aCount; b++){
       if(a == b){continue;}
-      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b)){
+      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b) && atoms.get(a).total == atoms.get(b).total){
         atomMake.add(pv(a,b));
         atomDestroy.add(a);
         atomDestroy.add(b);
