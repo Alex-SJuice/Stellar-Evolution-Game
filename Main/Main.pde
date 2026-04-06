@@ -12,6 +12,8 @@ import java.util.ArrayList;
 int aCount = 10;
 float diameter = 30;
 ArrayList<Atom> atoms;
+ArrayList<Integer> atomDestroy;
+ArrayList<PVector> atomMake;
 
 //Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by gravity.",400,250),new Text("Over time, the pressure caused your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350)};
   
@@ -27,9 +29,11 @@ void setup(){
   atoms = new ArrayList<Atom>();
   for(int i = 0; i < aCount; i++){
     float dir = random(2*PI);
-    PVector[] pos = {pv(0,0),pv(diameter*cos(dir),diameter*sin(dir)),pv(diameter*cos(dir),diameter*sin(dir))};
-    dir = random(2*PI);
-    atoms.add(new Atom(2,1,pv(10*cos(dir),10*sin(dir)),pos,diameter));
+    //pv(diameter*cos(dir),diameter*sin(dir)),pv(diameter*cos(dir),diameter*sin(dir))
+    //dir = random(2*PI);
+    atoms.add(new Atom(1,1,pv(10*cos(dir),10*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+    atomDestroy = new ArrayList<Integer>();
+    atomMake = new ArrayList<PVector>();
   }  
 }
 
@@ -39,8 +43,29 @@ void draw(){
   for(int a = 0; a < aCount; a++){
     for(int b = 0; b < aCount; b++){
       if(a == b){continue;}
-      atoms.get(a).collision(atoms.get(b));
+      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b)){
+        atomMake.add(pv(a,b));
+        atomDestroy.add(a);
+        atomDestroy.add(b);
+      }
     }
+  }
+  for(int i = 0; i < atomMake.size(); i++) {
+    Atom a = atoms.get((int)atomMake.get(i).x);
+    Atom b = atoms.get((int)atomMake.get(i).y);
+    
+    Particle[] particles = new Particle[a.total+b.total];
+    System.arraycopy(a.particles, 0, particles, 0, a.particles.length);
+    System.arraycopy(b.particles, 0, particles, a.particles.length, b.particles.length);
+    
+    atoms.add(new Atom(particles, diameter));
+    atomDestroy.remove(atomDestroy.indexOf((int)atomMake.get(i).x));
+    atomDestroy.remove(atomDestroy.indexOf((int)atomMake.get(i).y));
+    atoms.remove(a);
+    atoms.remove(b);
+    atomMake.remove(i);
+    i--;
+    aCount--;
   }
   for(int a = 0; a < aCount; a++){
     atoms.get(a).update();
@@ -48,6 +73,7 @@ void draw(){
   for(int a = 0; a < aCount; a++){
     atoms.get(a).display();
   }
+  
   //if(screen == 0){
   //  displayBackground();
   //  textAlign(CENTER);

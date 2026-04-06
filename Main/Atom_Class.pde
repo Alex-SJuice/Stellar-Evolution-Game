@@ -1,40 +1,58 @@
-class Atom {  
-  private class Particle {
-    PVector pos;
-    PVector prevPos;
-    PVector vel;
-    int type;
-    
-    public Particle (PVector pos, PVector vel, int type){
-      this.pos = pos;
-      this.vel = vel;
-      this.type = type;
-      this.prevPos = pos.sub(vel);
-    }
+class Particle {
+  PVector pos;
+  PVector prevPos;
+  PVector vel;
+  int type;
+  
+  public Particle (PVector pos, PVector vel, int type){
+    this.pos = pos;
+    this.vel = vel;
+    this.type = type;
+    this.prevPos = pos.sub(vel);
   }
+}
+class Atom { 
   Particle [] particles;
   float diameter;
   int grabbed = -1;
   int total;
+  int protons;
+  int neutrons;
   PVector avgPos;
   PVector avgVel;
   
-  public Atom (int protons, int neutrons, PVector vel, PVector[] pos, float diameter) {
+  public Atom (int protons, int neutrons, PVector vel, PVector pos, float diameter) {
     this.diameter = diameter;
     this.total = protons + neutrons;
+    this.protons = protons;
+    this.neutrons = neutrons;
     
     PVector sum = pv(0,0);
     particles = new Particle[total];
     for(int i = 0; i < total; i++){
       int rndm = (int)random(protons + neutrons);
-      particles[i] = new Particle(pos[i].copy(),
-                                  vel,
-                                  rndm < protons? 0 : 1);
+      PVector p = pos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1)));
+      particles[i] = new Particle(p.copy(), vel.copy(), rndm < protons? 0 : 1);
       if(rndm < protons){protons--;} else {neutrons--;}
-      sum.add(pos[i].copy());
+      sum.add(p.copy());
     }
-    avgPos = sum.div(total);
+    avgPos = sum.copy();
     avgVel = vel.copy();
+  }
+  public Atom (Particle[] particles, float diameter) {
+    this.diameter = diameter;
+    this.total = particles.length;
+    
+    PVector sum1 = pv(0,0);
+    PVector sum2 = pv(0,0);
+    this.particles = particles;
+    for(int i = 0; i < total; i++){
+      if(particles[i].type == 0){protons++;}else{neutrons++;}
+      sum1.add(particles[i].pos.copy());
+      sum2.add(particles[i].vel.copy());
+    }
+    avgPos = sum1.div(total);
+    avgVel = sum2.div(total);
   }
   
   public void display() {
@@ -60,7 +78,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 12){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 20){
       return true;
     }
     return false;
