@@ -8,6 +8,7 @@ int[] backgroundStarX;
 int[] backgroundStarY;
 
 int textTimer;
+int cutsceneTimer;
 
 Atom a;
 
@@ -85,6 +86,7 @@ void draw(){
       text("(Hard)",400,340);
       if(mousePressed == true){
         difficulty = 1;
+        cutsceneTimer = millis();
         screen = 3;
       }
     }
@@ -101,13 +103,22 @@ void draw(){
       text("(Easy)",400,490);
       if(mousePressed){
         difficulty = 0;
+        cutsceneTimer = millis();
         screen = 3;
       }
     }
   } else if(screen == 3){
-    background(0);
-    a.update();
-    a.display();
+    if(millis()-cutsceneTimer <= 3000){ //last number is in milliseconds, change as needed
+      background(0);
+      fill(255);
+      textSize(80);
+      textAlign(CENTER);
+      text("Protostar Phase",400,400);
+    } else {
+      background(0);
+      a.update();
+      a.display();
+    }
   }
 }
 
