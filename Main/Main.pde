@@ -11,7 +11,7 @@ int textTimer;
 
 Atom a;
 
-Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by gravity.",400,250),new Text("Over time, the pressure caused your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350),new Text("Now fusion can begin.",400,450)};
+Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by density compressional waves.",400,250),new Text("Over time, gravitational heating helped your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350),new Text("Now fusion can begin.",400,400)};
   
 void setup(){
   size(800,800);
@@ -47,7 +47,7 @@ void draw(){
     }
   } else if(screen == 1){
     textTimer++;
-    background(0);
+    displayBackground();
     textAlign(CENTER);
     textSize(25);
     fill(255);
