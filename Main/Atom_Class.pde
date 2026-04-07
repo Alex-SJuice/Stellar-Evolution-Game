@@ -1,64 +1,56 @@
+enum Element {
+  H,He,C,N,O,Na,Si,Fe
+}
 class Particle {
   PVector pos;
   PVector prevPos;
   PVector vel;
-  int type;
+  color c;
   
-  public Particle (PVector pos, PVector vel, int type){
+  public Particle (PVector pos, PVector vel, color c){
     this.pos = pos;
     this.vel = vel;
-    this.type = type;
+    this.c = c;
     this.prevPos = pos.sub(vel);
   }
 }
 class Atom { 
   Particle [] particles;
   float diameter;
-  int grabbed = -1;
+  private int grabbed = -1;
   int total;
-  int protons;
-  int neutrons;
   PVector avgPos;
   PVector avgVel;
+  Element e;
   
-  public Atom (int protons, int neutrons, PVector vel, PVector pos, float diameter) {
+  public Atom (Element e, PVector vel, PVector pos, float diameter) {
     this.diameter = diameter;
-    this.total = protons + neutrons;
-    this.protons = protons;
-    this.neutrons = neutrons;
+    this.e = e;
+    switch(e) {
+      case H: this.total = 1;break;
+      case He: this.total = 4;break;
+      case C: this.total = 12;break;
+      case N: this.total = 14;break;
+      case O: this.total = 16;break;
+      case Na: this.total = 22;break;
+      case Si: this.total = 28;break;
+      case Fe: this.total = 52;break;
+    }
     
     PVector sum = pv(0,0);
-    particles = new Particle[total];
-    for(int i = 0; i < total; i++){
-      int rndm = (int)random(protons + neutrons);
+    particles = new Particle[this.total];
+    for(int i = 0; i < this.total; i++){
       PVector p = pos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1)));
-      particles[i] = new Particle(p.copy(), vel.copy(), rndm < protons? 0 : 1);
-      if(rndm < protons){protons--;} else {neutrons--;}
+      particles[i] = new Particle(p.copy(), vel.copy(), i < (int)(total/2.0+0.5)? color(255,0,0) : color(255,255,255));
       sum.add(p.copy());
     }
     avgPos = sum.copy();
     avgVel = vel.copy();
   }
   
-  public Atom (Particle[] particles, float diameter) {
-    this.diameter = diameter;
-    this.total = particles.length;
-    
-    PVector sum1 = pv(0,0);
-    PVector sum2 = pv(0,0);
-    this.particles = particles;
-    for(int i = 0; i < total; i++){
-      particles[i].type = i < total/2?0:1;
-      sum1.add(particles[i].pos.copy());
-      sum2.add(particles[i].vel.copy());
-    }
-    avgPos = sum1.div(total);
-    avgVel = sum2.div(total);
-  }
-  
   public void display() {
     for(int i = 0; i < total; i++){
-      fill(particles[i].type == 0? color(255,0,0):color(255,255,255));
+      fill(particles[i].c);
       cir(particles[i].pos,diameter);
     }
   }
@@ -147,19 +139,19 @@ class Atom {
       }    
     }
     //println(particles[0].vel);
-    for(int p = 0; p < total; p++){  
-      if(particles[p].pos.x > width/2 - diameter/2) {
-        particles[p].pos.x = width/2 - diameter/2;
+    for(int p = 0; p < total; p++){
+      if(particles[p].pos.x > width/2 +1) {
+        particles[p].pos.x = width/2 +1;
         particles[p].vel.x *= -0.7;
-      } else if(particles[p].pos.x < -width/2 + diameter/2) {
-        particles[p].pos.x = -width/2 + diameter/2;
+      } else if(particles[p].pos.x < -width/2 -1) {
+        particles[p].pos.x = -width/2 -1;
         particles[p].vel.x *= -0.7;
       }
-      if(particles[p].pos.y > height/2 - diameter/2) {
-        particles[p].pos.y = height/2 - diameter/2;
+      if(particles[p].pos.y > height/2 +1) {
+        particles[p].pos.y = height/2 +1;
         particles[p].vel.y *= -0.7;
-      } else if(particles[p].pos.y < -height/2 + diameter/2) {
-        particles[p].pos.y = -height/2 + diameter/2;
+      } else if(particles[p].pos.y < -height/2 -1) {
+        particles[p].pos.y = -height/2 -1;
         particles[p].vel.y *= -0.7;
       }
     }

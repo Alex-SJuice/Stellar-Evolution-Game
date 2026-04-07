@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 //int textTimer;
 
-int aCount = 25;
+int aCount = 1;
 float diameter = 30;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
@@ -29,9 +29,7 @@ void setup(){
   atoms = new ArrayList<Atom>();
   for(int i = 0; i < aCount; i++){
     float dir = random(2*PI);
-    //pv(diameter*cos(dir),diameter*sin(dir)),pv(diameter*cos(dir),diameter*sin(dir))
-    //dir = random(2*PI);
-    atoms.add(new Atom(1,0,pv(1*cos(dir),1*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+    atoms.add(new Atom(Element.Fe,pv(1*cos(dir),1*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
   }  
   atomDestroy = new ArrayList<Integer>();
   atomMake = new ArrayList<PVector>();
@@ -39,11 +37,10 @@ void setup(){
 
 void draw(){
   background(0);
-  println(millis()%1000);
   for(int a = 0; a < aCount; a++){
     for(int b = 0; b < aCount; b++){
       if(a == b){continue;}
-      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b)){
+      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b) && atoms.get(a).e != Element.Fe){
         atomMake.add(pv(a,b));
         atomDestroy.add(a);
         atomDestroy.add(b);
@@ -62,12 +59,34 @@ void draw(){
       atomMake.remove(i);
       continue;
     }
+    float dir = random(2*PI);
+    switch(a.e){
+      case H:
+        atoms.add(new Atom(Element.He, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        break;
+      case He:
+        atoms.add(new Atom(Element.C, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        break;
+      case C:
+        atoms.add(new Atom(Element.N, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        break;
+      case N:
+        atoms.add(new Atom(Element.O, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        break;
+      case O:
+        atoms.add(new Atom(Element.Na, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        break;
+      case Na:
+        atoms.add(new Atom(Element.Si, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        break;
+      case Si:
+        atoms.add(new Atom(Element.Fe, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        break;
+      default:
+        break;
+    }
     
-    Particle[] particles = new Particle[a.total+b.total];
-    System.arraycopy(a.particles, 0, particles, 0, a.particles.length);
-    System.arraycopy(b.particles, 0, particles, a.particles.length, b.particles.length);
     
-    atoms.add(new Atom(particles, diameter));
     atomDestroy.remove(atomDestroy.indexOf((int)atomMake.get(i).x));
     atomDestroy.remove(atomDestroy.indexOf((int)atomMake.get(i).y));
     atoms.remove(a);
@@ -76,13 +95,14 @@ void draw(){
     i--;
     aCount--;
   }
+  
   for(int a = 0; a < aCount; a++){
     atoms.get(a).update();
   }
   for(int a = 0; a < aCount; a++){
     atoms.get(a).display();
   }
-  
+  println(atoms.get(0).avgPos);
   //if(screen == 0){
   //  displayBackground();
   //  textAlign(CENTER);
@@ -107,7 +127,7 @@ void draw(){
   //  fill(255);
   //  for(int i = 0; i <texts.length; i++){
   //    if(i == 0){
-  //      texts[0].displayText();
+  //      texts[0].displayText(); //<>//
   //    }else if(texts[(i-1)].checkDone()){
   //      texts[i].displayText();        
   //    }
@@ -128,7 +148,7 @@ void draw(){
 }
 
 //void mousePressed(){ //<>//
-//}
+//} //<>//
 
 //void keyPressed(){
 //  if(key == ' '){
@@ -148,7 +168,7 @@ void draw(){
 //}
 
 //void displayBackground(){
-//  background(0); //<>//
+//  background(0); //<>// //<>//
 //  fill(255);
 //  for(int i = 0; i<numBackgroundStars; i++){
 //    rect(backgroundStarX[i],backgroundStarY[i],5,5);
