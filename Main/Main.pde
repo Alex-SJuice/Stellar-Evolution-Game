@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 //int textTimer;
 
-int aCount = 25;
-float diameter = 30;
+int aCount = 1000;
+float diameter = 5;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
 ArrayList<PVector> atomMake;
@@ -18,7 +18,7 @@ ArrayList<PVector> atomMake;
 //Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by gravity.",400,250),new Text("Over time, the pressure caused your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350)};
   
 void setup(){
-  size(800,800);
+  size(1200,900);
   //screen = 0;
   //textTimer = 0;
   //numBackgroundStars = 100;
@@ -39,7 +39,6 @@ void setup(){
 
 void draw(){
   background(0);
-  println(millis()%1000);
   for(int a = 0; a < aCount; a++){
     for(int b = 0; b < aCount; b++){
       if(a == b){continue;}
@@ -62,7 +61,7 @@ void draw(){
       atomMake.remove(i);
       continue;
     }
-    
+    println("BANG");
     Particle[] particles = new Particle[a.total+b.total];
     System.arraycopy(a.particles, 0, particles, 0, a.particles.length);
     System.arraycopy(b.particles, 0, particles, a.particles.length, b.particles.length);
@@ -75,6 +74,14 @@ void draw(){
     atomMake.remove(i);
     i--;
     aCount--;
+  }
+  if(keyPressed && key == ' '){
+    for(Atom a : atoms){
+      float dir = random(2*PI);
+      for(int i = 0; i < a.total; i++){
+        a.particles[i].vel = pv(100*cos(dir+random(-0.1,0.1)), 100*sin(dir+random(-0.1,0.1)));
+      }
+    }
   }
   for(int a = 0; a < aCount; a++){
     atoms.get(a).update();
@@ -141,7 +148,7 @@ void draw(){
 
 
 //void initBackground(){
-//  for(int i = 0; i<numBackgroundStars; i++){
+//  for(int i = 0; i<numBackgroundStars; i++){ //<>//
 //    backgroundStarX[i] = (int)random(0,801);
 //    backgroundStarY[i] = (int)random(0,801);
 //  }

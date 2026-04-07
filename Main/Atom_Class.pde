@@ -105,7 +105,7 @@ class Atom {
             particles[i].pos.sub(offset.copy().div(2));
             particles[p].pos.add(offset.copy().div(2));
           } else {
-            PVector offset = particles[p].pos.copy().sub(particles[i].pos.copy()).setMag(calcDst(particles[p].pos.copy(),particles[i].pos.copy())/2-diameter/2).div(pow(total,1.5));
+            PVector offset = particles[p].pos.copy().sub(particles[i].pos.copy()).setMag(calcDst(particles[p].pos.copy(),particles[i].pos.copy())/2-diameter/2).div(pow(total,2)).mult(calcDst(particles[p].pos,particles[i].pos)/10);
             particles[p].pos.sub(offset.copy().div(2));
             particles[i].pos.add(offset.copy().div(2));
           }
