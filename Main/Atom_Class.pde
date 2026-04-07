@@ -45,18 +45,18 @@ class Atom {
     }
   }
   
-  public boolean collision(Atom other) {
-    if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
-    for(int t = 0; t < this.total; t++){
-      for(int o = 0; o < other.total; o++) {
-        if(calcDst(this.particles[t].pos,other.particles[o].pos) < (other.diameter + this.diameter)/2) {
-          PVector offset = particles[t].pos.copy().sub(particles[o].pos.copy()).setMag((other.diameter+this.diameter)/2 - calcDst(particles[t].pos.copy(),particles[o].pos.copy()));
-          particles[i].pos.sub(offset.copy().div(2));
-          particles[p].pos.add(offset.copy().div(2));
-        }
-      }
-    }
-  }
+//  public boolean collision(Atom other) {
+  //  if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
+    //for(int t = 0; t < this.total; t++){
+      //for(int o = 0; o < other.total; o++) {
+        //if(calcDst(this.particles[t].pos,other.particles[o].pos) < (other.diameter + this.diameter)/2) {
+          //PVector offset = particles[t].pos.copy().sub(particles[o].pos.copy()).setMag((other.diameter+this.diameter)/2 - calcDst(particles[t].pos.copy(),particles[o].pos.copy()));
+          //particles[i].pos.sub(offset.copy().div(2));
+          //particles[p].pos.add(offset.copy().div(2));
+        //}
+      //}
+    //}
+  //}
   
   public void update() {
    

@@ -27,14 +27,18 @@ void setup(){
 void draw(){
   if(screen == 0){
     displayBackground();
+    if(mouseX >= 200 && mouseX <= 600 && mouseY >= 300 && mouseY <= 500){
+      stroke(255,226,0);
+      strokeWeight(10);
+    }
     textAlign(CENTER);
+    fill(67,0,255);
+    rectMode(CENTER);
+    rect(400,400,200,100);
     textSize(80);
     fill(255);
     text("The Life Cycle of a Star:",400,150);
     text("Fusion Minigame",400,225);
-    fill(0,255,0);
-    rectMode(CENTER);
-    rect(400,400,200,100);
     fill(0);
     textSize(40);
     text("Play!",400,412);
@@ -94,6 +98,7 @@ void initBackground(){
 void displayBackground(){
   background(0);
   fill(255);
+  noStroke();
   for(int i = 0; i<numBackgroundStars; i++){
     rect(backgroundStarX[i],backgroundStarY[i],5,5);
   }
