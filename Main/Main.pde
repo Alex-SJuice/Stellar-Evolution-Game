@@ -11,7 +11,7 @@ int textTimer;
 
 Atom a;
 
-Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by gravity.",400,250),new Text("Over time, the pressure caused your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350)};
+Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by gravity.",400,250),new Text("Over time, the pressure caused your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350),new Text("Now fusion can begin.",400,450)};
   
 void setup(){
   size(800,800);
@@ -51,23 +51,59 @@ void draw(){
     textAlign(CENTER);
     textSize(25);
     fill(255);
-    for(int i = 0; i <texts.length; i++){
+    for(int i = 0; i <texts1.length; i++){
       if(i == 0){
-        texts[0].displayText();
-      }else if(texts[(i-1)].checkDone()){
-        texts[i].displayText();        
+        texts1[0].displayText();
+      }else if(texts1[(i-1)].checkDone()){
+        texts1[i].displayText();        
       }
     }
-    text("Now fusion can begin.",400,450);
     textSize(20);
     text("Press the space bar to continue",400,500);
   } else if(screen == 2){
     displayBackground();
-    text("Choose a difficulty:",400,300);
+    noStroke();
+    textSize(80);
+    textAlign(CENTER);
+    text("Choose a difficulty:",400,150);
     fill(0,227,255);
-    rect(400,400,200,100);
+    rect(400,325,200,100);
     fill(255,0,0);
-    rect(400,575,200,100);
+    rect(400,475,200,100);
+    fill(0);
+    textSize(20);
+    text("High Mass Star",400,310);
+    text("(Hard)",400,340);
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375){
+      stroke(255,226,0);
+      strokeWeight(10);
+      fill(0,227,255);
+      rect(400,325,200,100);
+      fill(0);
+      textSize(20);
+      text("High Mass Star",400,310);
+      text("(Hard)",400,340);
+      if(mousePressed == true){
+        difficulty = 1;
+        screen = 3;
+      }
+    }
+    text("Low/Medium Mass Star",400,460);
+    text("(Easy)",400,490);
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525){
+      stroke(255,226,0);
+      strokeWeight(10);
+      fill(255,0,0);
+      rect(400,475,200,100);
+      fill(0);
+      textSize(20);
+      text("Low/Medium Mass Star",400,460);
+      text("(Easy)",400,490);
+      if(mousePressed){
+        difficulty = 0;
+        screen = 3;
+      }
+    }
   } else if(screen == 3){
     background(0);
     a.update();
