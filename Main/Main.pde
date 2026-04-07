@@ -27,7 +27,7 @@ void setup(){
 void draw(){
   if(screen == 0){
     displayBackground();
-    if(mouseX >= 200 && mouseX <= 600 && mouseY >= 300 && mouseY <= 500){
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450){
       stroke(255,226,0);
       strokeWeight(10);
     }
@@ -42,7 +42,7 @@ void draw(){
     fill(0);
     textSize(40);
     text("Play!",400,412);
-    if(mousePressed && mouseX >= 200 && mouseX <= 600 && mouseY >= 300 && mouseY <= 500){
+    if(mousePressed && mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450){
       screen = 1;
     }
   } else if(screen == 1){
