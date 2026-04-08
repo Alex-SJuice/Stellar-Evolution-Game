@@ -216,6 +216,7 @@ class LMAtom {
   }
   
   public void display() {
+    noStroke();
     for(int i = 0; i < total; i++){
       fill(particles[i].c);
       cir(particles[i].pos,diameter);
