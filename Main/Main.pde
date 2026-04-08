@@ -14,6 +14,8 @@ ArrayList<Integer> atomDestroy;
 ArrayList<PVector> atomMake;
 ArrayList<Element> fuseable;
 
+float pressure;
+
 int textTimer;
 int cutsceneTimer;
 
@@ -45,6 +47,7 @@ void setup(){
   fuseable.add(Element.C);
   fuseable.add(Element.Na);
   fuseable.add(Element.Si);
+  pressure = 50;
 }
 
 void draw(){
@@ -124,10 +127,10 @@ void draw(){
     text("(Easy)",400,490);
     if(mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525){ //<>//
       stroke(255,226,0);
-      strokeWeight(10);
+      strokeWeight(10); //<>//
       fill(255,0,0);
       rect(400,475,200,100);
-      fill(0); //<>//
+      fill(0);
       textSize(16);
       text("Low/Medium Mass Star",400,460);
       textSize(22);
@@ -145,10 +148,10 @@ void draw(){
       textSize(60);
       textAlign(CENTER);
       text("Protostar Phase",400,400);
-      textSize(20);
+      textSize(20); //<>//
       text("Throw hydrogen atoms at each other to fuse them.",400,450);
       text("Don't let your pressure meter expire, or gravity will crush you!",400,500);
-    } else { //<>//
+    } else {
       background(0);
       for(int a = 0; a < aCount; a++){
         for(int b = 0; b < aCount; b++){
@@ -175,18 +178,23 @@ void draw(){
         switch(a.e){
           case H:
             atoms.add(new Atom(Element.He, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+            pressure += 2;
             break;
           case He:
             atoms.add(new Atom(Element.C, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+            pressure += 4;
             break;
           case C:
             atoms.add(new Atom(Element.Na, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+            pressure += 6;
             break;
           case Na:
             atoms.add(new Atom(Element.Si, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+            pressure += 10;
             break;
           case Si:
             atoms.add(new Atom(Element.Fe, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+            pressure += 20;
             break;
           default:
             break;
@@ -208,6 +216,14 @@ void draw(){
       for(int a = 0; a < aCount; a++){
         atoms.get(a).display();
       }
+      fill(255);
+      textSize(10);
+      text("Hand-crafted, Artisianal",mouseX,mouseY-10); 
+      text("Partical Accelerator",mouseX,mouseY);
+      pressure -= pressure/frameRate/30;
+      fill(color(255,100,100));
+      cir(pv(0,0),pressure);
+      println(pressure);
     }
   }
 }
@@ -222,8 +238,8 @@ void keyPressed(){
 
 void initBackground(){
   for(int i = 0; i<numBackgroundStars;i++){
-    backgroundStarX[i] = (int)random(0,256);
-    backgroundStarY[i] = (int)random(0,256);
+    backgroundStarX[i] = (int)random(0,800);
+    backgroundStarY[i] = (int)random(0,800);
   }
 }
 
@@ -232,6 +248,6 @@ void displayBackground(){
   fill(255);
   noStroke();
   for(int i = 0; i<numBackgroundStars; i++){
-    rect(backgroundStarX[i],backgroundStarY[i],5,5);
+    ellipse(backgroundStarX[i],backgroundStarY[i],5,5);
   }
 }
