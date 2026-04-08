@@ -125,9 +125,9 @@ void draw(){
     text("Low/Medium Mass Star",400,460);
     textSize(20);
     text("(Easy)",400,490);
-    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525){ //<>//
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525){ 
       stroke(255,226,0);
-      strokeWeight(10); //<>//
+      strokeWeight(10); //<>// //<>//
       fill(255,0,0);
       rect(400,475,200,100);
       fill(0);
@@ -148,7 +148,7 @@ void draw(){
       textSize(60);
       textAlign(CENTER);
       text("Protostar Phase",400,400);
-      textSize(20); //<>//
+      textSize(20); //<>// //<>//
       text("Throw hydrogen atoms at each other to fuse them.",400,450);
       text("Don't let your pressure meter expire, or gravity will crush you!",400,500);
     } else {
@@ -238,8 +238,8 @@ void keyPressed(){
 
 void initBackground(){
   for(int i = 0; i<numBackgroundStars;i++){
-    backgroundStarX[i] = (int)random(0,800);
-    backgroundStarY[i] = (int)random(0,800);
+    backgroundStarX[i] = (int)random(0,801);
+    backgroundStarY[i] = (int)random(0,801);
   }
 }
 

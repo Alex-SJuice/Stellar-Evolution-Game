@@ -49,6 +49,7 @@ class Atom {
   public void display() {
     noStroke();
     for(int i = 0; i < total; i++){
+      noStroke();
       fill(particles[i].c);
       cir(particles[i].pos,diameter);
     }
