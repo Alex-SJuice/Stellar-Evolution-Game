@@ -182,19 +182,19 @@ void draw(){
             break;
           case He:
             atoms.add(new Atom(Element.C, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 4;
+            pressure += 8;
             break;
           case C:
             atoms.add(new Atom(Element.Na, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 6;
+            pressure += 10;
             break;
           case Na:
             atoms.add(new Atom(Element.Si, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 10;
+            pressure += 20;
             break;
           case Si:
             atoms.add(new Atom(Element.Fe, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 20;
+            pressure += 40;
             break;
           default:
             break;
