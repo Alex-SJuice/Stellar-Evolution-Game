@@ -123,7 +123,7 @@ void draw(){
   } else if(screen == 3){
     if(millis()-cutsceneTimer <= 5000){ //last number is in milliseconds, change as needed
       background(0);
-      fill(255);
+      fill(Math.min(255*5-(millis()-cutsceneTimer)*255/1000,255));
       textSize(60);
       textAlign(CENTER);
       text("Protostar Phase",400,400);
