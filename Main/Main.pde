@@ -53,6 +53,134 @@ void draw(){
         atomDestroy.add(b);
       }
     }
+int textTimer;
+int cutsceneTimer;
+
+PFont font;
+
+Atom a;
+
+Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by density compressional waves.",400,250),new Text("Over time, gravitational heating helped your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350),new Text("Now fusion can begin.",400,400)};
+  
+void setup(){
+  size(800,800);
+  screen = 0;
+  textTimer = 0;
+  numBackgroundStars = 100;
+  backgroundStarX = new int[numBackgroundStars];
+  backgroundStarY = new int[numBackgroundStars];
+  initBackground();
+  a = new Atom(0,1,pv(1,0),pv(0,0), 30);
+  font = createFont("Pixelon.otf",16);
+  textFont(font);
+}
+
+void draw(){
+  if(screen == 0){
+    displayBackground();
+    textAlign(CENTER);
+    fill(67,0,255);
+    rectMode(CENTER);
+    rect(400,400,200,100);
+    textSize(60);
+    fill(255);
+    text("The Life Cycle of a Star:",400,150);
+    text("Fusion Minigame",400,225);
+    fill(0);
+    textSize(40);
+    text("Play!",400,412);
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450){
+      stroke(255,226,0);
+      strokeWeight(10);
+      fill(67,0,255);
+      rectMode(CENTER);
+      rect(400,400,200,100);
+      textSize(45);
+      fill(0);
+      text("Play!",400,412);
+    }
+    if(mousePressed && mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450){
+      screen = 1;
+    }
+  } else if(screen == 1){
+    textTimer++;
+    displayBackground();
+    textAlign(CENTER);
+    textSize(25);
+    fill(255);
+    for(int i = 0; i <texts1.length; i++){
+      if(i == 0){
+        texts1[0].displayText();
+      }else if(texts1[(i-1)].checkDone()){
+        texts1[i].displayText();        
+      }
+    }
+    textSize(20);
+    text("Press the space bar to continue",400,500);
+  } else if(screen == 2){
+    displayBackground();
+    noStroke();
+    textSize(60);
+    textAlign(CENTER);
+    text("Choose a difficulty:",400,150);
+    fill(0,227,255);
+    rect(400,325,200,100);
+    fill(255,0,0);
+    rect(400,475,200,100);
+    fill(0);
+    textSize(20);
+    text("High Mass Star",400,310);
+    text("(Hard)",400,340);
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375){
+      stroke(255,226,0);
+      strokeWeight(10);
+      fill(0,227,255);
+      rect(400,325,200,100);
+      fill(0);
+      textSize(22);
+      text("High Mass Star",400,310);
+      text("(Hard)",400,340);
+      if(mousePressed == true){
+        difficulty = 1;
+        cutsceneTimer = millis();
+        screen = 3;
+      }
+    }
+    textSize(15);
+    text("Low/Medium Mass Star",400,460);
+    textSize(20);
+    text("(Easy)",400,490);
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525){
+      stroke(255,226,0);
+      strokeWeight(10);
+      fill(255,0,0);
+      rect(400,475,200,100);
+      fill(0);
+      textSize(16);
+      text("Low/Medium Mass Star",400,460);
+      textSize(22);
+      text("(Easy)",400,490);
+      if(mousePressed){
+        difficulty = 0;
+        cutsceneTimer = millis();
+        screen = 3;
+      }
+    }
+  } else if(screen == 3){
+    if(millis()-cutsceneTimer <= 8000){ //last number is in milliseconds, change as needed
+      background(0);
+      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000,255));
+      textSize(60);
+      textAlign(CENTER);
+      text("Protostar Phase",400,400);
+      textSize(20);
+      text("Throw hydrogen atoms at each other to fuse them.",400,450);
+      text("Don't let your pressure meter expire, or gravity will crush you!",400,500);
+    } else {
+      background(0);
+      a.update();
+      a.display();
+    }
   }
   for(int i = 0; i < atomMake.size(); i++) {
     Atom a = atoms.get(0);
@@ -159,18 +287,11 @@ void draw(){
 //}
 
 
-
-//void initBackground(){
-//  for(int i = 0; i<numBackgroundStars; i++){
-//    backgroundStarX[i] = (int)random(0,801);
-//    backgroundStarY[i] = (int)random(0,801);
-//  }
-//}
-
-//void displayBackground(){
-//  background(0); //<>// //<>//
-//  fill(255);
-//  for(int i = 0; i<numBackgroundStars; i++){
-//    rect(backgroundStarX[i],backgroundStarY[i],5,5);
-//  }
-//}
+void displayBackground(){
+  background(0);
+  fill(255);
+  noStroke();
+  for(int i = 0; i<numBackgroundStars; i++){
+    rect(backgroundStarX[i],backgroundStarY[i],5,5);
+  }
+}
