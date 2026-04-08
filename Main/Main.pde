@@ -121,12 +121,15 @@ void draw(){
       }
     }
   } else if(screen == 3){
-    if(millis()-cutsceneTimer <= 3000){ //last number is in milliseconds, change as needed
+    if(millis()-cutsceneTimer <= 5000){ //last number is in milliseconds, change as needed
       background(0);
       fill(255);
       textSize(60);
       textAlign(CENTER);
       text("Protostar Phase",400,400);
+      textSize(20);
+      text("Throw hydrogen atoms at each other to fuse them.",400,450);
+      text("Don't let your pressure meter expire, or gravity will crush you!",400,500);
     } else {
       background(0);
       a.update();
