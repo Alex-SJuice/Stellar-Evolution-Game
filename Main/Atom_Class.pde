@@ -86,7 +86,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= (this.total+other.total+5)){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= (this.total+other.total+5)*2){
       return true;
     }
     return false;

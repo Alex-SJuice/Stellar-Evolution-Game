@@ -10,7 +10,7 @@ import java.util.ArrayList;
 //int textTimer;
 
 int aCount = 100;
-float diameter = 30;
+float diameter = 20;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
 ArrayList<PVector> atomMake;
