@@ -9,11 +9,12 @@ import java.util.ArrayList;
 
 //int textTimer;
 
-int aCount = 1;
+int aCount = 100;
 float diameter = 30;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
 ArrayList<PVector> atomMake;
+ArrayList<Element> fuseable;
 
 //Text texts[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by gravity.",400,250),new Text("Over time, the pressure caused your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350)};
   
@@ -29,10 +30,16 @@ void setup(){
   atoms = new ArrayList<Atom>();
   for(int i = 0; i < aCount; i++){
     float dir = random(2*PI);
-    atoms.add(new Atom(Element.Fe,pv(1*cos(dir),1*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+    atoms.add(new Atom(Element.H,pv(0.5*cos(dir),0.5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
   }  
   atomDestroy = new ArrayList<Integer>();
   atomMake = new ArrayList<PVector>();
+  fuseable  = new ArrayList<Element>();
+  fuseable.add(Element.H);
+  fuseable.add(Element.He);
+  fuseable.add(Element.C);
+  fuseable.add(Element.Na);
+  fuseable.add(Element.Si);
 }
 
 void draw(){
@@ -40,7 +47,7 @@ void draw(){
   for(int a = 0; a < aCount; a++){
     for(int b = 0; b < aCount; b++){
       if(a == b){continue;}
-      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b) && atoms.get(a).e != Element.Fe){
+      if(atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b) && atoms.get(a).e == atoms.get(b).e && fuseable.contains(atoms.get(a).e)){
         atomMake.add(pv(a,b));
         atomDestroy.add(a);
         atomDestroy.add(b);
@@ -59,28 +66,21 @@ void draw(){
       atomMake.remove(i);
       continue;
     }
-    float dir = random(2*PI);
     switch(a.e){
       case H:
-        atoms.add(new Atom(Element.He, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        atoms.add(new Atom(Element.He, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
         break;
       case He:
-        atoms.add(new Atom(Element.C, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        atoms.add(new Atom(Element.C, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
         break;
       case C:
-        atoms.add(new Atom(Element.N, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-        break;
-      case N:
-        atoms.add(new Atom(Element.O, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-        break;
-      case O:
-        atoms.add(new Atom(Element.Na, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        atoms.add(new Atom(Element.Na, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
         break;
       case Na:
-        atoms.add(new Atom(Element.Si, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        atoms.add(new Atom(Element.Si, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
         break;
       case Si:
-        atoms.add(new Atom(Element.Fe, pv(100*cos(dir),100*sin(dir)),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
+        atoms.add(new Atom(Element.Fe, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
         break;
       default:
         break;
@@ -101,8 +101,8 @@ void draw(){
   }
   for(int a = 0; a < aCount; a++){
     atoms.get(a).display();
+    println(Float.isNaN(atoms.get(a).avgPos.x) || Float.isNaN(atoms.get(a).avgPos.y) || Float.isNaN(atoms.get(a).avgPos.z));
   }
-  println(atoms.get(0).avgPos);
   //if(screen == 0){
   //  displayBackground();
   //  textAlign(CENTER);
@@ -127,7 +127,7 @@ void draw(){
   //  fill(255);
   //  for(int i = 0; i <texts.length; i++){
   //    if(i == 0){
-  //      texts[0].displayText(); //<>//
+  //      texts[0].displayText(); //<>// //<>//
   //    }else if(texts[(i-1)].checkDone()){
   //      texts[i].displayText();        
   //    }
@@ -148,7 +148,7 @@ void draw(){
 }
 
 //void mousePressed(){ //<>//
-//} //<>//
+//} //<>// //<>//
 
 //void keyPressed(){
 //  if(key == ' '){
