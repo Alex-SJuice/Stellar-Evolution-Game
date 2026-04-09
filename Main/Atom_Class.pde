@@ -1,3 +1,15 @@
+void initSim(int pc){
+  aCount = pc;
+  atoms = new ArrayList<Atom>();
+  for(int i = 0; i < pc; i++){
+    float dir = random(2*PI);
+    atoms.add(new Atom(Element.H,pv(0.5*cos(dir),0.5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+  }  
+  atomDestroy = new ArrayList<Integer>();
+  atomMake = new ArrayList<PVector>();
+  fuseable  = new ArrayList<Element>();
+  fuseable.add(Element.H);
+} 
 enum Element {
   H,He,C,Na,Si,Fe
 }
@@ -68,6 +80,8 @@ class Atom {
   
   public boolean collision(Atom other) {
     if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
+    if(!(this.avgPos.x >= -width/2 && this.avgPos.x <= width/2 && this.avgPos.y >= -height/2 && this.avgPos.y <= height/2 && other.avgPos.x >= -width/2 && other.avgPos.x <= width/2 && other.avgPos.y >= -height/2 && other.avgPos.y <= height/2)){
+      return false;}
     for(int t = 0; t < this.total; t++){
       for(int o = 0; o < other.total; o++) {
         if(calcDst(this.particles[t].pos,other.particles[o].pos) < (other.diameter + this.diameter)/2) {
@@ -99,7 +113,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= (this.total+other.total+5)*2){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 14){
       return true;
     }
     return false;
@@ -170,17 +184,17 @@ class Atom {
     for(int p = 0; p < total; p++){
       if(particles[p].pos.x > width/2 +100) {
         particles[p].pos.x = width/2 +100;
-        particles[p].vel.x *= -0.5;
+        particles[p].vel.x *= -1;
       } else if(particles[p].pos.x < -width/2 -100) {
         particles[p].pos.x = -width/2 -100;
-        particles[p].vel.x *= -0.5;
+        particles[p].vel.x *= -1;
       }
       if(particles[p].pos.y > height/2 +100) {
         particles[p].pos.y = height/2 +100;
-        particles[p].vel.y *= -0.5;
+        particles[p].vel.y *= -1;
       } else if(particles[p].pos.y < -height/2 -100) {
         particles[p].pos.y = -height/2 -100;
-        particles[p].vel.y *= -0.5;
+        particles[p].vel.y *= -1;
       }
     }
     

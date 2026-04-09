@@ -22,7 +22,7 @@ int cutsceneTimer;
 PFont font;
 
 Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas",400,200),new Text("was squeezed together by density compressional waves.",400,250),new Text("Over time, gravitational heating helped your star reach",400,300),new Text("a temperature of 1,000 degrees Kelvin.",400,350),new Text("Now fusion can begin.",400,400)};
-  
+
 void setup(){
   size(800,800);
   screen = 0;
@@ -33,21 +33,8 @@ void setup(){
   initBackground();
   font = createFont("Pixelon.otf",16);
   textFont(font);
-    
-  atoms = new ArrayList<Atom>();
-  for(int i = 0; i < aCount; i++){
-    float dir = random(2*PI);
-    atoms.add(new Atom(Element.H,pv(0.5*cos(dir),0.5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
-  }  
-  atomDestroy = new ArrayList<Integer>();
-  atomMake = new ArrayList<PVector>();
-  fuseable  = new ArrayList<Element>();
-  fuseable.add(Element.H);
-  fuseable.add(Element.He);
-  fuseable.add(Element.C);
-  fuseable.add(Element.Na);
-  fuseable.add(Element.Si);
-  pressure = 50;
+  
+  initSim(100);
 }
 
 void draw(){
@@ -117,6 +104,7 @@ void draw(){
       text("(Hard)",400,340);
       if(mousePressed == true){
         difficulty = 1;
+        pressure = 100;
         cutsceneTimer = millis();
         screen = 3;
       }
@@ -137,6 +125,7 @@ void draw(){
       text("(Easy)",400,490);
       if(mousePressed){
         difficulty = 0;
+        pressure = 50;
         cutsceneTimer = millis();
         screen = 3;
       }
