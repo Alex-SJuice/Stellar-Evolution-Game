@@ -22,7 +22,11 @@ int cutsceneTimer;
 
 PFont font;
 
-Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million degrees Kelvin.", 400, 350), new Text("Now fusion can begin.", 400, 400)};
+Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million", 400, 350), new Text("degrees Kelvin. Now fusion can begin.", 400, 400)};
+Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the core is no longer able to fuse. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse helium.",400,300)};
+Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
+Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
+
 
 void setup() {
   size(800, 800);
@@ -85,13 +89,7 @@ void draw() {
     textAlign(CENTER);
     textSize(25);
     fill(255);
-    for (int i = 0; i <texts1.length; i++) {
-      if (i == 0) {
-        texts1[0].displayText();
-      } else if (texts1[(i-1)].checkDone()) {
-        texts1[i].displayText();
-      }
-    }
+    runText(texts1);
     textSize(20);
     text("Press the space bar to continue", 400, 500);
   } else if (screen == 2) {
@@ -130,7 +128,7 @@ void draw() {
     text("(Easy)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(255, 226, 0);
-      strokeWeight(10); //<>// //<>//
+      strokeWeight(10);
       fill(255, 0, 0);
       rect(400, 475, 200, 100);
       fill(0);
@@ -138,9 +136,9 @@ void draw() {
       text("Low/Medium Mass Star", 400, 460);
       textSize(22);
       text("(Easy)", 400, 490);
-      if (mousePressed) { //<>//
+      if (mousePressed) {
         difficulty = 0;
-        cutsceneTimer = millis();
+        cutsceneTimer = millis(); //<>//
         screen = 3;
         pressureRate = 0.05; 
       }
@@ -157,6 +155,20 @@ void draw() {
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
     } else {
       game();
+    }
+  } else if(screen == 4){
+    textTimer++;
+    displayBackground();
+    textAlign(CENTER);
+    textSize(25);
+    fill(255);
+    runText(texts2);
+    if(texts2[texts2.length-1].checkDone()){
+      if(difficulty == 0){
+        runText(texts2Low);
+      } else if(difficulty == 1){
+        runText(texts2High);
+      }
     }
   }
 }
@@ -271,4 +283,14 @@ void game() {
     background(255,0,0);
   }
   println(pressure);
+}
+
+void runText(Text[] tempTexts){
+  for (int i = 0; i <tempTexts.length; i++) {
+    if (i == 0) {
+      tempTexts[0].displayText();
+    } else if (tempTexts[i-1].checkDone()) {
+      tempTexts[i].displayText();
+    }
+  }
 }

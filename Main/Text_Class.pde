@@ -21,6 +21,7 @@ class Text{
     text(text.substring(0, textIndex), xCoor, yCoor);
     if(textIndex >= text.length()){
       textDone = true;
+      return;
     }
   }
   
