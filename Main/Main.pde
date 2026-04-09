@@ -22,7 +22,7 @@ int textTimer;
 int cutsceneTimer;
 
 PFont font;
-Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves.", 400, 250), new Text("Over time, gravitational heating helped your star reach", 400, 300), new Text("a temperature of 1,000 degrees Kelvin.", 400, 350), new Text("Now fusion can begin.", 400, 400)};
+Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million degrees Kelvin.", 400, 350), new Text("Now fusion can begin.", 400, 400)};
 
 void setup() {
   size(800, 800);
@@ -107,6 +107,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3;
         initSim(100);
+        pressureRate = 0.05;
       }
     }
     textSize(15);
@@ -114,8 +115,8 @@ void draw() {
     textSize(20);
     text("(Easy)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-      stroke(255, 226, 0);
-      strokeWeight(10); //<>// //<>// //<>//
+      stroke(255, 226, 0); //<>//
+      strokeWeight(10);
       fill(255, 0, 0);
       rect(400, 475, 200, 100);
       fill(0);
@@ -128,7 +129,7 @@ void draw() {
         pressure = 50;
         cutsceneTimer = millis();
         screen = 3;
-        pressureRate = 0.5; //half rate because protostar is basically tutorial
+        pressureRate = 0.05; //half rate because protostar is basically tutorial
         initSim(100);
       }
     }
@@ -136,9 +137,9 @@ void draw() {
     if (millis()-cutsceneTimer <= 8000) { //last number is in milliseconds, change as needed
       background(0);
       fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
-      textSize(60);
-      textAlign(CENTER); //<>//
-      text("Protostar Phase", 400, 400);
+      textSize(60); //<>//
+      textAlign(CENTER);
+      text("Main Sequence", 400, 400);
       textSize(20);
       text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
@@ -258,6 +259,10 @@ void game() {
   if (pressure > 100) {
     pressure = 100;
   }
-  pressure -= (pressure/frameRate/30)*pressureRate;
+  pressure -= pressureRate;
+  if(pressure <= 0){
+    noLoop();
+    background(255,0,0);
+  }
   println(pressure);
 }
