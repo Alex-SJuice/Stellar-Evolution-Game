@@ -121,6 +121,7 @@ void draw() {
         difficulty = 1;
         cutsceneTimer = millis();
         screen = 3;
+        pressureRate = 0.05; //low rate because protostar is basically tutorial
       }
     }
     textSize(15);
@@ -137,11 +138,11 @@ void draw() {
       text("Low/Medium Mass Star", 400, 460);
       textSize(22);
       text("(Easy)", 400, 490);
-      if (mousePressed) {
-        difficulty = 0; //<>//
+      if (mousePressed) { //<>//
+        difficulty = 0;
         cutsceneTimer = millis();
         screen = 3;
-        pressureRate = 0.5; //half rate because protostar is basically tutorial
+        pressureRate = 0.05; //low rate because protostar is basically tutorial
       }
     }
   } else if (screen == 3) {
@@ -151,6 +152,8 @@ void draw() {
       textSize(60);
       textAlign(CENTER);
       text("Protostar Phase", 400, 400);
+      textSize(15);
+      text("(Tutorial)",400,425);
       textSize(20);
       text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
@@ -264,6 +267,6 @@ void game() {
   if (pressure > 100) {
     pressure = 100;
   }
-  pressure -= (pressure/frameRate/30)*pressureRate;
+  pressure -= pressureRate;
   println(pressure);
 }
