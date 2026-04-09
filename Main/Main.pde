@@ -22,7 +22,7 @@ int cutsceneTimer;
 
 PFont font;
 
-Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves.", 400, 250), new Text("Over time, gravitational heating helped your star reach", 400, 300), new Text("a temperature of 1,000 degrees Kelvin.", 400, 350), new Text("Now fusion can begin.", 400, 400)};
+Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million degrees Kelvin.", 400, 350), new Text("Now fusion can begin.", 400, 400)};
 
 void setup() {
   size(800, 800);
@@ -121,7 +121,7 @@ void draw() {
         difficulty = 1;
         cutsceneTimer = millis();
         screen = 3;
-        pressureRate = 0.05; //low rate because protostar is basically tutorial
+        pressureRate = 0.05;
       }
     }
     textSize(15);
@@ -142,7 +142,7 @@ void draw() {
         difficulty = 0;
         cutsceneTimer = millis();
         screen = 3;
-        pressureRate = 0.05; //low rate because protostar is basically tutorial
+        pressureRate = 0.05; 
       }
     }
   } else if (screen == 3) {
@@ -151,9 +151,7 @@ void draw() {
       fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
       textSize(60);
       textAlign(CENTER);
-      text("Protostar Phase", 400, 400);
-      textSize(15);
-      text("(Tutorial)",400,425);
+      text("Main Sequence", 400, 400);
       textSize(20);
       text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
@@ -268,5 +266,9 @@ void game() {
     pressure = 100;
   }
   pressure -= pressureRate;
+  if(pressure <= 0){
+    noLoop();
+    background(255,0,0);
+  }
   println(pressure);
 }
