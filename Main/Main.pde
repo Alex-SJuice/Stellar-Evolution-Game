@@ -188,9 +188,9 @@ void game() {
   background(0);
   rectMode(CORNER);
   fill(255);
-  ellipse(400, 200, 200,200);
+  ellipse(150, 150, 200,200);
   fill(0, 255, 0);
-  ellipse(400, 200, (pressure/100)*200,(pressure/100)*200);
+  ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
       if (a == b) {
