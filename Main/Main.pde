@@ -186,11 +186,11 @@ void draw(){
         switch(a.e){
           case H:
             atoms.add(new Atom(Element.He, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 4;
+            pressure += 8;
             break;
           case He:
             atoms.add(new Atom(Element.C, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 8;
+            pressure += 10;
             break;
           case C:
             atoms.add(new Atom(Element.Na, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
@@ -232,8 +232,6 @@ void draw(){
         pressure = 100;
       }
       pressure -= (pressure/frameRate/30)*pressureRate;
-      fill(color(255,100,100));
-      cir(pv(0,0),pressure);
       println(pressure);
     }
   }
