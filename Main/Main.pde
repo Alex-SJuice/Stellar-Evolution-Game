@@ -16,6 +16,7 @@ ArrayList<Element> fuseable;
 
 float pressure;
 float pressureRate;
+boolean refill = true;
 
 int textTimer;
 int cutsceneTimer;
@@ -27,7 +28,6 @@ Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 
-
 void setup() {
   size(800, 800);
   screen = 0;
@@ -38,22 +38,6 @@ void setup() {
   initBackground();
   font = createFont("Pixelon.otf", 16);
   textFont(font);
-
-  atoms = new ArrayList<Atom>();
-  for (int i = 0; i < aCount; i++) {
-    float dir = random(2*PI);
-    atoms.add(new Atom(Element.H, pv(0.5*cos(dir), 0.5*sin(dir)), pv(random(-width/2, width/2), random(-height/2, height/2)), diameter));
-  }
-  atomDestroy = new ArrayList<Integer>();
-  atomMake = new ArrayList<PVector>();
-  fuseable  = new ArrayList<Element>();
-  fuseable.add(Element.H);
-  fuseable.add(Element.He);
-  fuseable.add(Element.C);
-  fuseable.add(Element.Na);
-  fuseable.add(Element.Si);
-  pressure = 100;
-  pressureRate = 1;
 }
 
 void draw() {
@@ -117,8 +101,10 @@ void draw() {
       text("(Hard)", 400, 340);
       if (mousePressed == true) {
         difficulty = 1;
+        pressure = 100;
         cutsceneTimer = millis();
         screen = 3;
+        initSim(100);
         pressureRate = 0.05;
       }
     }
@@ -140,18 +126,19 @@ void draw() {
         difficulty = 0;
         cutsceneTimer = millis(); //<>//
         screen = 3;
-        pressureRate = 0.05; 
+        pressureRate = 0.05; //half rate because protostar is basically tutorial
+        initSim(100);
       }
     }
   } else if (screen == 3) {
     if (millis()-cutsceneTimer <= 8000) { //last number is in milliseconds, change as needed
       background(0);
       fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
-      textSize(60);
+      textSize(60); //<>//
       textAlign(CENTER);
       text("Main Sequence", 400, 400);
       textSize(20);
-      text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
+      text("Throw hydrogen atoms at each other to fuse them.", 400, 450); //<>//
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
     } else {
       game();
@@ -201,9 +188,9 @@ void game() {
   background(0);
   rectMode(CORNER);
   fill(255);
-  rect(200, 100, 400, 50);
+  ellipse(400, 200, 200,200);
   fill(0, 255, 0);
-  rect(200, 100, (pressure/100)*400, 50);
+  ellipse(400, 200, (pressure/100)*200,(pressure/100)*200);
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
       if (a == b) {
@@ -265,7 +252,13 @@ void game() {
   }
 
   for (int a = 0; a < aCount; a++) {
-    atoms.get(a).update();
+    if(atoms.get(a).update(refill)){
+      atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
+      atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
+      atoms.remove(a);
+      a--;
+      aCount++;
+    }
   }
   for (int a = 0; a < aCount; a++) {
     atoms.get(a).display();

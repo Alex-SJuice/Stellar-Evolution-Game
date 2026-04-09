@@ -1,3 +1,15 @@
+void initSim(int pc){
+  aCount = pc;
+  atoms = new ArrayList<Atom>();
+  for(int i = 0; i < pc; i++){
+    float dir = random(2*PI);
+    atoms.add(new Atom(Element.H,pv(5*cos(dir),5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+  }  
+  atomDestroy = new ArrayList<Integer>();
+  atomMake = new ArrayList<PVector>();
+  fuseable  = new ArrayList<Element>();
+  fuseable.add(Element.H);
+} 
 enum Element {
   H,He,C,Na,Si,Fe
 }
@@ -68,12 +80,14 @@ class Atom {
   
   public boolean collision(Atom other) {
     if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
+    if(!(this.avgPos.x >= -width/2 && this.avgPos.x <= width/2 && this.avgPos.y >= -height/2 && this.avgPos.y <= height/2 && other.avgPos.x >= -width/2 && other.avgPos.x <= width/2 && other.avgPos.y >= -height/2 && other.avgPos.y <= height/2)){
+      return false;}
     for(int t = 0; t < this.total; t++){
       for(int o = 0; o < other.total; o++) {
         if(calcDst(this.particles[t].pos,other.particles[o].pos) < (other.diameter + this.diameter)/2) {
           
           PVector offset = this.particles[t].pos.copy().sub(other.particles[o].pos).setMag((other.diameter+this.diameter)/2 - calcDst(this.particles[t].pos,other.particles[o].pos));
-          if(offset.mag() <= 30){
+          if(offset.mag() <= 50){
             this.particles[t].vel.add(offset.copy().setMag(other.particles[o].vel.copy().dot(offset.copy().normalize())));
             other.particles[o].vel.sub(offset.copy().setMag(this.particles[t].vel.copy().dot(offset.copy().normalize())));
             for(int j = 0; j < this.total; j++){
@@ -99,13 +113,13 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= (this.total+other.total+5)*2){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 20){
       return true;
     }
     return false;
   }
   
-  public void update() {
+  public boolean update(boolean refill) {
     
     for(int p = 0; p < total; p++){
       particles[p].prevPos = particles[p].pos.copy();
@@ -130,16 +144,13 @@ class Atom {
             particles[i].pos.add(offset.copy().div(2));
           }
        }
-       if(p == grabbed){
-         sum.add(particles[p].pos.copy());
-       }
        sum.add(particles[p].pos.copy());
     }
     avgPos = sum.div(total);
     
     sum = pv(0,0);
     for(int p = 0; p < total; p++){
-      particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos);
+      particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos).sub(particles[p].pos.copy().setMag(calcDst(particles[p].pos, pv(0,0))/30000)).mult(0.99);
       sum.add(particles[p].vel.copy());
     }
     avgVel = sum.div(total);
@@ -166,23 +177,35 @@ class Atom {
         grabbed = p;
       }    
     }
-    //println(particles[0].vel);
-    for(int p = 0; p < total; p++){
-      if(particles[p].pos.x > width/2 +100) {
-        particles[p].pos.x = width/2 +100;
-        particles[p].vel.x *= -0.5;
-      } else if(particles[p].pos.x < -width/2 -100) {
-        particles[p].pos.x = -width/2 -100;
-        particles[p].vel.x *= -0.5;
+    boolean make = false;;
+      for(int p = 0; p < total; p++){
+        if(particles[p].pos.x > width/2+100) {
+          particles[p].pos.x = width/2+100;
+          particles[p].vel.x *= -0.5;
+          if(refill && e != Element.H){
+            make = true;
+          }
+        } else if(particles[p].pos.x < -width/2-100) {
+          particles[p].pos.x = -width/2 -100;
+          particles[p].vel.x *= -0.5;
+          if(refill && e != Element.H){
+            make = true;
+          }
+        }
+        if(particles[p].pos.y > height/2 +100) {
+          particles[p].pos.y = height/2 +100;
+          particles[p].vel.y *= -0.5;
+          if(refill && e != Element.H){
+            make = true;
+          }
+        } else if(particles[p].pos.y < -height/2 -100) {
+          particles[p].pos.y = -height/2 -100;
+          particles[p].vel.y *= -0.5;
+          if(refill && e != Element.H){
+            make = true;
+          }
+        }
       }
-      if(particles[p].pos.y > height/2 +100) {
-        particles[p].pos.y = height/2 +100;
-        particles[p].vel.y *= -0.5;
-      } else if(particles[p].pos.y < -height/2 -100) {
-        particles[p].pos.y = -height/2 -100;
-        particles[p].vel.y *= -0.5;
-      }
-    }
     
     if(Float.isNaN(avgPos.x) || Float.isNaN(avgPos.y) || Float.isNaN(avgPos.z)){
       avgPos = pv(random(-width/2,width/2),random(-height/2,height/2));
@@ -194,5 +217,6 @@ class Atom {
         particles[i].prevPos = p.copy();
       }
     }
+    return make;
   }
 }
