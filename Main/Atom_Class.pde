@@ -3,7 +3,7 @@ void initSim(int pc){
   atoms = new ArrayList<Atom>();
   for(int i = 0; i < pc; i++){
     float dir = random(2*PI);
-    atoms.add(new Atom(Element.H,pv(0.5*cos(dir),0.5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+    atoms.add(new Atom(Element.H,pv(5*cos(dir),5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
   }  
   atomDestroy = new ArrayList<Integer>();
   atomMake = new ArrayList<PVector>();
@@ -113,7 +113,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 25){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 20){
       return true;
     }
     return false;
@@ -150,7 +150,7 @@ class Atom {
     
     sum = pv(0,0);
     for(int p = 0; p < total; p++){
-      particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos).sub(particles[p].pos.copy().setMag(calcDst(particles[p].pos, pv(0,0))/10000)).mult(0.999);
+      particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos).sub(particles[p].pos.copy().setMag(calcDst(particles[p].pos, pv(0,0))/30000)).mult(0.99);
       sum.add(particles[p].vel.copy());
     }
     avgVel = sum.div(total);
