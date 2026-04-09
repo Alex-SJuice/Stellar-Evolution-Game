@@ -15,6 +15,7 @@ ArrayList<PVector> atomMake;
 ArrayList<Element> fuseable;
 
 float pressure;
+float pressureRate;
 
 int textTimer;
 int cutsceneTimer;
@@ -47,7 +48,8 @@ void setup(){
   fuseable.add(Element.C);
   fuseable.add(Element.Na);
   fuseable.add(Element.Si);
-  pressure = 50;
+  pressure = 100;
+  pressureRate = 1;
 }
 
 void draw(){
@@ -136,9 +138,10 @@ void draw(){
       textSize(22);
       text("(Easy)",400,490);
       if(mousePressed){
-        difficulty = 0;
+        difficulty = 0; //<>//
         cutsceneTimer = millis();
         screen = 3;
+        pressureRate = 0.5; //half rate because protostar is basically tutorial
       }
     }
   } else if(screen == 3){
@@ -153,6 +156,11 @@ void draw(){
       text("Don't let your pressure meter expire, or gravity will crush you!",400,500);
     } else {
       background(0);
+      rectMode(CORNER);
+      fill(255);
+      rect(200,100,400,50);   
+      fill(0,255,0);
+      rect(200,100,(pressure/100)*400,50);
       for(int a = 0; a < aCount; a++){
         for(int b = 0; b < aCount; b++){
           if(a == b){continue;}
@@ -178,7 +186,7 @@ void draw(){
         switch(a.e){
           case H:
             atoms.add(new Atom(Element.He, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 2;
+            pressure += 4;
             break;
           case He:
             atoms.add(new Atom(Element.C, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
@@ -186,15 +194,15 @@ void draw(){
             break;
           case C:
             atoms.add(new Atom(Element.Na, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 10;
+            pressure += 16;
             break;
           case Na:
             atoms.add(new Atom(Element.Si, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 20;
+            pressure += 32;
             break;
           case Si:
             atoms.add(new Atom(Element.Fe, pv(0,0),a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-            pressure += 40;
+            pressure += 64;
             break;
           default:
             break;
@@ -220,7 +228,10 @@ void draw(){
       textSize(10);
       text("Hand-crafted, Artisianal",mouseX,mouseY-10); 
       text("Partical Accelerator",mouseX,mouseY);
-      pressure -= pressure/frameRate/30;
+      if(pressure > 100){
+        pressure = 100;
+      }
+      pressure -= (pressure/frameRate/30)*pressureRate;
       fill(color(255,100,100));
       cir(pv(0,0),pressure);
       println(pressure);
