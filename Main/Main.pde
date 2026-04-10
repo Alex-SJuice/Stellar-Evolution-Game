@@ -18,6 +18,8 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 
+boolean skip;
+
 int textTimer;
 int cutsceneTimer;
 
@@ -38,6 +40,7 @@ void setup() {
   initBackground();
   font = createFont("Pixelon.otf", 16);
   textFont(font);
+  skip = false;
 }
 
 void draw() {
@@ -106,6 +109,7 @@ void draw() {
         screen = 3;
         initSim(100);
         pressureRate = 0.025;
+        skip = false;
       }
     }
     textSize(15);
@@ -121,27 +125,33 @@ void draw() {
       textSize(16);
       text("Low/Medium Mass Star", 400, 460);
       textSize(22);
-      text("(Easy)", 400, 490);
+      text("(Easy)", 400, 490); //<>//
       if (mousePressed) {
         difficulty = 0;
         pressure = 100; //<>//
-        cutsceneTimer = millis(); //<>//
+        cutsceneTimer = millis();
         screen = 3;
         pressureRate = 0.025;
         initSim(100);
+        skip = false;
       }
-    }
+    } //<>//
   } else if (screen == 3) {
-    if (millis()-cutsceneTimer <= 8000) { //last number is in milliseconds, change as needed
+    if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed
       background(0);
-      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255)); //<>//
-      textSize(60); //<>//
+      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255)); //<>// //<>//
+      textSize(60);
       textAlign(CENTER);
       text("Main Sequence", 400, 400); //<>//
       textSize(20); //<>//
-      text("Throw hydrogen atoms at each other to fuse them.", 400, 450); //<>//
+      text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
-    } else {
+      textSize(20);
+      text("Press the space bar to skip",400,550);
+      if(keyPressed && key == ' '){
+        skip = true;
+      }
+    } else if(millis()-cutsceneTimer >8000 || skip) {
       game();
     }
   } else if(screen == 4){
@@ -310,8 +320,7 @@ void game() {
   }
   pressure -= pressureRate;
   if(pressure <= 0){
-    noLoop();
-    background(255,0,0);
+    screen = 4;
   }
   println(pressure);
 }
