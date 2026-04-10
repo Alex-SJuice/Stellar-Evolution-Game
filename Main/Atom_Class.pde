@@ -172,7 +172,7 @@ class Atom {
           grabbed = p;
           particles[p].pos = mouse.copy();
         }
-      } else if(calcDst(mouse, particles[p].pos) <= diameter/2 && mousePressed && grabbed == -1){
+      } else if(calcDst(mouse, particles[p].pos) <= diameter && mousePressed && grabbed == -1){
         particles[p].pos = mouse.copy();
         grabbed = p;
       }    
@@ -204,6 +204,11 @@ class Atom {
           if(refill && e != Element.H){
             make = true;
           }
+        }
+        PVector starPos = pv(-250,250);
+        if(starPos.copy().dist(particles[p].pos) < 100+diameter/2){
+          particles[p].pos.add(particles[p].pos.copy().sub(starPos.copy()).setMag(100+diameter/2-starPos.copy().dist(particles[p].pos)));
+          particles[p].vel.add(particles[p].pos.copy().sub(starPos.copy()).setMag(particles[p].vel.copy().dot(starPos.copy().sub(particles[p].pos.copy()).normalize())*sqrt(particles[p].vel.mag())));
         }
       }
       for(int p = 0; p < total; p++){
