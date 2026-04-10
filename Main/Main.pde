@@ -8,6 +8,7 @@ int[] backgroundStarX;
 int[] backgroundStarY;
 
 int aCount = 20;
+int aCount = 100;
 float diameter = 20;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
@@ -111,7 +112,6 @@ void draw() {
         pressureRate = 0.025;
         skip = false;
       }
-    }
     textSize(15);
     text("Low/Medium Mass Star", 400, 460);
     textSize(20);
@@ -119,17 +119,16 @@ void draw() {
       stroke(255, 226, 0);
       strokeWeight(10);
       fill(255, 0, 0);
-      rect(400, 475, 200, 100);
       fill(0);
       textSize(16);
       text("Low/Medium Mass Star", 400, 460);
       textSize(22); //<>//
+      textSize(22);
       text("(Easy)", 400, 490);
       if (mousePressed) {
         difficulty = 0;
         pressure = 100;
         cutsceneTimer = millis();
-        screen = 3;
         pressureRate = 0.025;
         initSim(100);
         initSim(aCount);
