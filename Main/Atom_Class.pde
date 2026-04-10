@@ -205,11 +205,6 @@ class Atom {
             make = true;
           }
         }
-        PVector starPos = pv(-250,250);
-        if(starPos.copy().dist(particles[p].pos) < 100+diameter/2){
-          particles[p].pos.add(particles[p].pos.copy().sub(starPos.copy()).setMag(100+diameter/2-starPos.copy().dist(particles[p].pos)));
-          particles[p].vel.add(particles[p].pos.copy().sub(starPos.copy()).setMag(particles[p].vel.copy().dot(starPos.copy().sub(particles[p].pos.copy()).normalize())*sqrt(particles[p].vel.mag())));
-        }
       }
       for(int p = 0; p < total; p++){
         if(particles[p].pos.x > width/2||particles[p].pos.x < -width/2||particles[p].pos.y > height/2||particles[p].pos.y < -height/2 ) {

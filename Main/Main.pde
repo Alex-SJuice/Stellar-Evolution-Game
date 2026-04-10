@@ -187,29 +187,12 @@ void displayBackground() {
 
 void game() {
   background(0);
-  rectMode(CORNER);
-  strokeWeight(5);
-  if(difficulty == 0){
-    if(screen == 3){
-      fill(255,74,3);
-      ellipse(150, 150, 200,200);
-      fill(255,255,0);
-    }
-  } else if(difficulty == 1){
-    if(screen == 3){
-      fill(3,206,255);
-      ellipse(150,150,200,200);
-      fill(3,97,255);
-    }
-  }
-  noStroke();
-  ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
       if (a == b) {
         continue;
       }
-      if (atoms.get(a).collision(atoms.get(b)) && !atomDestroy.contains(a) && !atomDestroy.contains(b) && atoms.get(a).e == atoms.get(b).e && fuseable.contains(atoms.get(a).e)) {
+      if (atoms.get(a).collision(atoms.get(b)) && fuseable.contains(atoms.get(a).e) && atoms.get(a).e == atoms.get(b).e && !atomDestroy.contains(a) && !atomDestroy.contains(b)) {
         atomMake.add(pv(a, b));
         atomDestroy.add(a);
         atomDestroy.add(b);
@@ -266,6 +249,12 @@ void game() {
 
   for (int a = 0; a < aCount; a++) {
     if(atoms.get(a).update(refill)){
+      if(atoms.get(a).e == Element.C){
+        atoms.remove(a);
+        a--;
+        aCount--;
+        continue;
+      }
       if(atoms.size() < 100){
         atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
         //atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
@@ -278,6 +267,23 @@ void game() {
   for (int a = 0; a < aCount; a++) {
     atoms.get(a).display();
   }
+  rectMode(CORNER);
+  strokeWeight(5);
+  if(difficulty == 0){
+    if(screen == 3){
+      fill(255,74,3);
+      ellipse(150, 150, 200,200);
+      fill(255,255,0);
+    }
+  } else if(difficulty == 1){
+    if(screen == 3){
+      fill(3,206,255);
+      ellipse(150,150,200,200);
+      fill(3,97,255);
+    }
+  }
+  noStroke();
+  ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   fill(255);
   textSize(10);
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
