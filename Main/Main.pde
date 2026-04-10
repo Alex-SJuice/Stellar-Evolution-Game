@@ -191,9 +191,9 @@ void game() {
   strokeWeight(5);
   if(difficulty == 0){
     if(screen == 3){
-      fill(255,74,3);
-      ellipse(150, 150, 200,200);
       fill(255,255,0);
+      ellipse(150, 150, 200,200);
+      fill(255,74,3);
     }
   } else if(difficulty == 1){
     if(screen == 3){
