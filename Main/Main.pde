@@ -7,9 +7,9 @@ int numBackgroundStars;
 int[] backgroundStarX;
 int[] backgroundStarY;
 
-int aCount = 20;
 int aCount = 100;
 float diameter = 20;
+float strength;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
 ArrayList<PVector> atomMake;
@@ -18,6 +18,8 @@ ArrayList<Element> fuseable;
 float pressure;
 float pressureRate;
 boolean refill = true;
+boolean threshhold = false;
+int stage = 0;
 
 boolean skip;
 
@@ -110,33 +112,38 @@ void draw() {
         screen = 3;
         initSim(aCount);
         pressureRate = 0.025;
+        strength = 20;
         skip = false;
       }
+    } //<>//
     textSize(15);
     text("Low/Medium Mass Star", 400, 460);
     textSize(20);
+    text("(Easy)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(255, 226, 0);
       strokeWeight(10);
       fill(255, 0, 0);
+      rect(400, 475, 200, 100); //<>//
       fill(0);
       textSize(16);
       text("Low/Medium Mass Star", 400, 460);
-      textSize(22); //<>//
       textSize(22);
       text("(Easy)", 400, 490);
       if (mousePressed) {
         difficulty = 0;
         pressure = 100;
         cutsceneTimer = millis();
+        screen = 3; //<>//
         pressureRate = 0.025;
-        initSim(100);
         initSim(aCount);
-        skip = false;
-      } //<>//
+        strength = 30; //<>//
+        skip = false; //<>//
+      }
+    }
   } else if (screen == 3) {
-    if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed //<>//
-      background(0); //<>//
+    if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed
+      background(0);
       fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
       textSize(60);
       textAlign(CENTER);
@@ -152,7 +159,7 @@ void draw() {
     } else if(millis()-cutsceneTimer >8000 || skip) {
       game();
     }
-  } else if(screen == 4){
+  } else if(stage == 1){
     textTimer++;
     displayBackground();
     textAlign(CENTER);
@@ -166,6 +173,7 @@ void draw() {
         runText(texts2High);
       }
     }
+    screen = 3;
   }
 }
 
@@ -217,7 +225,7 @@ void game() {
       if (a == b) {
         continue;
       }
-      if (atoms.get(a).collision(atoms.get(b)) && fuseable.contains(atoms.get(a).e) && atoms.get(a).e == atoms.get(b).e && !atomDestroy.contains(a) && !atomDestroy.contains(b)) {
+      if (atoms.get(a).collision(atoms.get(b), strength) && fuseable.contains(atoms.get(a).e) && atoms.get(a).e == atoms.get(b).e && !atomDestroy.contains(a) && !atomDestroy.contains(b)) {
         atomMake.add(pv(a, b));
         atomDestroy.add(a);
         atomDestroy.add(b);
@@ -310,25 +318,39 @@ void game() {
   textSize(10);
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
-  pressure -= pressureRate;
-  if (pressure > 100) {
+  if (stage == 0 && pressure > 100) {
     pressure = 100;
   }
-  if(pressure <= 0){
-    screen = 4;
-  }
+  pressure -= pressureRate;
   println(pressure);
-  if(pressure <= 20) {
+  println(fuseable);
+  if(pressure <= 20 && difficulty == 1 && !threshhold) {
     if(!fuseable.contains(Element.He)){
       refill = false;
       fuseable.add(Element.He);
+      threshhold = true;
+      stage++;
+      pressureRate+=0.025;
+      screen = 4;
     } else if(!fuseable.contains(Element.C)){
       fuseable.add(Element.C);
+      threshhold = true;
+      stage++;
+      pressureRate+=0.025;
     } else if(!fuseable.contains(Element.Na)){
       fuseable.add(Element.Na);
+      threshhold = true;
+      stage++;
+      pressureRate+=0.025;
     } else if(!fuseable.contains(Element.Si)){
       fuseable.add(Element.Si);
+      threshhold = true;
+      stage++;
+      pressureRate+=0.025;
     }
+  }
+  if(pressure > 40){
+    threshhold = false;
   }
 }
 
