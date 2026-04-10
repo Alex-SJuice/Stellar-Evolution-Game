@@ -172,7 +172,7 @@ class Atom {
           grabbed = p;
           particles[p].pos = mouse.copy();
         }
-      } else if(calcDst(mouse, particles[p].pos) <= diameter && mousePressed && grabbed == -1){
+      } else if(calcDst(mouse, particles[p].pos) <= diameter/2 && mousePressed && grabbed == -1){
         particles[p].pos = mouse.copy();
         grabbed = p;
       }    

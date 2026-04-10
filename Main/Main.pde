@@ -7,7 +7,7 @@ int numBackgroundStars;
 int[] backgroundStarX;
 int[] backgroundStarY;
 
-int aCount = 100;
+int aCount = 20;
 float diameter = 20;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
@@ -17,6 +17,8 @@ ArrayList<Element> fuseable;
 float pressure;
 float pressureRate;
 boolean refill = true;
+
+boolean skip;
 
 int textTimer;
 int cutsceneTimer;
@@ -38,6 +40,7 @@ void setup() {
   initBackground();
   font = createFont("Pixelon.otf", 16);
   textFont(font);
+  skip = false;
 }
 
 void draw() {
@@ -106,6 +109,7 @@ void draw() {
         screen = 3;
         initSim(100);
         pressureRate = 0.025;
+        skip = false;
       }
     }
     textSize(15);
@@ -121,7 +125,7 @@ void draw() {
       textSize(16);
       text("Low/Medium Mass Star", 400, 460);
       textSize(22);
-      text("(Easy)", 400, 490);
+      text("(Easy)", 400, 490); //<>//
       if (mousePressed) {
         difficulty = 0;
         pressure = 100; //<>//
@@ -129,19 +133,25 @@ void draw() {
         screen = 3;
         pressureRate = 0.025;
         initSim(100);
+        skip = false;
       }
-    }
+    } //<>//
   } else if (screen == 3) {
-    if (millis()-cutsceneTimer <= 8000) { //last number is in milliseconds, change as needed
+    if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed
       background(0);
-      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255)); //<>//
+      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255)); //<>// //<>//
       textSize(60);
       textAlign(CENTER);
       text("Main Sequence", 400, 400); //<>//
       textSize(20); //<>//
       text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
-    } else {
+      textSize(20);
+      text("Press the space bar to skip",400,550);
+      if(keyPressed && key == ' '){
+        skip = true;
+      }
+    } else if(millis()-cutsceneTimer >8000 || skip) {
       game();
     }
   } else if(screen == 4){
@@ -187,6 +197,23 @@ void displayBackground() {
 
 void game() {
   background(0);
+  rectMode(CORNER);
+  strokeWeight(5);
+  if(difficulty == 0){
+    if(screen == 3){
+      fill(255,255,0);
+      ellipse(150, 150, 200,200);
+      fill(255,74,3);
+    }
+  } else if(difficulty == 1){
+    if(screen == 3){
+      fill(3,206,255);
+      ellipse(150,150,200,200);
+      fill(3,97,255);
+    }
+  }
+  noStroke();
+  ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
       if (a == b) {
@@ -255,7 +282,7 @@ void game() {
         aCount--;
         continue;
       }
-      if(atoms.size() < 100){
+      if(atoms.size() < aCount){
         atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
         //atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
         //atoms.remove(a);
@@ -293,8 +320,7 @@ void game() {
     pressure = 100;
   }
   if(pressure <= 0){
-    noLoop();
-    background(255,0,0);
+    screen = 4;
   }
   println(pressure);
   if(pressure <= 20) {
