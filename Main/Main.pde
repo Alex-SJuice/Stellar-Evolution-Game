@@ -115,7 +115,7 @@ void draw() {
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(255, 226, 0);
       strokeWeight(10);
-      fill(255, 0, 0);
+      fill(255, 0, 0); //<>//
       rect(400, 475, 200, 100);
       fill(0);
       textSize(16);
@@ -138,7 +138,7 @@ void draw() {
       textSize(60); //<>//
       textAlign(CENTER);
       text("Main Sequence", 400, 400);
-      textSize(20);
+      textSize(20); //<>//
       text("Throw hydrogen atoms at each other to fuse them.", 400, 450); //<>//
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
     } else {
@@ -254,11 +254,13 @@ void game() {
 
   for (int a = 0; a < aCount; a++) {
     if(atoms.get(a).update(refill)){
+      if((int)random(100) < 25){
       atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
       atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
       atoms.remove(a);
       a--;
       aCount++;
+      }  
     }
   }
   for (int a = 0; a < aCount; a++) {
