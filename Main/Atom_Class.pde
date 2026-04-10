@@ -150,7 +150,7 @@ class Atom {
     
     sum = pv(0,0);
     for(int p = 0; p < total; p++){
-      particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos).sub(particles[p].pos.copy().setMag(calcDst(particles[p].pos, pv(0,0))/30000)).mult(0.99);
+      particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos).mult(0.995);
       sum.add(particles[p].vel.copy());
     }
     avgVel = sum.div(total);
@@ -161,12 +161,12 @@ class Atom {
         if(!mousePressed){
           grabbed = -1;
           PVector prevAvgPos = avgPos.copy();
-          avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy().mult(1.0)));
+          avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy()));
           avgVel.add(avgPos.copy().sub(prevAvgPos.copy()).mult(0.5));
           
           for(int i = 0; i < total; i++){
             particles[i].pos = avgPos.copy().add(particles[i].pos.copy().sub(prevAvgPos.copy()));
-            particles[i].vel = avgVel.copy().add(particles[i].vel).add(pv(1,1).setHeading(random(2*PI)).setMag(Math.min(millis()/1000,30)));
+            particles[i].vel = avgVel.copy().add(particles[i].vel).add(pv(1,1).setHeading(random(2*PI)).setMag(30));
           }
         } else {
           grabbed = p;
@@ -204,6 +204,11 @@ class Atom {
           if(refill && e != Element.H){
             make = true;
           }
+        }
+      }
+      for(int p = 0; p < total; p++){
+        if(particles[p].pos.x > width/2||particles[p].pos.x < -width/2||particles[p].pos.y > height/2||particles[p].pos.y < -height/2 ) {
+          particles[p].vel.sub(particles[p].pos.copy().setMag(0.1));
         }
       }
     
