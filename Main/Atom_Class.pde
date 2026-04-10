@@ -78,7 +78,7 @@ class Atom {
     }
   }
   
-  public boolean collision(Atom other) {
+  public boolean collision(Atom other, float strength) {
     if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
     if(!(this.avgPos.x >= -width/2 && this.avgPos.x <= width/2 && this.avgPos.y >= -height/2 && this.avgPos.y <= height/2 && other.avgPos.x >= -width/2 && other.avgPos.x <= width/2 && other.avgPos.y >= -height/2 && other.avgPos.y <= height/2)){
       return false;}
@@ -113,7 +113,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 20){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= strength){
       return true;
     }
     return false;
