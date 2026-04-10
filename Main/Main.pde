@@ -105,7 +105,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3;
         initSim(100);
-        pressureRate = 0.05;
+        pressureRate = 0.025;
       }
     }
     textSize(15);
@@ -115,7 +115,7 @@ void draw() {
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(255, 226, 0);
       strokeWeight(10);
-      fill(255, 0, 0); //<>// //<>//
+      fill(255, 0, 0); //<>//
       rect(400, 475, 200, 100);
       fill(0);
       textSize(16);
@@ -124,10 +124,10 @@ void draw() {
       text("(Easy)", 400, 490);
       if (mousePressed) {
         difficulty = 0;
-        cutsceneTimer = millis(); //<>// //<>//
+        pressure = 100; //<>//
+        cutsceneTimer = millis();
         screen = 3;
-        pressure = 100;
-        pressureRate = 0.05; //half rate because protostar is basically tutorial
+        pressureRate = 0.025;
         initSim(100);
       }
     }
@@ -135,11 +135,11 @@ void draw() {
     if (millis()-cutsceneTimer <= 8000) { //last number is in milliseconds, change as needed
       background(0);
       fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255)); //<>//
-      textSize(60); //<>//
+      textSize(60);
       textAlign(CENTER);
       text("Main Sequence", 400, 400); //<>//
-      textSize(20); //<>// //<>//
-      text("Throw hydrogen atoms at each other to fuse them.", 400, 450); //<>//
+      textSize(20); //<>//
+      text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
     } else {
       game();
@@ -188,9 +188,21 @@ void displayBackground() {
 void game() {
   background(0);
   rectMode(CORNER);
-  fill(255);
-  ellipse(150, 150, 200,200);
-  fill(0, 255, 0);
+  strokeWeight(5);
+  if(difficulty == 0){
+    if(screen == 3){
+      fill(255,74,3);
+      ellipse(150, 150, 200,200);
+      fill(255,255,0);
+    }
+  } else if(difficulty == 1){
+    if(screen == 3){
+      fill(3,206,255);
+      ellipse(150,150,200,200);
+      fill(3,97,255);
+    }
+  }
+  noStroke();
   ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
