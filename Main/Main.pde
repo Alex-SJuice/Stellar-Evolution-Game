@@ -288,15 +288,27 @@ void game() {
   textSize(10);
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
+  pressure -= pressureRate;
   if (pressure > 100) {
     pressure = 100;
   }
-  pressure -= pressureRate;
   if(pressure <= 0){
     noLoop();
     background(255,0,0);
   }
   println(pressure);
+  if(pressure <= 20) {
+    if(!fuseable.contains(Element.He)){
+      refill = false;
+      fuseable.add(Element.He);
+    } else if(!fuseable.contains(Element.C)){
+      fuseable.add(Element.C);
+    } else if(!fuseable.contains(Element.Na)){
+      fuseable.add(Element.Na);
+    } else if(!fuseable.contains(Element.Si)){
+      fuseable.add(Element.Si);
+    }
+  }
 }
 
 void runText(Text[] tempTexts){
