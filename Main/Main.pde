@@ -7,7 +7,7 @@ int numBackgroundStars;
 int[] backgroundStarX;
 int[] backgroundStarY;
 
-int aCount = 100;
+int aCount = 20;
 float diameter = 20;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
@@ -282,7 +282,7 @@ void game() {
         aCount--;
         continue;
       }
-      if(atoms.size() < 100){
+      if(atoms.size() < aCount){
         atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
         //atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
         //atoms.remove(a);
