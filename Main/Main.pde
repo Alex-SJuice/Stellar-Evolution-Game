@@ -124,6 +124,7 @@ void draw() {
       text("(Easy)", 400, 490);
       if (mousePressed) {
         difficulty = 0;
+        pressure = 100;
         cutsceneTimer = millis(); //<>//
         screen = 3;
         pressureRate = 0.05; //half rate because protostar is basically tutorial
