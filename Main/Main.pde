@@ -107,7 +107,7 @@ void draw() {
         pressure = 100;
         cutsceneTimer = millis();
         screen = 3;
-        initSim(100);
+        initSim(aCount);
         pressureRate = 0.025;
         skip = false;
       }
@@ -115,35 +115,34 @@ void draw() {
     textSize(15);
     text("Low/Medium Mass Star", 400, 460);
     textSize(20);
-    text("(Easy)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(255, 226, 0);
       strokeWeight(10);
-      fill(255, 0, 0); //<>//
+      fill(255, 0, 0);
       rect(400, 475, 200, 100);
       fill(0);
       textSize(16);
       text("Low/Medium Mass Star", 400, 460);
-      textSize(22);
-      text("(Easy)", 400, 490); //<>//
+      textSize(22); //<>//
+      text("(Easy)", 400, 490);
       if (mousePressed) {
         difficulty = 0;
-        pressure = 100; //<>//
+        pressure = 100;
         cutsceneTimer = millis();
         screen = 3;
         pressureRate = 0.025;
         initSim(100);
+        initSim(aCount);
         skip = false;
-      }
-    } //<>//
+      } //<>//
   } else if (screen == 3) {
-    if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed
-      background(0);
-      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255)); //<>// //<>//
+    if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed //<>//
+      background(0); //<>//
+      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
       textSize(60);
       textAlign(CENTER);
-      text("Main Sequence", 400, 400); //<>//
-      textSize(20); //<>//
+      text("Main Sequence", 400, 400);
+      textSize(20);
       text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
       text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
       textSize(20);
@@ -284,9 +283,6 @@ void game() {
       }
       if(atoms.size() < aCount){
         atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
-        //atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
-        //atoms.remove(a);
-        //a--;
         aCount++;
       }  
     }
