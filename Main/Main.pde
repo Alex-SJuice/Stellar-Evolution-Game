@@ -312,7 +312,7 @@ void game() {
       fill(3,97,255);
     }
   }
-  if (stage == 0 && pressure >= 100) {
+  if (pressure >= 100) {
     pressure = 100;
   }
   noStroke();
