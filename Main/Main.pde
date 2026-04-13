@@ -387,18 +387,18 @@ void game() {
     } else if(!fuseable.contains(Element.C)){
       fuseable.add(Element.C);
       threshhold = true;
-      stage++;
-      pressureRate+=0.025;
+      //stage++;
+     // pressureRate+=0.025;
     } else if(!fuseable.contains(Element.Na)){
       fuseable.add(Element.Na);
       threshhold = true;
-      stage++;
-      pressureRate+=0.025;
+      //stage++;
+      //pressureRate+=0.025;
     } else if(!fuseable.contains(Element.Si)){
       fuseable.add(Element.Si);
       threshhold = true;
-      stage++;
-      pressureRate+=0.025;
+      //stage++;
+      //pressureRate+=0.025;
     }
   }
   if(pressure > 40){
