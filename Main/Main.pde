@@ -1,3 +1,4 @@
+// >w<
 import java.util.ArrayList;
 
 int screen;
@@ -204,7 +205,7 @@ void draw() {
       screen = 3;
       cutsceneTimer = millis();
       strength = 30;
-      skip = false;
+      skip = true;
     }
   }
 }
@@ -318,7 +319,7 @@ void game() {
       stroke(255,255,0);
       fill(255,255,0);      
       ellipse(150, 150, 200,200);
-      fill(255,74,3);      
+      fill(255,183,0);      
     } else if(stage == 1){
       stroke(255,0,0);
       fill(255,0,0);
@@ -353,25 +354,29 @@ void game() {
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
   pressure -= pressureRate;
- // if(pressure <= 0){
-  //  if(difficulty == 0){
-  //    refill = false;
-   //   fuseable.add(Element.He);
-    //  threshhold = true;
-    //  stage++;
-    //  pressureRate+=0.025;
-    //  screen = 4;
-   // } else if(difficulty == 1){
-   //   refill = false;
-    //  fuseable.add(Element.He);
-    //  threshhold = true;
-     // stage++;
-    //  screen = 4;
-   // } 
- // }
+  if(pressure <= 0){
+    switch(difficulty){
+      case -1:
+      noLoop(); //insert black hole or whatever tf happens to low mass after death here im too lazy for ts
+      background(255,0,0);
+      break;
+      case 0:
+      if(stage == 1){
+        noLoop();
+        background(255,0,0); //same thing here go to next stage
+      }
+      break;
+      case 1:
+      if(stage == 1){
+        noLoop();
+        background(255,0,0); //you know the drill atp
+      }
+      break;
+    }
+  }
   println(pressure);
   println(fuseable);
-  if(pressure <= 5 && difficulty == 1 && !threshhold) {
+  if(pressure <= 10 && difficulty != -1 && !threshhold) {
     if(!fuseable.contains(Element.He)){
       refill = false;
       fuseable.add(Element.He);
