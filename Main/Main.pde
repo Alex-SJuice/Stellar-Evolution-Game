@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 int screen;
-int difficulty; //0 = low/medium mass, 1 = high mass
+int difficulty; //-1 low, 0 medium, 1 = high mass
 
 int numBackgroundStars;
 int[] backgroundStarX;
@@ -90,8 +90,10 @@ void draw() {
     text("Choose a difficulty:", 400, 150);
     fill(0, 227, 255);
     rect(400, 325, 200, 100);
-    fill(255, 0, 0);
+    fill(250,222, 3);
     rect(400, 475, 200, 100);
+    fill(250,0,0);
+    rect(400,625,200,100);
     fill(0);
     textSize(20);
     text("High Mass Star", 400, 310);
@@ -116,23 +118,50 @@ void draw() {
         skip = false;
       }
     } //<>//
-    textSize(15);
-    text("Low/Medium Mass Star", 400, 460);
     textSize(20);
-    text("(Easy)", 400, 490);
+    text("Medium Mass Star", 400, 460);
+    text("(Medium)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(255, 226, 0);
       strokeWeight(10);
-      fill(255, 0, 0);
+      fill(250,222,3);
       rect(400, 475, 200, 100); //<>//
       fill(0);
-      textSize(16);
-      text("Low/Medium Mass Star", 400, 460);
       textSize(22);
-      text("(Easy)", 400, 490);
+      text("Medium Mass Star", 400, 460);
+      text("(Medium)", 400, 490);
       if (mousePressed) {
         difficulty = 0;
-        pressure = 100; //<>// //<>// //<>//
+        pressure = 100;
+        cutsceneTimer = millis();
+        screen = 3;
+        initSim(aCount);
+        pressureRate = 0.025;
+        strength = 20;
+        skip = false; //<>// //<>// //<>//
+      }
+    }
+    textSize(20);
+    text("Low Mass Star",400,610);
+    text("(Easy)",400,640);
+    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 575 && mouseY <= 675){
+      stroke(255,226,0);
+      strokeWeight(10);
+      fill(250,0,0);
+      rect(400,625,200,100);
+      fill(0);
+      textSize(22);
+      text("Low Mass Star",400,610);
+      text("(Easy)",400,640);
+      if(mousePressed){
+        difficulty = -1;
+        pressure = 100;
+        cutsceneTimer = millis();
+        screen = 3;
+        initSim(aCount);
+        pressureRate = 0.025;
+        strength = 20;
+        skip = false;
       }
     }
   } else if (screen == 3) {
@@ -206,23 +235,6 @@ void displayBackground() {
 
 void game() {
   background(0);
-  rectMode(CORNER);
-  strokeWeight(5);
-  if(difficulty == 0){
-    if(screen == 3){
-      fill(255,255,0);
-      ellipse(150, 150, 200,200);
-      fill(255,74,3);
-    }
-  } else if(difficulty == 1){
-    if(screen == 3){
-      fill(3,206,255);
-      ellipse(150,150,200,200);
-      fill(3,97,255);
-    }
-  }
-  noStroke();
-  ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
       if (a == b) {
@@ -300,20 +312,31 @@ void game() {
   for (int a = 0; a < aCount; a++) {
     atoms.get(a).display();
   }
-  rectMode(CORNER);
   strokeWeight(5);
   if(difficulty == 0){
-    if(screen == 3){
+    if(stage == 0){
       fill(255,255,0);      
       ellipse(150, 150, 200,200);
       fill(255,74,3);      
+    } else if(stage == 1){
+      fill(255,0,0);
+      ellipse(150,150,250,250);
+      fill(3,97,255);
     }
   } else if(difficulty == 1){
-    if(screen == 3){
+    if(stage == 0){
       fill(3,206,255);
       ellipse(150,150,200,200);
       fill(3,97,255);
+    } else if(stage == 1){
+      fill(255,0,0);
+      ellipse(150,150,225,225);
+      fill(255,74,3);
     }
+  } else if(difficulty == -1){
+    fill(250,131,3);
+    ellipse(150,150,200,200);
+    fill(255,0,0);
   }
   if (pressure >= 100) {
     pressure = 100;
