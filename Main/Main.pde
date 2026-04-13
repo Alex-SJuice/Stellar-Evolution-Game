@@ -173,7 +173,6 @@ void draw() {
         runText(texts2High);
       }
     }
-    screen = 3;
   }
 }
 
@@ -322,33 +321,49 @@ void game() {
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
   pressure -= pressureRate;
-  println(pressure);
-  println(fuseable);
-  if(pressure <= 20 && difficulty == 1 && !threshhold) {
-    if(!fuseable.contains(Element.He)){
+  if(pressure <= 0){
+    if(difficulty == 0){
       refill = false;
       fuseable.add(Element.He);
       threshhold = true;
       stage++;
       pressureRate+=0.025;
       screen = 4;
-    } else if(!fuseable.contains(Element.C)){
-      fuseable.add(Element.C);
+    } else if(difficulty == 1){
+      refill = false;
+      fuseable.add(Element.He);
       threshhold = true;
       stage++;
-      pressureRate+=0.025;
-    } else if(!fuseable.contains(Element.Na)){
-      fuseable.add(Element.Na);
-      threshhold = true;
-      stage++;
-      pressureRate+=0.025;
-    } else if(!fuseable.contains(Element.Si)){
-      fuseable.add(Element.Si);
-      threshhold = true;
-      stage++;
-      pressureRate+=0.025;
+      screen = 4;
     }
   }
+  println(pressure);
+  println(fuseable);
+ // if(pressure <= 20 && difficulty == 1 && !threshhold) {
+   // if(!fuseable.contains(Element.He)){
+     // refill = false;
+      //fuseable.add(Element.He);
+      //threshhold = true;
+      //stage++;
+      //pressureRate+=0.025;
+      //screen = 4;
+    //} else if(!fuseable.contains(Element.C)){
+     // fuseable.add(Element.C);
+      //threshhold = true;
+      //stage++;
+      //pressureRate+=0.025;
+    //} else if(!fuseable.contains(Element.Na)){
+      //fuseable.add(Element.Na);
+      //threshhold = true;
+      //stage++;
+      //pressureRate+=0.025;
+    //} else if(!fuseable.contains(Element.Si)){
+      //fuseable.add(Element.Si);
+      //threshhold = true;
+      //stage++;
+      //pressureRate+=0.025;
+    //}
+  //}
   if(pressure > 40){
     threshhold = false;
   }
