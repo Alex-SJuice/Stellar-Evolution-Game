@@ -61,7 +61,7 @@ void draw() {
     textSize(40);
     text("Play!", 400, 412);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450) {
-      stroke(255, 226, 0);
+      stroke(67,0,255);
       strokeWeight(10);
       fill(67, 0, 255);
       rectMode(CENTER);
@@ -99,7 +99,7 @@ void draw() {
     text("High Mass Star", 400, 310);
     text("(Hard)", 400, 340);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
-      stroke(255, 226, 0);
+      stroke(0,227,255);
       strokeWeight(10);
       fill(0, 227, 255);
       rect(400, 325, 200, 100);
@@ -122,7 +122,7 @@ void draw() {
     text("Medium Mass Star", 400, 460);
     text("(Medium)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-      stroke(255, 226, 0);
+      stroke(250,222,3);
       strokeWeight(10);
       fill(250,222,3);
       rect(400, 475, 200, 100); //<>//
@@ -145,7 +145,7 @@ void draw() {
     text("Low Mass Star",400,610);
     text("(Easy)",400,640);
     if(mouseX >= 300 && mouseX <= 500 && mouseY >= 575 && mouseY <= 675){
-      stroke(255,226,0);
+      stroke(250,0,0);
       strokeWeight(10);
       fill(250,0,0);
       rect(400,625,200,100);
@@ -199,7 +199,7 @@ void draw() {
     textSize(20);
     text("Press space to continue",400,500);
     if(keyPressed && key == ' '){
-      stage = 2;
+      stage = 1;
       pressure = 50;
       screen = 3;
       cutsceneTimer = millis();
@@ -315,28 +315,33 @@ void game() {
   strokeWeight(5);
   if(difficulty == 0){
     if(stage == 0){
+      stroke(255,255,0);
       fill(255,255,0);      
       ellipse(150, 150, 200,200);
       fill(255,74,3);      
     } else if(stage == 1){
+      stroke(255,0,0);
       fill(255,0,0);
-      ellipse(150,150,250,250);
-      fill(3,97,255);
+      ellipse(150,150,200,200);
+      fill(255,166,0);
     }
   } else if(difficulty == 1){
     if(stage == 0){
+      stroke(3,206,255);
       fill(3,206,255);
       ellipse(150,150,200,200);
       fill(3,97,255);
     } else if(stage == 1){
+      stroke(255,0,0);
       fill(255,0,0);
-      ellipse(150,150,225,225);
-      fill(255,74,3);
+      ellipse(150,150,200,200);
+      fill(255,166,0);
     }
   } else if(difficulty == -1){
-    fill(250,131,3);
-    ellipse(150,150,200,200);
+    stroke(255,0,0);
     fill(255,0,0);
+    ellipse(150,150,200,200);
+    fill(250,131,3);
   }
   if (pressure >= 100) {
     pressure = 100;
