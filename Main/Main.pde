@@ -312,15 +312,15 @@ void game() {
       fill(3,97,255);
     }
   }
+  if (stage == 0 && pressure >= 100) {
+    pressure = 100;
+  }
   noStroke();
   ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   fill(255);
   textSize(10);
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
-  if (stage == 0 && pressure > 100) {
-    pressure = 100;
-  }
   pressure -= pressureRate;
   println(pressure);
   println(fuseable);
