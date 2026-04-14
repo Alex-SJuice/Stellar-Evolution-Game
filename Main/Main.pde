@@ -61,7 +61,7 @@ void draw() {
     textSize(40);
     text("Play!", 400, 412);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450) {
-      stroke(255, 226, 0);
+      stroke(67,0,255);
       strokeWeight(10);
       fill(67, 0, 255);
       rectMode(CENTER);
@@ -99,7 +99,7 @@ void draw() {
     text("High Mass Star", 400, 310);
     text("(Hard)", 400, 340);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
-      stroke(255, 226, 0);
+      stroke(0,227,255);
       strokeWeight(10);
       fill(0, 227, 255);
       rect(400, 325, 200, 100);
@@ -122,7 +122,7 @@ void draw() {
     text("Medium Mass Star", 400, 460);
     text("(Medium)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-      stroke(255, 226, 0);
+      stroke(250,222,3);
       strokeWeight(10);
       fill(250,222,3); //<>//
       rect(400, 475, 200, 100);
@@ -145,7 +145,7 @@ void draw() {
     text("Low Mass Star",400,610);
     text("(Easy)",400,640);
     if(mouseX >= 300 && mouseX <= 500 && mouseY >= 575 && mouseY <= 675){
-      stroke(255,226,0);
+      stroke(250,0,0);
       strokeWeight(10);
       fill(250,0,0);
       rect(400,625,200,100);
@@ -200,11 +200,11 @@ void draw() {
     textSize(20);
     text("Press space to continue",400,500);
     if(keyPressed && key == ' '){
-      stage = 2;
+      stage = 1;
       pressure = 50;
       screen = 3;
       cutsceneTimer = millis();
-      strength = 1;
+      strength = 30;
       skip = false;
     }
   }
@@ -316,25 +316,29 @@ void game() {
   strokeWeight(5);
   if(difficulty == 0){
     if(stage == 0){
+      stroke(255,255,0);
       fill(255,255,0);      
       ellipse(150, 150, 200,200);
-      fill(255,74,3);      
+      fill(255,183,0);      
     } else if(stage == 1){
+      stroke(255,0,0);
       fill(255,0,0);
-      ellipse(150,150,250,250);
-      fill(3,97,255);
+      ellipse(150,150,200,200);
+      fill(255,166,0);
     }
     noStroke();
     ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   } else if(difficulty == 1){
     if(stage == 0){
-      fill(250,230,177);
-      ellipse(150,150,180,180);
+      stroke(3,206,255);
+      fill(3,206,255);
+      ellipse(150,150,200,200);
       fill(3,97,255);
     } else if(stage == 1){
+      stroke(255,0,0);
       fill(255,0,0);
-      ellipse(150,150,225,225);
-      fill(255,74,3);
+      ellipse(150,150,200,200);
+      fill(255,166,0);
     }
     noStroke();
     ellipse(150, 150, (pressure/100)*180,(pressure/100)*180);
@@ -354,35 +358,69 @@ void game() {
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
   pressure -= pressureRate;
+  if(pressure <= 5){
+    switch(difficulty){
+      case -1:
+      noLoop(); //insert black hole or whatever tf happens to low mass after death here im too lazy for ts
+      background(255,0,0);
+      break;
+      case 0:
+      if(stage == 1){
+        noLoop();
+        background(255,0,0); //same thing here go to next stage
+      }
+      break;
+      case 1:
+      if(stage == 1){
+        stage = 2;
+      }
+      break;
+    }
+  }
   println(pressure);
   println(fuseable);
-  if(pressure <= 5 && difficulty >= 0 && !threshhold) {
+  if(pressure <= 10 && difficulty != -1 && !threshhold) {
     if(!fuseable.contains(Element.He)){
       refill = false;
       fuseable.add(Element.He);
       threshhold = true;
       stage++;
-      pressureRate+=0.025;
+      if(difficulty == 0){
+        pressureRate = 0.05;
+      } else if(difficulty == 1){
+        pressureRate = 0.06; //keeping it lower because we want them to get to iron
+      }
       screen = 4;
     } else if(!fuseable.contains(Element.C)){
       fuseable.add(Element.C);
       threshhold = true;
-      stage++;
-      pressureRate+=0.025;
-    } else if(!fuseable.contains(Element.Na) && difficulty == 1){
+    } else if(!fuseable.contains(Element.Na)){
       fuseable.add(Element.Na);
       threshhold = true;
-      stage++;
-      pressureRate+=0.025;
-    } else if(!fuseable.contains(Element.Si) && difficulty == 1){
+    } else if(!fuseable.contains(Element.Si)){
       fuseable.add(Element.Si);
       threshhold = true;
-      stage++;
-      pressureRate+=0.025;
     }
   }
   if(pressure > 40){
     threshhold = false;
+  }
+  if(stage == 2){
+    switch(difficulty){
+      case 1:
+      pressureRate = -10;
+      if(pressure == 100){
+         cutsceneTimer = millis();
+      } else if(pressure > 100){
+        if(millis()-cutsceneTimer <= 4000) { //last number is in milliseconds, change as needed
+          background(255);
+          fill(255,0,0);
+          text("Supernova",400,400);
+        } else {
+          
+        }
+      }
+    }
   }
 }
 
