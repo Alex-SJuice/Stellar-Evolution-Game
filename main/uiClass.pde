@@ -4,16 +4,14 @@ ArrayList<button> buttons = new ArrayList<button>();
 ArrayList<slider> sliders = new ArrayList<slider>();
 ArrayList<textDisplay> displays = new ArrayList<textDisplay>();
 
-public void updateAll()
+public void displayAll()
 {
   for(button i : buttons)
   {
-    i.update();
     i.display();
   }
   for(slider i : sliders)
   {
-    i.update();
     i.display();
   }
   for(textDisplay i : displays)
@@ -73,6 +71,7 @@ class ui
   
   void display()
   {
+    rectMode(CORNER);
     if(!visable){return;}
     textFont(font, (dim.x / 7 + dim.y / 7)/2);
     strokeWeight(8);
@@ -100,13 +99,14 @@ class button extends ui
   {
     if(mouseX < pos.x+dim.x && mouseX > pos.x && mouseY < pos.y+dim.y && mouseY > pos.y)
     {
+      col = seccol;
       if(mousePressed)
       {
-        col = seccol;
         return true;
       }
+    } else {
+      col = maincol;
     }
-    col = maincol;
     return false;
   }
 }

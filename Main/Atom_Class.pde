@@ -3,7 +3,7 @@ void initSim(int pc){
   atoms = new ArrayList<Atom>();
   for(int i = 0; i < pc; i++){
     float dir = random(2*PI);
-    atoms.add(new Atom(Element.H,pv(5*cos(dir),5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),diameter));
+    atoms.add(new Atom(Element.H,pv(5*cos(dir),5*sin(dir)),pv(random(-width/2,width/2),random(-height/2,height/2)),20));
   }  
   atomDestroy = new ArrayList<Integer>();
   atomMake = new ArrayList<PVector>();
@@ -78,7 +78,7 @@ class Atom {
     }
   }
   
-  public boolean collision(Atom other, float strength) {
+  public boolean collision(Atom other) {
     if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
     if(!(this.avgPos.x >= -width/2 && this.avgPos.x <= width/2 && this.avgPos.y >= -height/2 && this.avgPos.y <= height/2 && other.avgPos.x >= -width/2 && other.avgPos.x <= width/2 && other.avgPos.y >= -height/2 && other.avgPos.y <= height/2)){
       return false;}
@@ -113,7 +113,7 @@ class Atom {
     }
     
     PVector dir = this.avgPos.copy().sub(other.avgPos).normalize();
-    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= strength){
+    if(other.avgVel.copy().dot(dir) - this.avgVel.copy().dot(dir) >= 15){
       return true;
     }
     return false;
