@@ -1,3 +1,4 @@
+// >w<
 import java.util.ArrayList;
 
 int screen;
@@ -19,7 +20,7 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 boolean threshhold = false;
-int stage = 2;
+int stage = 0;
 
 boolean skip;
 
@@ -120,7 +121,7 @@ void draw() {
         skip = false; //<>//
       }
     }
-    textSize(20);
+    textSize(20); //<>//
     text("Medium Mass Star", 400, 460);
     text("(Medium)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
@@ -128,7 +129,7 @@ void draw() {
       strokeWeight(10);
       fill(250,222,3); //<>//
       rect(400, 475, 200, 100);
-      fill(0);
+      fill(0); //<>//
       textSize(22);
       text("Medium Mass Star", 400, 460);
       text("(Medium)", 400, 490);
@@ -141,7 +142,7 @@ void draw() {
         pressureRate = 0.025;
         strength = 20; //<>//
         skip = false; //<>//
-      }
+      } //<>// //<>// //<>//
     }
     textSize(20);
     text("Low Mass Star",400,610);
@@ -209,6 +210,24 @@ void draw() {
       strength = 30;
       skip = false;
     }
+  } else if(screen == 5){
+     if(stage == 2){
+    if(difficulty == 1){
+      pressureRate = -10;
+      if(pressure == 100){
+         cutsceneTimer = millis();
+      } else if(pressure > 100){
+        if(millis()-cutsceneTimer <= 4000) { //last number is in milliseconds, change as needed
+          background(255);
+          fill(0);
+          textFont(hkFont);
+          textAlign(CENTER);
+          textSize(80);
+          text("Supernova",400,400);
+        }
+      }
+    }
+  }
   }
 }
 
@@ -375,6 +394,7 @@ void game() {
       case 1:
       if(stage == 1){
         stage = 2;
+        screen = 5;
       }
       break;
     }
@@ -386,13 +406,13 @@ void game() {
       refill = false;
       fuseable.add(Element.He);
       threshhold = true;
-      stage++;
       if(difficulty == 0){
         pressureRate = 0.05;
-      } else if(difficulty == 1){
+      } else if(difficulty == 1 && stage == 0){
         pressureRate = 0.06; //keeping it lower because we want them to get to iron
       }
       screen = 4;
+      stage++;
     } else if(!fuseable.contains(Element.C)){
       fuseable.add(Element.C);
       threshhold = true;
@@ -406,26 +426,6 @@ void game() {
   }
   if(pressure > 40){
     threshhold = false;
-  }
-  if(stage == 2){
-    switch(difficulty){
-      case 1:
-      pressureRate = -10;
-      if(pressure == 100){
-         cutsceneTimer = millis();
-      } else if(pressure > 100){
-        if(millis()-cutsceneTimer <= 4000) { //last number is in milliseconds, change as needed
-          background(255);
-          fill(0);
-          textFont(hkFont);
-          textAlign(CENTER);
-          textSize(80);
-          text("Supernova",400,400);
-        } else {
-          
-        }
-      }
-    }
   }
 }
 
