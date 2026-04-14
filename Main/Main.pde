@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 
 int screen;
-int difficulty =1; //-1 low, 0 medium, 1 = high mass
+int difficulty; //-1 low, 0 medium, 1 = high mass
 
 int numBackgroundStars;
 int[] backgroundStarX;
@@ -116,7 +116,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3;
         initSim(aCount);
-        pressureRate = 0.025;
+        pressureRate = 0.125; //<>//
         strength = 20;
         skip = false; //<>//
       }
@@ -125,7 +125,7 @@ void draw() {
     text("Medium Mass Star", 400, 460);
     text("(Medium)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-      stroke(250,222,3);
+      stroke(250,222,3); //<>//
       strokeWeight(10);
       fill(250,222,3); //<>//
       rect(400, 475, 200, 100);
@@ -135,11 +135,11 @@ void draw() {
       text("(Medium)", 400, 490);
       if (mousePressed) {
         difficulty = 0;
-        pressure = 100;
+        pressure = 100; //<>//
         cutsceneTimer = millis();
         screen = 3; //<>//
-        initSim(aCount);
-        pressureRate = 0.025;
+        initSim(aCount); //<>//
+        pressureRate = 0.125; //<>//
         strength = 20; //<>//
         skip = false; //<>//
       } //<>// //<>// //<>//
@@ -162,7 +162,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3;
         initSim(aCount);
-        pressureRate = 0.025;
+        pressureRate = 0.125;
         strength = 30;
         skip = false;
         aCount = 50;
@@ -340,31 +340,30 @@ void game() {
       stroke(255,255,0);
       fill(255,255,0);      
       ellipse(150, 150, 200,200);
-      fill(255,183,0);      
+      fill(250,233,194);      
     } else if(stage == 1){
       stroke(255,0,0);
       fill(255,0,0);
-      ellipse(150,150,200,200);
+      ellipse(150,150,250,250);
       fill(255,166,0);
     }
     noStroke();
     ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   } else if(difficulty == 1){
     if(stage == 0){
-      stroke(3,206,255);
       fill(3,206,255);
-      ellipse(150,150,200,200);
-      fill(3,97,255);
+      ellipse(150,150,180,180);
+      fill(222,247,252);
     } else if(stage == 1){
-      stroke(255,0,0);
       fill(255,0,0);
-      ellipse(150,150,200,200);
-      fill(255,166,0);
+      ellipse(150,150,225,225);
+      fill(255,74,3);
     }
     noStroke();
     ellipse(150, 150, (pressure/100)*180,(pressure/100)*180);
   } else if(difficulty == -1){
     fill(250,131,3);
+    ellipse(150,150,200,200);
     ellipse(100,100,100,100);
     fill(255,0,0);
     noStroke();
