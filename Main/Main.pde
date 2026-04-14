@@ -382,7 +382,11 @@ void game() {
       fuseable.add(Element.He);
       threshhold = true;
       stage++;
-      pressureRate+=0.025;
+      if(difficulty == 0){
+        pressureRate = 0.05;
+      } else if(difficulty == 1){
+        pressureRate = 0.06; //keeping it lower because we want them to get to iron
+      }
       screen = 4;
     } else if(!fuseable.contains(Element.C)){
       fuseable.add(Element.C);
