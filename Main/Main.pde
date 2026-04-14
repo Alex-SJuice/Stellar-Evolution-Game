@@ -355,7 +355,7 @@ void game() {
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
   pressure -= pressureRate;
-  if(pressure <= 0){
+  if(pressure <= 5){
     switch(difficulty){
       case -1:
       noLoop(); //insert black hole or whatever tf happens to low mass after death here im too lazy for ts
@@ -369,8 +369,7 @@ void game() {
       break;
       case 1:
       if(stage == 1){
-        noLoop();
-        background(255,0,0); //you know the drill atp
+        stage = 2;
       }
       break;
     }
@@ -402,6 +401,15 @@ void game() {
   }
   if(pressure > 40){
     threshhold = false;
+  }
+  if(stage == 2){
+    switch(difficulty){
+      case 1:
+      pressureRate = -10;
+      if(pressure >= 100){
+         background(255);
+      }
+    }
   }
 }
 
