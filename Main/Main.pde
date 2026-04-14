@@ -29,7 +29,7 @@ int cutsceneTimer;
 PFont font;
 
 Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million", 400, 350), new Text("degrees Kelvin. Now fusion can begin.", 400, 400)};
-Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the core is no longer able to fuse. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse helium.",400,300)};
+Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse helium.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 
@@ -115,17 +115,17 @@ void draw() {
         initSim(aCount);
         pressureRate = 0.025;
         strength = 20;
-        skip = false;
+        skip = false; //<>//
       }
-    } //<>//
+    }
     textSize(20);
     text("Medium Mass Star", 400, 460);
     text("(Medium)", 400, 490);
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(255, 226, 0);
       strokeWeight(10);
-      fill(250,222,3);
-      rect(400, 475, 200, 100); //<>//
+      fill(250,222,3); //<>//
+      rect(400, 475, 200, 100);
       fill(0);
       textSize(22);
       text("Medium Mass Star", 400, 460);
@@ -134,11 +134,11 @@ void draw() {
         difficulty = 0;
         pressure = 100;
         cutsceneTimer = millis();
-        screen = 3;
+        screen = 3; //<>//
         initSim(aCount);
         pressureRate = 0.025;
-        strength = 20;
-        skip = false; //<>// //<>// //<>//
+        strength = 20; //<>//
+        skip = false; //<>//
       }
     }
     textSize(20);
@@ -160,8 +160,9 @@ void draw() {
         screen = 3;
         initSim(aCount);
         pressureRate = 0.025;
-        strength = 20;
+        strength = 30;
         skip = false;
+        aCount = 50;
       }
     }
   } else if (screen == 3) {
@@ -203,7 +204,7 @@ void draw() {
       pressure = 50;
       screen = 3;
       cutsceneTimer = millis();
-      strength = 30;
+      strength = 1;
       skip = false;
     }
   }
@@ -263,7 +264,7 @@ void game() {
     switch(a.e) {
     case H:
       atoms.add(new Atom(Element.He, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 8;
+      pressure += 6;
       break;
     case He:
       atoms.add(new Atom(Element.C, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
@@ -323,50 +324,39 @@ void game() {
       ellipse(150,150,250,250);
       fill(3,97,255);
     }
+    noStroke();
+    ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
   } else if(difficulty == 1){
     if(stage == 0){
-      fill(3,206,255);
-      ellipse(150,150,200,200);
+      fill(250,230,177);
+      ellipse(150,150,180,180);
       fill(3,97,255);
     } else if(stage == 1){
       fill(255,0,0);
       ellipse(150,150,225,225);
       fill(255,74,3);
     }
+    noStroke();
+    ellipse(150, 150, (pressure/100)*180,(pressure/100)*180);
   } else if(difficulty == -1){
     fill(250,131,3);
-    ellipse(150,150,200,200);
+    ellipse(100,100,100,100);
     fill(255,0,0);
+    noStroke();
+    ellipse(150, 150, (pressure/100)*100,(pressure/100)*100);
   }
   if (pressure >= 100) {
     pressure = 100;
   }
-  noStroke();
-  ellipse(150, 150, (pressure/100)*200,(pressure/100)*200);
+  
   fill(255);
   textSize(10);
   text("Hand-crafted, Artisanal", mouseX, mouseY-10);
   text("Particle Accelerator", mouseX, mouseY);
   pressure -= pressureRate;
- // if(pressure <= 0){
-  //  if(difficulty == 0){
-  //    refill = false;
-   //   fuseable.add(Element.He);
-    //  threshhold = true;
-    //  stage++;
-    //  pressureRate+=0.025;
-    //  screen = 4;
-   // } else if(difficulty == 1){
-   //   refill = false;
-    //  fuseable.add(Element.He);
-    //  threshhold = true;
-     // stage++;
-    //  screen = 4;
-   // } 
- // }
   println(pressure);
   println(fuseable);
-  if(pressure <= 5 && difficulty == 1 && !threshhold) {
+  if(pressure <= 5 && difficulty >= 0 && !threshhold) {
     if(!fuseable.contains(Element.He)){
       refill = false;
       fuseable.add(Element.He);
@@ -379,12 +369,12 @@ void game() {
       threshhold = true;
       stage++;
       pressureRate+=0.025;
-    } else if(!fuseable.contains(Element.Na)){
+    } else if(!fuseable.contains(Element.Na) && difficulty == 1){
       fuseable.add(Element.Na);
       threshhold = true;
       stage++;
       pressureRate+=0.025;
-    } else if(!fuseable.contains(Element.Si)){
+    } else if(!fuseable.contains(Element.Si) && difficulty == 1){
       fuseable.add(Element.Si);
       threshhold = true;
       stage++;
