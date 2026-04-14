@@ -3,7 +3,7 @@
 import java.util.ArrayList;
 
 int screen;
-int difficulty; //-1 low, 0 medium, 1 = high mass
+int difficulty =1; //-1 low, 0 medium, 1 = high mass
 
 int numBackgroundStars;
 int[] backgroundStarX;
@@ -21,7 +21,7 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 boolean threshhold = false;
-int stage = 0;
+int stage = 2;
 
 boolean skip;
 
@@ -29,6 +29,7 @@ int textTimer;
 int cutsceneTimer;
 
 PFont font;
+PFont hkFont;
 
 Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million", 400, 350), new Text("degrees Kelvin. Now fusion can begin.", 400, 400)};
 Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the core is no longer able to fuse. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse helium.",400,300)};
@@ -44,6 +45,7 @@ void setup() {
   backgroundStarY = new int[numBackgroundStars];
   initBackground();
   font = createFont("Pixelon.otf", 16);
+  hkFont = createFont("Perpetua.otf",16);
   textFont(font);
   skip = false;
 }
@@ -411,7 +413,10 @@ void game() {
       } else if(pressure > 100){
         if(millis()-cutsceneTimer <= 4000) { //last number is in milliseconds, change as needed
           background(255);
-          fill(255,0,0);
+          fill(0);
+          textFont(hkFont);
+          textAlign(CENTER);
+          textSize(80);
           text("Supernova",400,400);
         } else {
           
