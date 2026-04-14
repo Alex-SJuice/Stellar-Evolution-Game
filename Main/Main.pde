@@ -185,7 +185,7 @@ void draw() {
       if(keyPressed && key == ' '){
         skip = true;
       }
-    } else if(millis()-cutsceneTimer >8000 || skip) {
+    } else if(millis()-cutsceneTimer > 8000 || skip) {
       game();
     }
   } else if(screen == 4){
@@ -205,22 +205,29 @@ void draw() {
     textSize(20);
     text("Press space to continue",400,500);
     if(keyPressed && key == ' '){
+      skip = true;
       stage = 1;
       pressure = 50;
       screen = 3;
       cutsceneTimer = millis();
       strength = 30;
-      skip = false;
     }
   } else if(screen == 5){
-    int shake;
-    background(255,74,3);
-    fill(0);
-    textFont(hkFont);
-    textAlign(CENTER);
-    textSize(80);
-    shake = (int)random(-11,11);
-    text("Supernova",400+shake,400+shake);
+    if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
+      int shake;
+      background(255,74,3);
+      fill(0);
+      textFont(hkFont);
+      textAlign(CENTER);
+      textSize(80);
+      shake = (int)random(-11,11);
+      text("Supernova",400+shake,400+shake);
+    } else {
+      skip = true;
+      screen = 3;
+      stage = 2;
+      pressureRate = 0;
+    }
   }
 }
 
@@ -391,9 +398,7 @@ void game() {
         if(pressure > 1950 && pressure < 2000){
           cutsceneTimer = millis();
         } else if(pressure > 2000){
-          if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
             screen = 5;
-          }
         }
       }
       break;
