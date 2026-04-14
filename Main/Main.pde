@@ -23,6 +23,7 @@ boolean threshhold = false;
 int stage = 0;
 
 boolean skip;
+boolean cap;
 
 int textTimer;
 int cutsceneTimer;
@@ -47,6 +48,7 @@ void setup() {
   hkFont = createFont("Perpetua.otf",16);
   textFont(font);
   skip = false;
+  cap = true;
 }
 
 void draw() {
@@ -119,7 +121,7 @@ void draw() {
         pressureRate = 0.125; //<>//
         strength = 20;
         skip = false; //<>//
-      }
+      } //<>//
     }
     textSize(20); //<>//
     text("Medium Mass Star", 400, 460);
@@ -127,7 +129,7 @@ void draw() {
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(250,222,3); //<>//
       strokeWeight(10);
-      fill(250,222,3); //<>//
+      fill(250,222,3); //<>// //<>//
       rect(400, 475, 200, 100);
       fill(0); //<>//
       textSize(22);
@@ -140,7 +142,7 @@ void draw() {
         screen = 3; //<>//
         initSim(aCount); //<>//
         pressureRate = 0.125; //<>//
-        strength = 20; //<>//
+        strength = 20; //<>// //<>// //<>// //<>//
         skip = false; //<>//
       } //<>// //<>// //<>//
     }
@@ -211,23 +213,14 @@ void draw() {
       skip = false;
     }
   } else if(screen == 5){
-     if(stage == 2){
-    if(difficulty == 1){
-      pressureRate = -10;
-      if(pressure == 100){
-         cutsceneTimer = millis();
-      } else if(pressure > 100){
-        if(millis()-cutsceneTimer <= 4000) { //last number is in milliseconds, change as needed
-          background(255);
-          fill(0);
-          textFont(hkFont);
-          textAlign(CENTER);
-          textSize(80);
-          text("Supernova",400,400);
-        }
-      }
-    }
-  }
+    int shake;
+    background(255,74,3);
+    fill(0);
+    textFont(hkFont);
+    textAlign(CENTER);
+    textSize(80);
+    shake = (int)random(-11,11);
+    text("Supernova",400+shake,400+shake);
   }
 }
 
@@ -369,7 +362,7 @@ void game() {
     noStroke();
     ellipse(150, 150, (pressure/100)*100,(pressure/100)*100);
   }
-  if (pressure >= 100) {
+  if (pressure >= 100 && cap) {
     pressure = 100;
   }
   
@@ -392,14 +385,23 @@ void game() {
       break;
       case 1:
       if(stage == 1){
-        stage = 2;
-        screen = 5;
+        pressureRate = -20;
+        pressure -= pressureRate;
+        cap = false;
+        if(pressure > 1950 && pressure < 2000){
+          cutsceneTimer = millis();
+        } else if(pressure > 2000){
+          if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
+            screen = 5;
+          }
+        }
       }
       break;
     }
   }
   println(pressure);
   println(fuseable);
+  println(pressureRate);
   if(pressure <= 10 && difficulty != -1 && !threshhold) {
     if(!fuseable.contains(Element.He)){
       refill = false;
@@ -426,6 +428,13 @@ void game() {
   if(pressure > 40){
     threshhold = false;
   }
+  if(pressure > 1950 && pressure < 2000 && difficulty == 1 && stage == 1){
+          cutsceneTimer = millis();
+        } else if(pressure > 2000){
+          if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
+            screen = 5;
+          }
+        }
 }
 
 void runText(Text[] tempTexts){
