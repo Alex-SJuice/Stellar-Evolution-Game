@@ -406,8 +406,16 @@ void game() {
     switch(difficulty){
       case 1:
       pressureRate = -10;
-      if(pressure >= 100){
-         background(255);
+      if(pressure == 100){
+         cutsceneTimer = millis();
+      } else if(pressure > 100){
+        if(millis()-cutsceneTimer <= 4000) { //last number is in milliseconds, change as needed
+          background(255);
+          fill(255,0,0);
+          text("Supernova",400,400);
+        } else {
+          
+        }
       }
     }
   }
