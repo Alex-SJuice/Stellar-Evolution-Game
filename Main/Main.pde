@@ -115,7 +115,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3;
         initSim(aCount);
-        pressureRate = 0.025; //<>//
+        pressureRate = 0.125; //<>//
         strength = 20;
         skip = false; //<>//
       }
@@ -138,7 +138,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3; //<>//
         initSim(aCount); //<>//
-        pressureRate = 0.025; //<>//
+        pressureRate = 0.125; //<>//
         strength = 20; //<>//
         skip = false; //<>//
       }
@@ -161,7 +161,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3;
         initSim(aCount);
-        pressureRate = 0.025;
+        pressureRate = 0.125;
         strength = 30;
         skip = false;
         aCount = 50;
