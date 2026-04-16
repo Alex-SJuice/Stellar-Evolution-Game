@@ -1,4 +1,3 @@
-// >w<
 import java.util.ArrayList;
 
 int screen;
