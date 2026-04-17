@@ -214,19 +214,31 @@ void draw() {
     }
   } else if(screen == 5){
     if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
-      int shake;
+      int shakeX;
+      int shakeY;
       background(255,74,3);
       fill(0);
       textFont(hkFont);
       textAlign(CENTER);
       textSize(80);
-      shake = (int)random(-11,11);
-      text("Supernova",400+shake,400+shake);
+      shakeX = (int)random(-11,11);
+      shakeY = (int)random(-11,11);
+      text("Supernova",400+shakeX,400+shakeY);
     } else {
       skip = true;
       screen = 3;
       stage = 2;
       pressureRate = 0;
+      textFont(font);
+    }
+  } else if(screen == 6){
+    if(millis()-cutsceneTimer <= 5000){
+      background(0);
+      fill(0);
+      textFont(hkFont);
+      textAlign(CENTER);
+      textSize(80);
+      text("Black Hole",400,400);
     }
   }
 }
@@ -361,7 +373,7 @@ void game() {
     }
     noStroke();
     ellipse(150, 150, (pressure/100)*180,(pressure/100)*180);
-  } else if(difficulty == -1){
+  } else if(difficulty == -1 && stage != 2){
     fill(250,131,3);
     ellipse(150,150,200,200);
     ellipse(100,100,100,100);
@@ -381,8 +393,17 @@ void game() {
   if(pressure <= 5){
     switch(difficulty){
       case -1:
-      noLoop(); //insert black hole or whatever tf happens to low mass after death here im too lazy for ts
-      background(255,0,0);
+      pressureRate = 20;
+      pressure -= pressureRate;
+      fill(250,131,3);
+      ellipse(150,150,200*(pressure/100),200*(pressure/100));
+      ellipse(100,100,100*(pressure/100),100*(pressure/100));
+      stage = 2;
+      if(pressure <= -20 && pressure >= -40){
+        cutsceneTimer = millis();
+      } else if(pressure <= -40){
+        screen = 6;
+      }
       break;
       case 0:
       if(stage == 1){
