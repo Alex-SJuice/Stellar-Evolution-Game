@@ -407,8 +407,8 @@ void game() {
   println(pressure);
   println(fuseable);
   println(pressureRate);
-  if(pressure <= 10 && difficulty != -1 && !threshhold) {
-    if(!fuseable.contains(Element.He)){
+  if(difficulty != -1 && !threshhold) {
+    if(pressure <= 10 && !fuseable.contains(Element.He)){
       refill = false;
       fuseable.add(Element.He);
       threshhold = true;
@@ -419,13 +419,13 @@ void game() {
       }
       screen = 4;
       stage++;
-    } else if(!fuseable.contains(Element.C)){
+    } else if(pressure <= 70 && !fuseable.contains(Element.C)){
       fuseable.add(Element.C);
       threshhold = true;
-    } else if(!fuseable.contains(Element.Na)){
+    } else if(pressure <= 50 && !fuseable.contains(Element.Na)){
       fuseable.add(Element.Na);
       threshhold = true;
-    } else if(!fuseable.contains(Element.Si)){
+    } else if(pressure <= 40 && !fuseable.contains(Element.Si)){
       fuseable.add(Element.Si);
       threshhold = true;
     }
