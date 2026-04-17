@@ -20,7 +20,7 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 boolean threshhold = false;
-int stage = 0;
+int stage = 0; //0 = main sequence, 1 = giants
 
 boolean skip;
 boolean cap;
@@ -142,9 +142,9 @@ void draw() {
         screen = 3; //<>//
         initSim(aCount); //<>//
         pressureRate = 0.125; //<>//
-        strength = 20; //<>// //<>// //<>// //<>//
+        strength = 20; //<>//
         skip = false; //<>//
-      } //<>// //<>// //<>//
+      } //<>//
     }
     textSize(20);
     text("Low Mass Star",400,610);
@@ -207,7 +207,7 @@ void draw() {
     if(keyPressed && key == ' '){
       skip = true;
       stage = 1;
-      pressure = 50;
+      pressure = 100;
       screen = 3;
       cutsceneTimer = millis();
       strength = 30;
@@ -403,6 +403,9 @@ void game() {
       }
       break;
     }
+  }
+  if(pressure <= 20 && difficulty == 1 && stage == 1){
+    //alert for low pressure idk supernova needs to be more dramatic
   }
   println(pressure);
   println(fuseable);
