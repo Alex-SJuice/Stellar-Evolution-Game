@@ -234,7 +234,7 @@ void draw() {
   } else if(screen == 6){
     if(millis()-cutsceneTimer <= 5000){
       background(0);
-      fill(0);
+      fill(255);
       textFont(hkFont);
       textAlign(CENTER);
       textSize(80);
@@ -376,7 +376,6 @@ void game() {
   } else if(difficulty == -1 && stage != 2){
     fill(250,131,3);
     ellipse(150,150,200,200);
-    ellipse(100,100,100,100);
     fill(255,0,0);
     noStroke();
     ellipse(150, 150, (pressure/100)*100,(pressure/100)*100);
@@ -393,16 +392,18 @@ void game() {
   if(pressure <= 5){
     switch(difficulty){
       case -1:
-      pressureRate = 20;
+      pressureRate = 5;
       pressure -= pressureRate;
       fill(250,131,3);
       ellipse(150,150,200*(pressure/100),200*(pressure/100));
-      ellipse(100,100,100*(pressure/100),100*(pressure/100));
-      stage = 2;
+      fill(255,0,0);
+      noStroke();
+      ellipse(150, 150, (pressure/100)*100,(pressure/100)*100);
       if(pressure <= -20 && pressure >= -40){
         cutsceneTimer = millis();
       } else if(pressure <= -40){
         screen = 6;
+        stage = 2;
       }
       break;
       case 0:
