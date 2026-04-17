@@ -20,7 +20,7 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 boolean threshhold = false;
-int stage = 0; //0 = main sequence, 1 = giants
+int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole
 
 boolean skip;
 boolean cap;
@@ -40,6 +40,7 @@ void setup() {
   size(800, 800);
   screen = 0;
   textTimer = 0;
+  stage = 0;
   numBackgroundStars = 100;
   backgroundStarX = new int[numBackgroundStars];
   backgroundStarY = new int[numBackgroundStars];
@@ -87,6 +88,12 @@ void draw() {
     runText(texts1);
     textSize(20);
     text("Press the space bar to continue", 400, 500);
+    if(keyPressed && key == ' '){
+      for(int i = 0; i<texts1.length;i++){
+        texts1[i].reset();
+      }
+      screen = 2;
+    }
   } else if (screen == 2) {
     displayBackground();
     noStroke();
@@ -129,7 +136,7 @@ void draw() {
     if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
       stroke(250,222,3); //<>//
       strokeWeight(10);
-      fill(250,222,3); //<>// //<>//
+      fill(250,222,3); //<>//
       rect(400, 475, 200, 100);
       fill(0); //<>//
       textSize(22);
@@ -141,7 +148,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3; //<>//
         initSim(aCount); //<>//
-        pressureRate = 0.125; //<>//
+        pressureRate = 0.075; //<>//
         strength = 20; //<>//
         skip = false; //<>//
       } //<>//
@@ -164,7 +171,7 @@ void draw() {
         cutsceneTimer = millis();
         screen = 3;
         initSim(aCount);
-        pressureRate = 0.125;
+        pressureRate = 0.05;
         strength = 30;
         skip = false;
         aCount = 50;
@@ -211,6 +218,11 @@ void draw() {
       screen = 3;
       cutsceneTimer = millis();
       strength = 30;
+      for(int i = 0; i<texts2.length;i++){
+        texts2[i].reset();
+        texts2Low[1].reset();
+        texts2High[1].reset();
+      }
     }
   } else if(screen == 5){
     if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
@@ -232,23 +244,36 @@ void draw() {
       textFont(font);
     }
   } else if(screen == 6){
-    if(millis()-cutsceneTimer <= 5000){
+    if(millis()-cutsceneTimer <= 7000){
       background(0);
       fill(255);
       textFont(hkFont);
       textAlign(CENTER);
       textSize(80);
       text("Black Hole",400,400);
+      textSize(40);
+      textFont(font);
+      text("Your star collapsed into a point of infinite density.",400,450);
+      text("It has so much gravity, even light cannot escape.", 400, 500);
+      text("Press space to go back to the menu",400,550);
+      if((keyPressed && key == ' ') || (millis()-cutsceneTimer > 7000)){
+        screen = 0;
+        textTimer = 0;
+        stage = 0;
+        numBackgroundStars = 100;
+        backgroundStarX = new int[numBackgroundStars];
+        backgroundStarY = new int[numBackgroundStars];
+        initBackground();
+        textFont(font);
+        skip = false;
+        cap = true;
+        
+      }
     }
   }
 }
 
 void keyPressed() {
-  if (key == ' ') {
-    if (screen == 1) {
-      screen = 2;
-    }
-  }
 }
 
 void initBackground() {
@@ -433,7 +458,7 @@ void game() {
   println(fuseable);
   println(pressureRate);
   if(difficulty != -1 && !threshhold) {
-    if(pressure <= 10 && !fuseable.contains(Element.He)){
+    if(pressure <= 10 && (!fuseable.contains(Element.He) || difficulty == 1)){
       refill = false;
       fuseable.add(Element.He);
       threshhold = true;
@@ -444,13 +469,13 @@ void game() {
       }
       screen = 4;
       stage++;
-    } else if(pressure <= 70 && !fuseable.contains(Element.C)){
+    } else if(stage == 1 && pressure <= 70 && !fuseable.contains(Element.C)){
       fuseable.add(Element.C);
       threshhold = true;
-    } else if(pressure <= 50 && !fuseable.contains(Element.Na)){
+    } else if(stage == 1 && pressure <= 50 && !fuseable.contains(Element.Na)){
       fuseable.add(Element.Na);
       threshhold = true;
-    } else if(pressure <= 40 && !fuseable.contains(Element.Si)){
+    } else if(stage == 1 && pressure <= 40 && !fuseable.contains(Element.Si)){
       fuseable.add(Element.Si);
       threshhold = true;
     }

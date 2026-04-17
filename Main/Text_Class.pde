@@ -28,4 +28,9 @@ class Text{
   boolean checkDone(){
     return textDone;
   }
+  
+  void reset(){
+    textIndex = 0;
+    textDone = false;
+  }
 }
