@@ -1,13 +1,10 @@
-//>w<
+//>w< AwA
 import java.util.ArrayList;
 
 int screen;
 int difficulty; //-1 low, 0 medium, 1 = high mass
 
-int numBackgroundStars;
-int[] backgroundStarX;
-int[] backgroundStarY;
-
+PImage bg;
 int aCount = 100;
 float diameter = 20;
 float strength;
@@ -32,19 +29,17 @@ PFont font;
 PFont hkFont;
 
 Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million", 400, 350), new Text("degrees Kelvin. Now fusion can begin.", 400, 400)};
-Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse helium.",400,300)};
+Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 
 void setup() {
   size(800, 800);
+  bg = loadImage("bg1.png");
+  imageMode(CENTER);
   screen = 0;
   textTimer = 0;
   stage = 0;
-  numBackgroundStars = 100;
-  backgroundStarX = new int[numBackgroundStars];
-  backgroundStarY = new int[numBackgroundStars];
-  initBackground();
   font = createFont("Pixelon.otf", 16);
   hkFont = createFont("Perpetua.otf",16);
   textFont(font);
@@ -53,247 +48,245 @@ void setup() {
 }
 
 void draw() {
-  if (screen == 0) {
-    displayBackground();
-    textAlign(CENTER);
-    fill(67, 0, 255);
-    rectMode(CENTER);
-    rect(400, 400, 200, 100);
-    textSize(60);
-    fill(255);
-    text("The Life Cycle of a Star:", 400, 150);
-    text("Fusion Minigame", 400, 225);
-    fill(0);
-    textSize(40);
-    text("Play!", 400, 412);
-    if (mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450) {
-      stroke(67,0,255);
-      strokeWeight(10);
+  switch(screen){
+    case 0:
+      displayBackground();
+      textAlign(CENTER);
       fill(67, 0, 255);
       rectMode(CENTER);
       rect(400, 400, 200, 100);
-      textSize(45);
+      textSize(60);
+      fill(255);
+      text("The Life Cycle of a Star:", 400, 150);
+      text("Fusion Minigame", 400, 225);
       fill(0);
+      textSize(40);
       text("Play!", 400, 412);
-    }
-    if (mousePressed && mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450) {
-      screen = 1;
-    }
-  } else if (screen == 1) {
-    textTimer++;
-    displayBackground();
-    textAlign(CENTER);
-    textSize(25);
-    fill(255);
-    runText(texts1);
-    textSize(20);
-    text("Press the space bar to continue", 400, 500);
-    if(keyPressed && key == ' '){
-      for(int i = 0; i<texts1.length;i++){
-        texts1[i].reset();
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450) {
+        stroke(67,0,255);
+        strokeWeight(10);
+        fill(67, 0, 255);
+        rectMode(CENTER);
+        rect(400, 400, 200, 100);
+        textSize(45);
+        fill(0);
+        text("Play!", 400, 412);
       }
-      screen = 2;
-    }
-  } else if (screen == 2) {
-    displayBackground();
-    noStroke();
-    textSize(60);
-    textAlign(CENTER);
-    text("Choose a difficulty:", 400, 150);
-    fill(0, 227, 255);
-    rect(400, 325, 200, 100);
-    fill(250,222, 3);
-    rect(400, 475, 200, 100);
-    fill(250,0,0);
-    rect(400,625,200,100);
-    fill(0);
-    textSize(20);
-    text("High Mass Star", 400, 310);
-    text("(Hard)", 400, 340);
-    if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
-      stroke(0,227,255);
-      strokeWeight(10);
+      if (mousePressed && mouseX >= 300 && mouseX <= 500 && mouseY >= 350 && mouseY <= 450) {
+        screen = 1;
+      }
+      break;
+      
+    case 1:
+      textTimer++;
+      displayBackground();
+      textAlign(CENTER);
+      textSize(25);
+      fill(255);
+      runText(texts1);
+      textSize(20);
+      text("Press the space bar to continue", 400, 500);
+      if(keyPressed && key == ' '){
+        for(int i = 0; i<texts1.length;i++){
+          texts1[i].reset();
+        }
+        screen = 2;
+      }
+      break;
+      
+    case 2:
+      displayBackground();
+      noStroke();
+      fill(255);
+      textSize(60);
+      textAlign(CENTER);
+      text("Choose a difficulty:", 400, 150);
       fill(0, 227, 255);
       rect(400, 325, 200, 100);
-      fill(0);
-      textSize(22);
-      text("High Mass Star", 400, 310);
-      text("(Hard)", 400, 340);
-      if (mousePressed == true) {
-        difficulty = 1;
-        pressure = 100;
-        cutsceneTimer = millis();
-        screen = 3;
-        initSim(aCount);
-        pressureRate = 0.125; //<>//
-        strength = 20;
-        skip = false; //<>//
-      } //<>//
-    }
-    textSize(20); //<>//
-    text("Medium Mass Star", 400, 460);
-    text("(Medium)", 400, 490);
-    if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-      stroke(250,222,3); //<>//
-      strokeWeight(10);
-      fill(250,222,3); //<>//
+      fill(250,222, 3);
       rect(400, 475, 200, 100);
-      fill(0); //<>//
-      textSize(22);
-      text("Medium Mass Star", 400, 460);
-      text("(Medium)", 400, 490);
-      if (mousePressed) {
-        difficulty = 0;
-        pressure = 100; //<>//
-        cutsceneTimer = millis();
-        screen = 3; //<>//
-        initSim(aCount); //<>//
-        pressureRate = 0.075; //<>//
-        strength = 20; //<>//
-        skip = false; //<>//
-      } //<>//
-    }
-    textSize(20);
-    text("Low Mass Star",400,610);
-    text("(Easy)",400,640);
-    if(mouseX >= 300 && mouseX <= 500 && mouseY >= 575 && mouseY <= 675){
-      stroke(250,0,0);
-      strokeWeight(10);
       fill(250,0,0);
       rect(400,625,200,100);
       fill(0);
-      textSize(22);
+      textSize(20);
+      text("High Mass Star", 400, 310);
+      text("(Hard)", 400, 340);
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
+        stroke(0,227,255);
+        strokeWeight(10);
+        fill(0, 227, 255);
+        rect(400, 325, 200, 100);
+        fill(0);
+        textSize(22); //<>//
+        text("High Mass Star", 400, 310);
+        text("(Hard)", 400, 340); //<>//
+        if (mousePressed == true) { //<>//
+          difficulty = 1;
+          pressure = 100; //<>//
+          cutsceneTimer = millis();
+          screen = 3;
+          initSim(aCount);
+          pressureRate = 0.125; //<>//
+          strength = 20;
+          skip = false; //<>//
+        }
+      } //<>//
+      textSize(20);
+      text("Medium Mass Star", 400, 460);
+      text("(Medium)", 400, 490);
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
+        stroke(250,222,3);
+        strokeWeight(10); //<>//
+        fill(250,222,3);
+        rect(400, 475, 200, 100); //<>//
+        fill(0); //<>//
+        textSize(22); //<>//
+        text("Medium Mass Star", 400, 460); //<>//
+        text("(Medium)", 400, 490); //<>//
+        if (mousePressed) { //<>//
+          difficulty = 0;
+          pressure = 100;
+          cutsceneTimer = millis();
+          screen = 3;
+          initSim(aCount);
+          pressureRate = 0.075;
+          strength = 20;
+          skip = false;
+        }
+      }
+      textSize(20);
       text("Low Mass Star",400,610);
       text("(Easy)",400,640);
-      if(mousePressed){
-        difficulty = -1;
-        pressure = 100;
-        cutsceneTimer = millis();
-        screen = 3;
-        initSim(aCount);
-        pressureRate = 0.05;
-        strength = 30;
-        skip = false;
-        aCount = 50;
+      if(mouseX >= 300 && mouseX <= 500 && mouseY >= 575 && mouseY <= 675){
+        stroke(250,0,0);
+        strokeWeight(10);
+        fill(250,0,0);
+        rect(400,625,200,100);
+        fill(0);
+        textSize(22);
+        text("Low Mass Star",400,610);
+        text("(Easy)",400,640);
+        if(mousePressed){
+          difficulty = -1;
+          pressure = 100;
+          cutsceneTimer = millis();
+          screen = 3;
+          initSim(aCount);
+          pressureRate = 0.05;
+          strength = 30;
+          skip = false;
+          aCount = 50;
+        }
       }
-    }
-  } else if (screen == 3) {
-    if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed
-      background(0);
-      fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
-      textSize(60);
+      break;
+      
+    case 3:
+      if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed
+        displayBackground();
+        fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
+        textSize(60);
+        textAlign(CENTER);
+        text("Main Sequence", 400, 400);
+        textSize(20);
+        text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
+        text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
+        textSize(20);
+        text("Press the space bar to skip",400,550);
+        if(keyPressed && key == ' '){
+          skip = true;
+        }
+      } else {
+        game();
+      }
+      break;
+      
+    case 4:
+      textTimer++;
+      displayBackground();
       textAlign(CENTER);
-      text("Main Sequence", 400, 400);
+      textSize(25);
+      fill(255);
+      runText(texts2);
+      if(texts2[texts2.length-1].checkDone()){
+        if(difficulty == 0){
+          runText(texts2Low);
+        } else if(difficulty == 1){
+          runText(texts2High);
+        }
+      }
       textSize(20);
-      text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
-      text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
-      textSize(20);
-      text("Press the space bar to skip",400,550);
+      text("Press space to continue",400,500);
       if(keyPressed && key == ' '){
         skip = true;
+        stage = 1;
+        pressure = 100;
+        screen = 3;
+        cutsceneTimer = millis();
+        strength = 30;
+        for(int i = 0; i<texts2.length;i++){
+          texts2[i].reset();
+        }
+        texts2Low[0].reset();
+        texts2High[0].reset();
       }
-    } else if(millis()-cutsceneTimer > 8000 || skip) {
-      game();
-    }
-  } else if(screen == 4){
-    textTimer++;
-    displayBackground();
-    textAlign(CENTER);
-    textSize(25);
-    fill(255);
-    runText(texts2);
-    if(texts2[texts2.length-1].checkDone()){
-      if(difficulty == 0){
-        runText(texts2Low);
-      } else if(difficulty == 1){
-        runText(texts2High);
-      }
-    }
-    textSize(20);
-    text("Press space to continue",400,500);
-    if(keyPressed && key == ' '){
-      skip = true;
-      stage = 1;
-      pressure = 100;
-      screen = 3;
-      cutsceneTimer = millis();
-      strength = 30;
-      for(int i = 0; i<texts2.length;i++){
-        texts2[i].reset();
-        texts2Low[1].reset();
-        texts2High[1].reset();
-      }
-    }
-  } else if(screen == 5){
-    if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
-      int shakeX;
-      int shakeY;
-      background(255,74,3);
-      fill(0);
-      textFont(hkFont);
-      textAlign(CENTER);
-      textSize(80);
-      shakeX = (int)random(-11,11);
-      shakeY = (int)random(-11,11);
-      text("Supernova",400+shakeX,400+shakeY);
-    } else {
-      skip = true;
-      screen = 3;
-      stage = 2;
-      pressureRate = 0;
-      textFont(font);
-    }
-  } else if(screen == 6){
-    if(millis()-cutsceneTimer <= 7000){
-      background(0);
-      fill(255);
-      textFont(hkFont);
-      textAlign(CENTER);
-      textSize(80);
-      text("Black Hole",400,400);
-      textSize(40);
-      textFont(font);
-      text("Your star collapsed into a point of infinite density.",400,450);
-      text("It has so much gravity, even light cannot escape.", 400, 500);
-      text("Press space to go back to the menu",400,550);
-      if((keyPressed && key == ' ') || (millis()-cutsceneTimer > 7000)){
-        screen = 0;
-        textTimer = 0;
-        stage = 0;
-        numBackgroundStars = 100;
-        backgroundStarX = new int[numBackgroundStars];
-        backgroundStarY = new int[numBackgroundStars];
-        initBackground();
+      break;
+      
+    case 5:
+      if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
+        int shakeX;
+        int shakeY;
+        background(255,74,3);
+        fill(0);
+        textFont(hkFont);
+        textAlign(CENTER);
+        textSize(80);
+        shakeX = (int)random(-11,11);
+        shakeY = (int)random(-11,11);
+        text("Supernova",400+shakeX,400+shakeY);
+      } else {
+        skip = true;
+        screen = 6;
+        pressureRate = 0;
         textFont(font);
-        skip = false;
-        cap = true;
-        
       }
-    }
+      break;
+      
+    case 6:
+      if(millis()-cutsceneTimer <= 7000){
+        background(0);
+        fill(255);
+        textFont(hkFont);
+        textAlign(CENTER);
+        textSize(80);
+        text("Black Hole",400,400);
+        textSize(40);
+        textFont(font);
+        text("Your star collapsed into a point of infinite density.",400,450);
+        text("It has so much gravity, even light cannot escape.", 400, 500);
+        text("Press space to go back to the menu",400,550);
+        if(keyPressed && key == ' '){
+          screen = 0;
+          textTimer = 0;
+          stage = 0;
+          skip = false;
+          cap = true;
+        }
+      } else {
+        background(lerpColor(color(255,74,3),color(0,0,0),(millis()-cutsceneTimer)/1000));
+        text("Supernova",400,400);
+      }
+      break;
   }
-}
-
-void keyPressed() {
-}
-
-void initBackground() {
-  for (int i = 0; i<numBackgroundStars; i++) {
-    backgroundStarX[i] = (int)random(0, 801);
-    backgroundStarY[i] = (int)random(0, 801);
-  }
+  println(screen);
 }
 
 void displayBackground() {
   background(0);
-  fill(255);
-  noStroke();
-  for (int i = 0; i<numBackgroundStars; i++) {
-    ellipse(backgroundStarX[i], backgroundStarY[i], 5, 5);
-  }
+  image(bg, 150,400);
 }
 
 void game() {
-  background(0);
+  displayBackground();
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
       if (a == b) {
