@@ -32,8 +32,8 @@ Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust an
 Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
-Text textsSupernova[] = {new Text("Iron builds in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a supernova",400,350)};
-
+Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
+Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of infinite density.",200,400), new Text("It has so much gravity, even light cannot escape.", 200, 450), new Text("The star collapses, but neutron degeneracy keeps", 600, 400), new Text("the star from contracting further", 600, 450)};
 
 void setup() {
   size(800, 800);
@@ -80,7 +80,7 @@ void draw() {
       break;
       
     case 1:
-      textTimer++;
+      
       displayBackground();
       textAlign(CENTER);
       textSize(25);
@@ -119,20 +119,20 @@ void draw() {
         fill(0, 227, 255);
         rect(400, 325, 200, 100);
         fill(0);
-        textSize(22); //<>//
+        textSize(22); //<>// //<>//
         text("High Mass Star", 400, 310);
-        text("(Hard)", 400, 340); //<>//
+        text("(Hard)", 400, 340); //<>// //<>//
         if (mousePressed == true) { //<>//
           difficulty = 1;
-          pressure = 100; //<>//
+          pressure = 100; //<>// //<>//
           cutsceneTimer = millis();
           screen = 3;
           initSim(aCount);
-          pressureRate = 0.125; //<>//
+          pressureRate = 0.125; //<>// //<>//
           strength = 20;
           skip = false; //<>//
         }
-      } //<>//
+      } //<>// //<>//
       textSize(20);
       text("Medium Mass Star", 400, 460);
       text("(Medium)", 400, 490);
@@ -140,12 +140,12 @@ void draw() {
         stroke(250,222,3);
         strokeWeight(10); //<>//
         fill(250,222,3);
-        rect(400, 475, 200, 100); //<>//
-        fill(0); //<>//
-        textSize(22); //<>//
-        text("Medium Mass Star", 400, 460); //<>//
-        text("(Medium)", 400, 490); //<>//
-        if (mousePressed) { //<>//
+        rect(400, 475, 200, 100);  //<>//
+        fill(0);  //<>//
+        textSize(22);  //<>//
+        text("Medium Mass Star", 400, 460);  //<>//
+        text("(Medium)", 400, 490);  //<>//
+        if (mousePressed) {  //<>//
           difficulty = 0;
           pressure = 100;
           cutsceneTimer = millis();
@@ -193,7 +193,7 @@ void draw() {
         text("Throw hydrogen atoms at each other to fuse them.", 400, 450);
         text("Don't let your pressure meter expire, or gravity will crush you!", 400, 500);
         textSize(20);
-        text("Press the space bar to skip",400,550);
+        text("Press the space bar to play",400,550);
         if(keyPressed && key == ' '){
           skip = true;
         }
@@ -203,7 +203,7 @@ void draw() {
       break;
       
     case 4:
-      textTimer++;
+      
       displayBackground();
       textAlign(CENTER);
       textSize(25);
@@ -234,33 +234,42 @@ void draw() {
       break;
       
     case 5:
-      if(millis()-cutsceneTimer <= 10000) { //last number is in milliseconds, change as needed
-        int shakeX;
-        int shakeY;
-        float intensity;
-        if(millis()-cutsceneTimer <= 2000){
-          intensity = 1.0;
-        } else if(millis()-cutsceneTimer <= 4000){
-          intensity = 0.5;
-        } else if(millis()-cutsceneTimer <= 6000){
-          intensity = 0.25;
+      skip = false;
+      if(!skip){
+        if(millis()-cutsceneTimer <= 25000 && millis()-cutsceneTimer >= 20000) { //last number is in milliseconds, change as needed
+          int shakeX;
+          int shakeY;
+          float intensity;
+          if(millis()-cutsceneTimer <= 20000){
+            intensity = 1.0;
+          } else if(millis()-cutsceneTimer <= 22000){
+            intensity = 0.5;
+          } else if(millis()-cutsceneTimer <= 24000){
+            intensity = 0.25;
+          } else {
+            intensity = 0;
+          }
+          background(255,74,3);
+          fill(0);
+          textFont(hkFont);
+          textAlign(CENTER);
+          textSize(80);
+          shakeX = (int)random(-11*intensity,11*intensity);
+          shakeY = (int)random(-11*intensity,11*intensity);
+          text("Supernova",400+shakeX,400+shakeY);
+        } else if (millis()-cutsceneTimer <= 20000){
+          background(255,74,3);
+          fill(0);
+          textFont(font);
+          textSize(20);
+          runText(textsSupernova);
+          if(keyPressed && key == ' '){skip = true;}
+          text("Press space to skip",400,550);
         } else {
-          intensity = 0;
-        }
-        background(255,74,3);
-        fill(0);
-        textFont(hkFont);
-        textAlign(CENTER);
-        textSize(80);
-        shakeX = (int)random(-11*intensity,11*intensity);
-        shakeY = (int)random(-11*intensity,11*intensity);
-        text("Supernova",400+shakeX,400+shakeY);
-        textFont(font);
-        textSize(40);
-        runText(textsSupernova);
-        text("Press space to continue",400, 400);
-        if(keyPressed && key == ' '){
-          stage = 3;
+          skip = true;
+          screen = 6;
+          pressureRate = 0;
+          textFont(font);
         }
       } else {
         skip = true;
@@ -272,16 +281,20 @@ void draw() {
       
     case 6:
       if(millis()-cutsceneTimer >= 7000){
-        background(0);
+        displayBackground();
         fill(255);
         textFont(hkFont);
         textAlign(CENTER);
-        textSize(80);
-        text("Black Hole",400,400);
         textSize(40);
+        if(textsHighEnd[0].textDone){
+          text("Black Hole",200,350);
+        }
+        if(textsHighEnd[2].textDone){
+          text("Neutron Star",600,350);
+        }
         textFont(font);
-        text("Your star collapsed into a point of infinite density.",400,450);
-        text("It has so much gravity, even light cannot escape.", 400, 500);
+        textSize(30);
+        runText(textsHighEnd);
         text("Press space to go back to the menu",400,550);
         if(keyPressed && key == ' '){
           screen = 0;
@@ -289,14 +302,30 @@ void draw() {
           stage = 0;
           skip = false;
           cap = true;
+          for(int i = 0; i < texts1.length; i++){
+            texts1[i].reset();
+          }
+          for(int i = 0; i < texts2.length; i++){
+            texts2[i].reset();
+          }
+          for(int i = 0; i < texts2Low.length; i++){
+            texts2Low[i].reset();
+          }
+          for(int i = 0; i < texts2High.length; i++){
+            texts2High[i].reset();
+          }
+          for(int i = 0; i < textsSupernova.length; i++){
+            textsSupernova[i].reset();
+          }
+          for(int i = 0; i < textsHighEnd.length; i++){
+            textsHighEnd[i].reset();
+          }
         }
-      } else {
-        background(lerpColor(color(255,74,3),color(0,0,0),(millis()-cutsceneTimer)/1000));
-        text("Supernova",400,400);
       }
       break;
   }
-  println(screen);
+  textTimer++;
+  textTimer = textTimer%100000000;
 }
 
 void displayBackground() {
@@ -306,6 +335,7 @@ void displayBackground() {
 
 void game() {
   displayBackground();
+  if(keyPressed && key == 'g'){pressureRate = 1;}
   for (int a = 0; a < aCount; a++) {
     for (int b = 0; b < aCount; b++) {
       if (a == b) {
@@ -466,9 +496,6 @@ void game() {
   if(pressure <= 20 && difficulty == 1 && stage == 1){
     //alert for low pressure idk supernova needs to be more dramatic
   }
-  println(pressure);
-  println(fuseable);
-  println(pressureRate);
   if(difficulty != -1 && !threshhold) {
     if(pressure <= 10 && (!fuseable.contains(Element.He) || difficulty == 1)){
       refill = false;
