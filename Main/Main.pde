@@ -17,7 +17,7 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 boolean threshhold = false;
-int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole
+int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole, 3 = neutron star
 
 boolean skip;
 boolean cap;
@@ -32,6 +32,8 @@ Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust an
 Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
+Text textsSupernova[] = {new Text("Iron builds in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a supernova",400,350)};
+
 
 void setup() {
   size(800, 800);
@@ -232,17 +234,34 @@ void draw() {
       break;
       
     case 5:
-      if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
+      if(millis()-cutsceneTimer <= 10000) { //last number is in milliseconds, change as needed
         int shakeX;
         int shakeY;
+        float intensity;
+        if(millis()-cutsceneTimer <= 2000){
+          intensity = 1.0;
+        } else if(millis()-cutsceneTimer <= 4000){
+          intensity = 0.5;
+        } else if(millis()-cutsceneTimer <= 6000){
+          intensity = 0.25;
+        } else {
+          intensity = 0;
+        }
         background(255,74,3);
         fill(0);
         textFont(hkFont);
         textAlign(CENTER);
         textSize(80);
-        shakeX = (int)random(-11,11);
-        shakeY = (int)random(-11,11);
+        shakeX = (int)random(-11*intensity,11*intensity);
+        shakeY = (int)random(-11*intensity,11*intensity);
         text("Supernova",400+shakeX,400+shakeY);
+        textFont(font);
+        textSize(40);
+        runText(textsSupernova);
+        text("Press space to continue",400, 400);
+        if(keyPressed && key == ' '){
+          stage = 3;
+        }
       } else {
         skip = true;
         screen = 6;
