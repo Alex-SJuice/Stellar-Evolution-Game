@@ -19,7 +19,9 @@ boolean refill = true;
 boolean threshhold = false;
 int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole, 3 = neutron star
 
-boolean skip;
+boolean skipMain;
+boolean skipSupernova;
+
 boolean cap;
 
 int textTimer;
@@ -32,8 +34,8 @@ Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust an
 Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
-Text textsSupernova[] = {new Text("Iron builds in the core of your star, making it harder for",400,250), new Text("your star to produce outward pressure with fusion.",400,300), new Text("Eventually, there is too little fusion to stop gravity",400,350), new Text("and the core collapses, creating a violent explosion known as a supernova",400,400)};
-
+Text textsSupernova[] = {new Text("Iron builds in the core of your star, making it harder for",400,250), new Text("your star to produce outward pressure with fusion.",400,300), new Text("Eventually, there is too little fusion to stop gravity and the core",400,350), new Text("collapses, creating a violent explosion known as a supernova",400,400)};
+Text textsNeutron[] = {new Text("this is the neutron star dialogue",400,200), new Text("i am too lazy to find out how neutron stars actually work",400,250)};
 
 void setup() {
   size(800, 800);
@@ -45,7 +47,8 @@ void setup() {
   font = createFont("Pixelon.otf", 16);
   hkFont = createFont("Perpetua.otf",16);
   textFont(font);
-  skip = false;
+  skipMain = false;
+  skipSupernova = false;
   cap = true;
 }
 
@@ -116,36 +119,36 @@ void draw() {
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
         stroke(0,227,255);
         strokeWeight(10);
-        fill(0, 227, 255);
+        fill(0, 227, 255); //<>//
         rect(400, 325, 200, 100);
-        fill(0);
+        fill(0); //<>//
         textSize(22);  //<>//
         text("High Mass Star", 400, 310);
         text("(Hard)", 400, 340);  //<>//
-        if (mousePressed == true) {  //<>//
+        if (mousePressed == true) { 
           difficulty = 1;
-          pressure = 100;  //<>//
-          cutsceneTimer = millis();
+          pressure = 100; 
+          cutsceneTimer = millis(); //<>//
           screen = 3;
-          initSim(aCount);
-          pressureRate = 0.125; //<>//
-          strength = 20;
-          skip = false; //<>//
+          initSim(aCount); //<>//
+          pressureRate = 0.125;
+          strength = 20; //<>//
+          skipMain = false;
         }
-      }  //<>//
+      } 
       textSize(20);
       text("Medium Mass Star", 400, 460);
-      text("(Medium)", 400, 490);
+      text("(Medium)", 400, 490); //<>//
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-        stroke(250,222,3);
+        stroke(250,222,3); //<>//
         strokeWeight(10);  //<>//
-        fill(250,222,3);
+        fill(250,222,3); //<>//
         rect(400, 475, 200, 100);  //<>//
         fill(0);  //<>//
         textSize(22);  //<>//
-        text("Medium Mass Star", 400, 460);  //<>//
-        text("(Medium)", 400, 490);  //<>//
-        if (mousePressed) {  //<>//
+        text("Medium Mass Star", 400, 460); 
+        text("(Medium)", 400, 490); 
+        if (mousePressed) { 
           difficulty = 0;
           pressure = 100;
           cutsceneTimer = millis();
@@ -153,7 +156,7 @@ void draw() {
           initSim(aCount);
           pressureRate = 0.075;
           strength = 20;
-          skip = false;
+          skipMain = false;
         }
       }
       textSize(20);
@@ -176,14 +179,14 @@ void draw() {
           initSim(aCount);
           pressureRate = 0.05;
           strength = 30;
-          skip = false;
+          skipMain = false;
           aCount = 50;
         }
       }
       break;
       
     case 3:
-      if(millis()-cutsceneTimer <= 8000 && !skip) { //last number is in milliseconds, change as needed
+      if(millis()-cutsceneTimer <= 8000 && !skipMain) { //last number is in milliseconds, change as needed
         displayBackground();
         fill(Math.min(255*8-(millis()-cutsceneTimer)*255/1000, 255));
         textSize(60);
@@ -195,7 +198,7 @@ void draw() {
         textSize(20);
         text("Press the space bar to skip",400,550);
         if(keyPressed && key == ' '){
-          skip = true;
+          skipMain = true;
         }
       } else {
         game();
@@ -219,7 +222,7 @@ void draw() {
       textSize(20);
       text("Press space to continue",400,500);
       if(keyPressed && key == ' '){
-        skip = true;
+        skipMain = true;
         stage = 1;
         pressure = 100;
         screen = 3;
@@ -234,18 +237,17 @@ void draw() {
       break;
       
     case 5:
-      if(millis()-cutsceneTimer <= 10000) { //last number is in milliseconds, change as needed
+      if(millis()-cutsceneTimer <= 35000 && !skipSupernova) { //last number is in milliseconds, change as needed
         int shakeX;
         int shakeY;
         float intensity;
-        textTimer++;
         if(millis()-cutsceneTimer <= 1000){
           intensity = 1.0;
         } else if(millis()-cutsceneTimer <= 2000){
           intensity = 0.75;
         } else if(millis()-cutsceneTimer <= 3000){
           intensity = 0.5;
-        } else if(millis()-cutsceneTimer <= 6000){
+        } else if(millis()-cutsceneTimer <= 8000){
           intensity = .25;
         } else {
           intensity = 0;
@@ -259,22 +261,23 @@ void draw() {
         shakeY = (int)random(-11*intensity,11*intensity);
         text("Supernova",400+shakeX,150+shakeY);
         textFont(font);
-        textSize(20);
-        runText(textsSupernova);
+        textSize(25);        
+        if(millis()-cutsceneTimer >= 3000){
+          textTimer++;
+          runText(textsSupernova);
+        }
         text("Press space to continue",400, 500);
         if(keyPressed && key == ' '){
-          stage = 3;
-          cutsceneTimer = millis();
-          skip = true;
-          stage = 3;
-          pressureRate = 0;
+          skipSupernova = true;
+          textTimer = 0;
         }
       } else {
-        skip = true;
-        stage = 3;
-        pressureRate = 0;
-        textFont(font);
-        cutsceneTimer = millis();
+        displayBackground();
+        textTimer++;
+        fill(255);
+        textSize(25);
+        textAlign(CENTER);
+        runText(textsNeutron);
       }
       break;
       
@@ -295,7 +298,7 @@ void draw() {
           screen = 0;
           textTimer = 0;
           stage = 0;
-          skip = false;
+          skipMain = false;
           cap = true;
         }
       }
