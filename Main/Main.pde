@@ -239,11 +239,11 @@ void draw() {
         int shakeY;
         float intensity;
         textTimer++;
-        if(millis()-cutsceneTimer <= 2000){
+        if(millis()-cutsceneTimer <= 1000){
           intensity = 1.0;
-        } else if(millis()-cutsceneTimer <= 3000){
+        } else if(millis()-cutsceneTimer <= 2000){
           intensity = 0.75;
-        } else if(millis()-cutsceneTimer <= 4000){
+        } else if(millis()-cutsceneTimer <= 3000){
           intensity = 0.5;
         } else if(millis()-cutsceneTimer <= 6000){
           intensity = .25;
@@ -265,12 +265,16 @@ void draw() {
         if(keyPressed && key == ' '){
           stage = 3;
           cutsceneTimer = millis();
+          skip = true;
+          stage = 3;
+          pressureRate = 0;
         }
       } else {
         skip = true;
-        screen = 6;
+        stage = 3;
         pressureRate = 0;
         textFont(font);
+        cutsceneTimer = millis();
       }
       break;
       
