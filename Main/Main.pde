@@ -32,7 +32,7 @@ Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust an
 Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
-Text textsSupernova[] = {new Text("Iron builds in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a supernova",400,350)};
+Text textsSupernova[] = {new Text("Iron builds in the core of your star, making it harder for",400,250), new Text("your star to produce outward pressure with fusion.",400,300), new Text("Eventually, there is too little fusion to stop gravity",400,350), new Text("and the core collapses, creating a violent explosion known as a supernova",400,400)};
 
 
 void setup() {
@@ -119,12 +119,12 @@ void draw() {
         fill(0, 227, 255);
         rect(400, 325, 200, 100);
         fill(0);
-        textSize(22); //<>//
+        textSize(22);  //<>//
         text("High Mass Star", 400, 310);
-        text("(Hard)", 400, 340); //<>//
-        if (mousePressed == true) { //<>//
+        text("(Hard)", 400, 340);  //<>//
+        if (mousePressed == true) {  //<>//
           difficulty = 1;
-          pressure = 100; //<>//
+          pressure = 100;  //<>//
           cutsceneTimer = millis();
           screen = 3;
           initSim(aCount);
@@ -132,20 +132,20 @@ void draw() {
           strength = 20;
           skip = false; //<>//
         }
-      } //<>//
+      }  //<>//
       textSize(20);
       text("Medium Mass Star", 400, 460);
       text("(Medium)", 400, 490);
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
         stroke(250,222,3);
-        strokeWeight(10); //<>//
+        strokeWeight(10);  //<>//
         fill(250,222,3);
-        rect(400, 475, 200, 100); //<>//
-        fill(0); //<>//
-        textSize(22); //<>//
-        text("Medium Mass Star", 400, 460); //<>//
-        text("(Medium)", 400, 490); //<>//
-        if (mousePressed) { //<>//
+        rect(400, 475, 200, 100);  //<>//
+        fill(0);  //<>//
+        textSize(22);  //<>//
+        text("Medium Mass Star", 400, 460);  //<>//
+        text("(Medium)", 400, 490);  //<>//
+        if (mousePressed) {  //<>//
           difficulty = 0;
           pressure = 100;
           cutsceneTimer = millis();
@@ -238,12 +238,15 @@ void draw() {
         int shakeX;
         int shakeY;
         float intensity;
+        textTimer++;
         if(millis()-cutsceneTimer <= 2000){
           intensity = 1.0;
+        } else if(millis()-cutsceneTimer <= 3000){
+          intensity = 0.75;
         } else if(millis()-cutsceneTimer <= 4000){
           intensity = 0.5;
         } else if(millis()-cutsceneTimer <= 6000){
-          intensity = 0.25;
+          intensity = .25;
         } else {
           intensity = 0;
         }
@@ -254,13 +257,14 @@ void draw() {
         textSize(80);
         shakeX = (int)random(-11*intensity,11*intensity);
         shakeY = (int)random(-11*intensity,11*intensity);
-        text("Supernova",400+shakeX,400+shakeY);
+        text("Supernova",400+shakeX,150+shakeY);
         textFont(font);
-        textSize(40);
+        textSize(20);
         runText(textsSupernova);
-        text("Press space to continue",400, 400);
+        text("Press space to continue",400, 500);
         if(keyPressed && key == ' '){
           stage = 3;
+          cutsceneTimer = millis();
         }
       } else {
         skip = true;
@@ -271,7 +275,7 @@ void draw() {
       break;
       
     case 6:
-      if(millis()-cutsceneTimer >= 7000){
+      if(millis()-cutsceneTimer <= 7000){
         background(0);
         fill(255);
         textFont(hkFont);
@@ -290,9 +294,6 @@ void draw() {
           skip = false;
           cap = true;
         }
-      } else {
-        background(lerpColor(color(255,74,3),color(0,0,0),(millis()-cutsceneTimer)/1000));
-        text("Supernova",400,400);
       }
       break;
   }
@@ -458,6 +459,7 @@ void game() {
           cutsceneTimer = millis();
         } else if(pressure > 2000){
             screen = 5;
+            textTimer = 0;
         }
       }
       break;
