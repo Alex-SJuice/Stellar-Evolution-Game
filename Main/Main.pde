@@ -271,7 +271,7 @@ void draw() {
       break;
       
     case 6:
-      if(millis()-cutsceneTimer <= 7000){
+      if(millis()-cutsceneTimer >= 7000){
         background(0);
         fill(255);
         textFont(hkFont);
