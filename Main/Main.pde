@@ -35,7 +35,7 @@ Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds in the core of your star, making it harder for",400,250), new Text("your star to produce outward pressure with fusion.",400,300), new Text("Eventually, there is too little fusion to stop gravity and the core",400,350), new Text("collapses, creating a violent explosion known as a supernova",400,400)};
-Text textsNeutron[] = {new Text("this is the neutron star dialogue",400,200), new Text("i am too lazy to find out how neutron stars actually work",400,250)};
+Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of infinite density.",200,400), new Text("It has so much gravity, even light cannot escape.", 200, 450), new Text ("even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
 
 void setup() {
   size(800, 800);
@@ -119,33 +119,33 @@ void draw() {
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
         stroke(0,227,255);
         strokeWeight(10);
-        fill(0, 227, 255); //<>//
+        fill(0, 227, 255); //<>// //<>//
         rect(400, 325, 200, 100);
-        fill(0); //<>//
-        textSize(22);  //<>//
+        fill(0); //<>// //<>//
+        textSize(22);  //<>// //<>//
         text("High Mass Star", 400, 310);
-        text("(Hard)", 400, 340);  //<>//
+        text("(Hard)", 400, 340);  //<>// //<>//
         if (mousePressed == true) { 
           difficulty = 1;
           pressure = 100; 
-          cutsceneTimer = millis(); //<>//
+          cutsceneTimer = millis(); //<>// //<>//
           screen = 3;
-          initSim(aCount); //<>//
+          initSim(aCount); //<>// //<>//
           pressureRate = 0.125;
-          strength = 20; //<>//
+          strength = 20; //<>// //<>//
           skipMain = false;
         }
       } 
       textSize(20);
       text("Medium Mass Star", 400, 460);
-      text("(Medium)", 400, 490); //<>//
+      text("(Medium)", 400, 490); //<>// //<>//
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-        stroke(250,222,3); //<>//
-        strokeWeight(10);  //<>//
-        fill(250,222,3); //<>//
-        rect(400, 475, 200, 100);  //<>//
-        fill(0);  //<>//
-        textSize(22);  //<>//
+        stroke(250,222,3); //<>// //<>//
+        strokeWeight(10);  //<>// //<>//
+        fill(250,222,3); //<>// //<>//
+        rect(400, 475, 200, 100);  //<>// //<>//
+        fill(0);  //<>// //<>//
+        textSize(22);  //<>// //<>//
         text("Medium Mass Star", 400, 460); 
         text("(Medium)", 400, 490); 
         if (mousePressed) { 
@@ -277,7 +277,7 @@ void draw() {
         fill(255);
         textSize(25);
         textAlign(CENTER);
-        runText(textsNeutron);
+        runText(textsHighEnd);
       }
       break;
       
@@ -303,6 +303,8 @@ void draw() {
         }
       }
       break;
+     
+      
   }
   println(screen);
 }
