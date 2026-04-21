@@ -35,7 +35,7 @@ Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
-Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of infinite density.",200,400), new Text("It has so much gravity, even light cannot escape.", 200, 450), new Text("The star collapses, but neutron degeneracy keeps", 600, 400), new Text("the star from contracting further", 600, 450)};
+Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
 
 void setup() {
   size(800, 800);
@@ -237,7 +237,7 @@ void draw() {
       break;
       
     case 5:
-      skip = false;
+      if(keyPressed && key == ' '){skip = true;}else{skip = false;}
       if(!skip){
         if(millis()-cutsceneTimer <= 25000 && millis()-cutsceneTimer >= 20000) { //last number is in milliseconds, change as needed
           int shakeX;
@@ -266,10 +266,8 @@ void draw() {
           textFont(font);
           textSize(20);
           runText(textsSupernova);
-          if(keyPressed && key == ' '){skip = true;}
-          text("Press space to skip",400,550);
-        } else {
-          skip = true;
+          text("Press space to skip",400,600);
+        } else{
           screen = 6;
           pressureRate = 0;
           textFont(font);
@@ -296,9 +294,9 @@ void draw() {
           text("Neutron Star",600,350);
         }
         textFont(font);
-        textSize(30);
+        textSize(20);
         runText(textsHighEnd);
-        text("Press space to go back to the menu",400,550);
+        text("Press space to go back to the menu",400,600);
         if(keyPressed && key == ' '){
           screen = 0;
           textTimer = 0;
@@ -491,6 +489,7 @@ void game() {
           cutsceneTimer = millis();
         } else if(pressure > 2000){
             screen = 5;
+            //skip = false;
             textTimer = 0;
         }
       }
