@@ -36,7 +36,7 @@ Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
 Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
-Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse,",400,200),new Text("",400,250)};
+Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse,",400,200),new Text("the core begins to fall apart. The outer layers",400,250), new Text("lift off to form a planetary nebula, and",400,300),new Text("left behind is the core itself, known as a white dwarf,",400,350),new Text("where electron degeneracy pressure keeps the dwarf from collapsing further",400,400),};
 
 void setup() {
   size(800, 800);
@@ -326,6 +326,16 @@ void draw() {
         }
       }
       break;
+      
+      case 7:
+      displayBackground();
+      textTimer++;
+      runText(textsMedDwarf);
+      text("Press space to continue",400,500);
+      if(keyPressed && key == ' '){
+        
+      }
+      break;
   }
   textTimer++;
   textTimer = textTimer%100000000;
@@ -478,8 +488,8 @@ void game() {
       break;
       case 0:
       if(stage == 1){
-        noLoop();
-        background(255,0,0); //same thing here go to next stage
+        screen = 7;
+        textTimer = 0;
       }
       break;
       case 1:
