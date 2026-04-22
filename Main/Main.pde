@@ -336,6 +336,8 @@ void displayBackground() {
 }
 
 void game() {
+  println(pressure);
+  println(stage);
   displayBackground();
   if(keyPressed && key == 'g'){pressureRate = 1;}
   for (int a = 0; a < aCount; a++) {
@@ -498,21 +500,18 @@ void game() {
       break;
     }
   }
-  if(pressure <= 20 && difficulty == 1 && stage == 1){
-    //alert for low pressure idk supernova needs to be more dramatic
-  }
   if(difficulty != -1 && !threshhold) {
-    if(pressure <= 10 && (!fuseable.contains(Element.He) || difficulty == 1)){
+    if(pressure <= 10 && stage == 0){
       refill = false;
       fuseable.add(Element.He);
-      threshhold = true;
       if(difficulty == 0){
         pressureRate = 0.05;
-      } else if(difficulty == 1 && stage == 0){
+      } else if(difficulty == 1){
         pressureRate = 0.06; //keeping it lower because we want them to get to iron
       }
       screen = 4;
-      stage++;
+      stage = 1;
+      threshhold = true;
     } else if(stage == 1 && pressure <= 70 && !fuseable.contains(Element.C)){
       fuseable.add(Element.C);
       threshhold = true;
