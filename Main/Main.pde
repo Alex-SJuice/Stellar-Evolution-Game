@@ -119,33 +119,33 @@ void draw() {
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
         stroke(0,227,255);
         strokeWeight(10);
-        fill(0, 227, 255); //<>// //<>//
+        fill(0, 227, 255); //<>// //<>// //<>// //<>//
         rect(400, 325, 200, 100);
-        fill(0); //<>// //<>//
-        textSize(22);  //<>// //<>//
+        fill(0); //<>// //<>// //<>// //<>//
+        textSize(22);  //<>// //<>// //<>// //<>//
         text("High Mass Star", 400, 310);
-        text("(Hard)", 400, 340);  //<>// //<>//
+        text("(Hard)", 400, 340);  //<>// //<>// //<>// //<>//
         if (mousePressed == true) { 
           difficulty = 1;
           pressure = 100; 
-          cutsceneTimer = millis(); //<>// //<>//
+          cutsceneTimer = millis(); //<>// //<>// //<>// //<>//
           screen = 3;
-          initSim(aCount); //<>// //<>//
+          initSim(aCount); //<>// //<>// //<>// //<>//
           pressureRate = 0.125;
-          strength = 20; //<>// //<>//
+          strength = 20; //<>// //<>// //<>// //<>//
           skip = false;
         }
       } 
       textSize(20);
       text("Medium Mass Star", 400, 460);
-      text("(Medium)", 400, 490); //<>// //<>//
+      text("(Medium)", 400, 490); //<>// //<>// //<>// //<>//
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-        stroke(250,222,3); //<>// //<>//
-        strokeWeight(10);  //<>// //<>//
-        fill(250,222,3); //<>// //<>//
-        rect(400, 475, 200, 100);  //<>// //<>//
-        fill(0);  //<>// //<>//
-        textSize(22);  //<>// //<>//
+        stroke(250,222,3); //<>// //<>// //<>// //<>//
+        strokeWeight(10);  //<>// //<>// //<>// //<>//
+        fill(250,222,3); //<>// //<>// //<>// //<>//
+        rect(400, 475, 200, 100);  //<>// //<>// //<>// //<>//
+        fill(0);  //<>// //<>// //<>// //<>//
+        textSize(22);  //<>// //<>// //<>// //<>//
         text("Medium Mass Star", 400, 460); 
         text("(Medium)", 400, 490); 
         if (mousePressed) { 
@@ -206,33 +206,34 @@ void draw() {
       break;
       
     case 4:
-      
-      displayBackground();
-      textAlign(CENTER);
-      textSize(25);
-      fill(255);
-      runText(texts2);
-      if(texts2[texts2.length-1].checkDone()){
-        if(difficulty == 0){
-          runText(texts2Low);
-        } else if(difficulty == 1){
-          runText(texts2High);
+      if(stage == 0){
+        displayBackground();
+        textAlign(CENTER);
+        textSize(25);
+        fill(255);
+        runText(texts2);
+        if(texts2[texts2.length-1].checkDone()){
+          if(difficulty == 0){
+            runText(texts2Low);
+          } else if(difficulty == 1){
+            runText(texts2High);
+          }
         }
-      }
-      textSize(20);
-      text("Press space to continue",400,500);
-      if(keyPressed && key == ' '){
-        skip = true;
-        stage = 1;
-        pressure = 100;
-        screen = 3;
-        cutsceneTimer = millis();
-        strength = 30;
-        for(int i = 0; i<texts2.length;i++){
-          texts2[i].reset();
+        textSize(20);
+        text("Press space to continue",400,500);
+        if(keyPressed && key == ' '){
+          skip = true;
+          stage = 1;
+          pressure = 100;
+          screen = 3;
+          cutsceneTimer = millis();
+          strength = 30;
+          for(int i = 0; i<texts2.length;i++){
+            texts2[i].reset();
+          }
+          texts2Low[0].reset();
+          texts2High[0].reset();
         }
-        texts2Low[0].reset();
-        texts2High[0].reset();
       }
       break;
       
@@ -489,6 +490,7 @@ void game() {
           cutsceneTimer = millis();
         } else if(pressure > 2000){
             screen = 5;
+            stage = 2;
             //skip = false;
             textTimer = 0;
         }
@@ -510,7 +512,6 @@ void game() {
         pressureRate = 0.06; //keeping it lower because we want them to get to iron
       }
       screen = 4;
-      stage++;
     } else if(stage == 1 && pressure <= 70 && !fuseable.contains(Element.C)){
       fuseable.add(Element.C);
       threshhold = true;
