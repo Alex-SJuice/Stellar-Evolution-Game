@@ -17,7 +17,7 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 boolean threshhold = false;
-int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole, 3 = neutron star
+int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole
 
 boolean skip;
 boolean skipSupernova;
@@ -36,6 +36,7 @@ Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
 Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
+Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse,",400,200),new Text("",400,250)};
 
 void setup() {
   size(800, 800);
@@ -118,34 +119,34 @@ void draw() {
       text("(Hard)", 400, 340);
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
         stroke(0,227,255);
-        strokeWeight(10);
-        fill(0, 227, 255); //<>// //<>// //<>// //<>// //<>//
-        rect(400, 325, 200, 100);
+        strokeWeight(10); //<>//
+        fill(0, 227, 255); //<>// //<>// //<>// //<>//
+        rect(400, 325, 200, 100); //<>//
         fill(0); //<>// //<>// //<>// //<>// //<>//
-        textSize(22);  //<>// //<>// //<>// //<>// //<>//
-        text("High Mass Star", 400, 310);
-        text("(Hard)", 400, 340);  //<>// //<>// //<>// //<>// //<>//
+        textSize(22);  //<>// //<>// //<>// //<>//
+        text("High Mass Star", 400, 310); //<>//
+        text("(Hard)", 400, 340);  //<>// //<>// //<>// //<>//
         if (mousePressed == true) { 
           difficulty = 1;
-          pressure = 100; 
-          cutsceneTimer = millis(); //<>// //<>// //<>// //<>// //<>//
-          screen = 3;
-          initSim(aCount); //<>// //<>// //<>// //<>// //<>//
-          pressureRate = 0.1;
-          strength = 20; //<>// //<>// //<>// //<>// //<>//
+          pressure = 100;  //<>//
+          cutsceneTimer = millis(); //<>// //<>// //<>// //<>//
+          screen = 3; //<>//
+          initSim(aCount); //<>// //<>// //<>// //<>//
+          pressureRate = 0.1; //<>//
+          strength = 20; //<>// //<>// //<>// //<>//
           skip = false;
         }
       } 
       textSize(20);
-      text("Medium Mass Star", 400, 460);
-      text("(Medium)", 400, 490); //<>// //<>// //<>// //<>// //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
+      text("Medium Mass Star", 400, 460); //<>//
+      text("(Medium)", 400, 490); //<>// //<>// //<>// //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) { //<>//
         stroke(250,222,3); //<>// //<>// //<>// //<>// //<>//
         strokeWeight(10);  //<>// //<>// //<>// //<>// //<>//
         fill(250,222,3); //<>// //<>// //<>// //<>// //<>//
         rect(400, 475, 200, 100);  //<>// //<>// //<>// //<>// //<>//
         fill(0);  //<>// //<>// //<>// //<>// //<>//
-        textSize(22);  //<>// //<>// //<>// //<>// //<>//
+        textSize(22);  //<>// //<>// //<>// //<>//
         text("Medium Mass Star", 400, 460); 
         text("(Medium)", 400, 490); 
         if (mousePressed) { 
@@ -370,19 +371,19 @@ void game() {
       break;
     case He:
       atoms.add(new Atom(Element.C, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 10;
+      pressure += 16;
       break;
     case C:
       atoms.add(new Atom(Element.Na, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 16;
+      pressure += 32;
       break;
     case Na:
       atoms.add(new Atom(Element.Si, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 32;
+      pressure += 64;
       break;
     case Si:
       atoms.add(new Atom(Element.Fe, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 64;
+      pressure += 80;
       break;
     default:
       break;
