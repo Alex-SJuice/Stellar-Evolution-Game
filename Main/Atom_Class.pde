@@ -151,6 +151,9 @@ class Atom {
     sum = pv(0,0);
     for(int p = 0; p < total; p++){
       particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos).mult(0.995);
+      if(e == Element.Fe){
+        particles[p].vel.add(particles[p].pos.copy().setMag(-calcDst(particles[p].pos,pv(0,0))/1000));
+      }
       sum.add(particles[p].vel.copy());
     }
     avgVel = sum.div(total);
