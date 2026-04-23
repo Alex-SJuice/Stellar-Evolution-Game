@@ -37,6 +37,8 @@ Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
 Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
 Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse, the core",400,200),new Text("begins to fall apart. The outer layers lift off",400,250), new Text("to form a planetary nebula. Left behind is the core,",400,300),new Text("known as a white dwarf. A process called electron",400,350),new Text("degeneracy pressure keeps the dwarf from collapsing further.",400,400),};
+Text textsBlueDwarf[] = {new Text("blue dwarf text goes here",400,200)};
+Text textsBlackDwarf[] = {new Text("black dwarf text goes here",400,200)};
 
 void setup() {
   size(800, 800);
@@ -117,33 +119,33 @@ void draw() {
       textSize(20);
       text("High Mass Star", 400, 310);
       text("(Hard)", 400, 340);
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) { //<>//
         stroke(0,227,255);
-        strokeWeight(10); //<>// //<>//
-        fill(0, 227, 255); //<>// //<>// //<>// //<>//
+        strokeWeight(10); //<>// //<>// //<>//
+        fill(0, 227, 255); //<>// //<>// //<>// //<>// //<>//
         rect(400, 325, 200, 100); //<>// //<>//
-        fill(0); //<>// //<>// //<>// //<>// //<>// //<>//
+        fill(0); //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         textSize(22);  //<>// //<>// //<>// //<>//
         text("High Mass Star", 400, 310); //<>// //<>//
         text("(Hard)", 400, 340);  //<>// //<>// //<>// //<>//
-        if (mousePressed == true) { 
+        if (mousePressed == true) {  //<>//
           difficulty = 1;
-          pressure = 100;  //<>// //<>//
+          pressure = 100;  //<>// //<>// //<>//
           cutsceneTimer = millis(); //<>// //<>// //<>// //<>//
-          screen = 3; //<>// //<>//
+          screen = 3; //<>// //<>// //<>//
           initSim(aCount); //<>// //<>// //<>// //<>//
           pressureRate = 0.1; //<>// //<>//
           strength = 20; //<>// //<>// //<>// //<>//
           skip = false;
         }
-      } 
+      }  //<>//
       textSize(20);
-      text("Medium Mass Star", 400, 460); //<>//
-      text("(Medium)", 400, 490); //<>// //<>// //<>// //<>// //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) { //<>//
-        stroke(250,222,3); //<>// //<>// //<>// //<>// //<>// //<>//
-        strokeWeight(10);  //<>// //<>// //<>// //<>// //<>// //<>//
-        fill(250,222,3); //<>// //<>// //<>// //<>// //<>// //<>//
+      text("Medium Mass Star", 400, 460); //<>// //<>//
+      text("(Medium)", 400, 490); //<>// //<>// //<>// //<>// //<>// //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) { //<>// //<>//
+        stroke(250,222,3); //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+        strokeWeight(10);  //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+        fill(250,222,3); //<>// //<>// //<>// //<>// //<>// //<>// //<>//
         rect(400, 475, 200, 100);  //<>// //<>// //<>// //<>// //<>// //<>//
         fill(0);  //<>// //<>// //<>// //<>// //<>// //<>//
         textSize(22);  //<>// //<>// //<>// //<>//
@@ -247,8 +249,7 @@ void draw() {
       
     case 5:
       if(keyPressed && key == ' '){skip = true;}else{skip = false;}
-      if(!skip){
-        if(millis()-cutsceneTimer <= 25000 && millis()-cutsceneTimer >= 20000) { //last number is in milliseconds, change as needed
+        if(millis()-cutsceneTimer <= 25000 && millis()-cutsceneTimer >= 20000 && !skip) { //last number is in milliseconds, change as needed
           int shakeX;
           int shakeY;
           float intensity;
@@ -269,28 +270,23 @@ void draw() {
           shakeX = (int)random(-11*intensity,11*intensity);
           shakeY = (int)random(-11*intensity,11*intensity);
           text("Supernova",400+shakeX,400+shakeY);
-        } else if (millis()-cutsceneTimer <= 20000){
+        } else if (millis()-cutsceneTimer <= 20000 && !skip){
           background(255,74,3);
           fill(0);
           textFont(font);
           textSize(20);
           runText(textsSupernova);
           text("Press space to skip",400,600);
-        } else{
+        } else if(skip || millis()-cutsceneTimer >= 25000){
           screen = 6;
           pressureRate = 0;
           textFont(font);
+          cutsceneTimer = millis();
+          skip = false;
         }
-      } else {
-        skip = true;
-        screen = 6;
-        pressureRate = 0;
-        textFont(font);
-      }
       break;
       
     case 6:
-      if(millis()-cutsceneTimer >= 7000){
         displayBackground();
         fill(255);
         textFont(hkFont);
@@ -306,7 +302,7 @@ void draw() {
         textSize(20);
         runText(textsHighEnd);
         text("Press space to go back to the menu",400,600);
-        if(keyPressed && key == ' '){
+        if(keyPressed && key == ' ' && millis()-cutsceneTimer >= 2){
           screen = 0;
           textTimer = 0;
           stage = 0;
@@ -333,8 +329,13 @@ void draw() {
           for(int i = 0; i < textsMedDwarf.length; i++){
             textsMedDwarf[i].reset();
           }
+          for(int i = 0; i<textsBlueDwarf.length;i++){
+            textsBlueDwarf[i].reset();
+          }
+          for(int i = 0; i<textsBlackDwarf.length;i++){
+            textsBlackDwarf[i].reset();
+          }
         }
-      }
       break;
       
       case 7:
@@ -346,8 +347,65 @@ void draw() {
       runText(textsMedDwarf);
       text("Press space to continue",400,500);
       if(keyPressed && key == ' '){
+        screen = 9;
+      }
+      break;
+      
+      case 8:
+      displayBackground();
+      textTimer++;
+      textAlign(CENTER);
+      textSize(25);
+      fill(255);
+      runText(textsBlueDwarf);
+      text("Press space to continue",400,500);
+      if(keyPressed && key == ' '){
         
       }
+      break;
+      
+      case 9:
+      displayBackground();
+      textTimer++;
+      textAlign(CENTER);
+      textSize(25);
+      fill(255);
+      runText(textsBlackDwarf);
+      text("Press space to go back to the menu",400,500);
+      if(keyPressed && key == ' '){
+                  screen = 0;
+          textTimer = 0;
+          stage = 0;
+          skip = false;
+          cap = true;
+          for(int i = 0; i < texts1.length; i++){
+            texts1[i].reset();
+          }
+          for(int i = 0; i < texts2.length; i++){
+            texts2[i].reset();
+          }
+          for(int i = 0; i < texts2Low.length; i++){
+            texts2Low[i].reset();
+          }
+          for(int i = 0; i < texts2High.length; i++){
+            texts2High[i].reset();
+          }
+          for(int i = 0; i < textsSupernova.length; i++){
+            textsSupernova[i].reset();
+          }
+          for(int i = 0; i < textsHighEnd.length; i++){
+            textsHighEnd[i].reset();
+          }
+          for(int i = 0; i < textsMedDwarf.length; i++){
+            textsMedDwarf[i].reset();
+          }
+          for(int i = 0; i<textsBlueDwarf.length;i++){
+            textsBlueDwarf[i].reset();
+          }
+          for(int i = 0; i<textsBlackDwarf.length;i++){
+            textsBlackDwarf[i].reset();
+          }
+      }      
       break;
   }
   textTimer++;
@@ -497,8 +555,7 @@ void game() {
       if(pressure <= -20 && pressure >= -40){
         cutsceneTimer = millis();
       } else if(pressure <= -40){
-        screen = 6;
-        stage = 2;
+        screen = 8;
       }
       break;
       case 0:
@@ -517,7 +574,7 @@ void game() {
         } else if(pressure > 2000){
             screen = 5;
             stage = 2;
-            //skip = false;
+            skip = false;
             textTimer = 0;
         }
       }
