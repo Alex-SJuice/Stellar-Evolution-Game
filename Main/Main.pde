@@ -515,7 +515,7 @@ void game() {
       break;
     }
   }
-  if(difficulty != -1 && !threshhold) {
+  if(difficulty != -1) {
     if(pressure <= 10 && (!fuseable.contains(Element.He) || difficulty == 1)){
       refill = false;
       fuseable.add(Element.He);
@@ -526,16 +526,12 @@ void game() {
         pressureRate = 0.06; //keeping it lower because we want them to get to iron
       }
       screen = 4;
-    } else if(stage == 1 && pressure <= 70 && !fuseable.contains(Element.C)){
-      fuseable.add(Element.C);
-      threshhold = true;
-    } else if(stage == 1 && pressure <= 50 && !fuseable.contains(Element.Na)){
-      fuseable.add(Element.Na);
-      threshhold = true;
-    } else if(stage == 1 && pressure <= 40 && !fuseable.contains(Element.Si)){
-      fuseable.add(Element.Si);
-      threshhold = true;
     }
+  }
+  if(difficulty == 1 && stage == 1){
+    fuseable.add(Element.C);
+    fuseable.add(Element.Na);
+    fuseable.add(Element.Si);
   }
   if(pressure > 40){
     threshhold = false;
