@@ -17,7 +17,7 @@ float pressure;
 float pressureRate;
 boolean refill = true;
 boolean threshhold = false;
-int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole, 3 = neutron star
+int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole
 
 boolean skip;
 boolean skipSupernova;
@@ -36,6 +36,7 @@ Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
 Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
+Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse, the core",400,200),new Text("begins to fall apart. The outer layers lift off",400,250), new Text("to form a planetary nebula. Left behind is the core,",400,300),new Text("known as a white dwarf. A process called electron",400,350),new Text("degeneracy pressure keeps the dwarf from collapsing further.",400,400),};
 
 void setup() {
   size(800, 800);
@@ -118,34 +119,34 @@ void draw() {
       text("(Hard)", 400, 340);
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {
         stroke(0,227,255);
-        strokeWeight(10);
-        fill(0, 227, 255); //<>// //<>// //<>// //<>// //<>//
-        rect(400, 325, 200, 100);
-        fill(0); //<>// //<>// //<>// //<>// //<>//
-        textSize(22);  //<>// //<>// //<>// //<>// //<>//
-        text("High Mass Star", 400, 310);
-        text("(Hard)", 400, 340);  //<>// //<>// //<>// //<>// //<>//
+        strokeWeight(10); //<>// //<>//
+        fill(0, 227, 255); //<>// //<>// //<>// //<>//
+        rect(400, 325, 200, 100); //<>// //<>//
+        fill(0); //<>// //<>// //<>// //<>// //<>// //<>//
+        textSize(22);  //<>// //<>// //<>// //<>//
+        text("High Mass Star", 400, 310); //<>// //<>//
+        text("(Hard)", 400, 340);  //<>// //<>// //<>// //<>//
         if (mousePressed == true) { 
           difficulty = 1;
-          pressure = 100; 
-          cutsceneTimer = millis(); //<>// //<>// //<>// //<>// //<>//
-          screen = 3;
-          initSim(aCount); //<>// //<>// //<>// //<>// //<>//
-          pressureRate = 0.125;
-          strength = 20; //<>// //<>// //<>// //<>// //<>//
+          pressure = 100;  //<>// //<>//
+          cutsceneTimer = millis(); //<>// //<>// //<>// //<>//
+          screen = 3; //<>// //<>//
+          initSim(aCount); //<>// //<>// //<>// //<>//
+          pressureRate = 0.1; //<>// //<>//
+          strength = 20; //<>// //<>// //<>// //<>//
           skip = false;
         }
       } 
       textSize(20);
-      text("Medium Mass Star", 400, 460);
+      text("Medium Mass Star", 400, 460); //<>//
       text("(Medium)", 400, 490); //<>// //<>// //<>// //<>// //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {
-        stroke(250,222,3); //<>// //<>// //<>// //<>// //<>//
-        strokeWeight(10);  //<>// //<>// //<>// //<>// //<>//
-        fill(250,222,3); //<>// //<>// //<>// //<>// //<>//
-        rect(400, 475, 200, 100);  //<>// //<>// //<>// //<>// //<>//
-        fill(0);  //<>// //<>// //<>// //<>// //<>//
-        textSize(22);  //<>// //<>// //<>// //<>// //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) { //<>//
+        stroke(250,222,3); //<>// //<>// //<>// //<>// //<>// //<>//
+        strokeWeight(10);  //<>// //<>// //<>// //<>// //<>// //<>//
+        fill(250,222,3); //<>// //<>// //<>// //<>// //<>// //<>//
+        rect(400, 475, 200, 100);  //<>// //<>// //<>// //<>// //<>// //<>//
+        fill(0);  //<>// //<>// //<>// //<>// //<>// //<>//
+        textSize(22);  //<>// //<>// //<>// //<>//
         text("Medium Mass Star", 400, 460); 
         text("(Medium)", 400, 490); 
         if (mousePressed) { 
@@ -329,7 +330,23 @@ void draw() {
           for(int i = 0; i < textsHighEnd.length; i++){
             textsHighEnd[i].reset();
           }
+          for(int i = 0; i < textsMedDwarf.length; i++){
+            textsMedDwarf[i].reset();
+          }
         }
+      }
+      break;
+      
+      case 7:
+      displayBackground();
+      textTimer++;
+      textAlign(CENTER);
+      textSize(25);
+      fill(255);
+      runText(textsMedDwarf);
+      text("Press space to continue",400,500);
+      if(keyPressed && key == ' '){
+        
       }
       break;
   }
@@ -377,19 +394,19 @@ void game() {
       break;
     case He:
       atoms.add(new Atom(Element.C, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 10;
+      pressure += 16;
       break;
     case C:
       atoms.add(new Atom(Element.Na, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 16;
+      pressure += 32;
       break;
     case Na:
       atoms.add(new Atom(Element.Si, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 32;
+      pressure += 64;
       break;
     case Si:
       atoms.add(new Atom(Element.Fe, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 64;
+      pressure += 80;
       break;
     default:
       break;
@@ -441,7 +458,7 @@ void game() {
     if(stage == 0){
       fill(3,206,255);
       ellipse(150,150,180,180);
-      fill(222,247,252);
+      fill(3,46,255);
     } else if(stage == 1){
       fill(255,0,0);
       ellipse(150,150,225,225);
@@ -484,8 +501,8 @@ void game() {
       break;
       case 0:
       if(stage == 1){
-        noLoop();
-        background(255,0,0); //same thing here go to next stage
+        screen = 7;
+        textTimer = 0;
       }
       break;
       case 1:
@@ -505,10 +522,7 @@ void game() {
       break;
     }
   }
-  if(pressure <= 20 && difficulty == 1 && stage == 1){
-    //alert for low pressure idk supernova needs to be more dramatic
-  }
-  if(difficulty != -1 && !threshhold) {
+  if(difficulty != -1) {
     if(pressure <= 10 && (!fuseable.contains(Element.He) || difficulty == 1)){
       refill = false;
       fuseable.add(Element.He);
@@ -519,16 +533,12 @@ void game() {
         pressureRate = 0.06; //keeping it lower because we want them to get to iron
       }
       screen = 4;
-    } else if(stage == 1 && pressure <= 70 && !fuseable.contains(Element.C)){
-      fuseable.add(Element.C);
-      threshhold = true;
-    } else if(stage == 1 && pressure <= 50 && !fuseable.contains(Element.Na)){
-      fuseable.add(Element.Na);
-      threshhold = true;
-    } else if(stage == 1 && pressure <= 40 && !fuseable.contains(Element.Si)){
-      fuseable.add(Element.Si);
-      threshhold = true;
     }
+  }
+  if(difficulty == 1 && stage == 1){
+    fuseable.add(Element.C);
+    fuseable.add(Element.Na);
+    fuseable.add(Element.Si);
   }
   if(pressure > 40){
     threshhold = false;
