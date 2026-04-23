@@ -360,6 +360,8 @@ void displayBackground() {
 }
 
 void game() {
+  println(pressure);
+  println(stage);
   displayBackground();
   if(keyPressed && key == 'g'){pressureRate = 1;}
   for (int a = 0; a < aCount; a++) {
@@ -510,7 +512,7 @@ void game() {
         pressureRate = -20;
         pressure -= pressureRate;
         cap = false;
-        if(pressure > 1950 && pressure < 2000){
+        if(pressure > 1900 && pressure < 2000){
           cutsceneTimer = millis();
         } else if(pressure > 2000){
             screen = 5;
@@ -523,7 +525,7 @@ void game() {
     }
   }
   if(difficulty != -1) {
-    if(pressure <= 10 && (!fuseable.contains(Element.He) || difficulty == 1)){
+    if(pressure <= 10 && (!fuseable.contains(Element.He))){
       refill = false;
       fuseable.add(Element.He);
       threshhold = true;
@@ -536,6 +538,7 @@ void game() {
     }
   }
   if(difficulty == 1 && stage == 1){
+    fuseable.add(Element.He);
     fuseable.add(Element.C);
     fuseable.add(Element.Na);
     fuseable.add(Element.Si);
@@ -543,7 +546,7 @@ void game() {
   if(pressure > 40){
     threshhold = false;
   }
-  if(pressure > 1950 && pressure < 2000 && difficulty == 1 && stage == 1){
+  if(pressure > 1950 && pressure < 2000 && difficulty == 1){
           cutsceneTimer = millis();
         } else if(pressure > 2000){
           if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
