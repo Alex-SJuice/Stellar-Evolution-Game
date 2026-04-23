@@ -36,7 +36,7 @@ Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
 Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
-Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse,",400,200),new Text("the core begins to fall apart. The outer layers",400,250), new Text("lift off to form a planetary nebula, and",400,300),new Text("left behind is the core itself, known as a white dwarf,",400,350),new Text("where electron degeneracy pressure keeps the dwarf from collapsing further",400,400),};
+Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse, the core",400,200),new Text("begins to fall apart. The outer layers lift off",400,250), new Text("to form a planetary nebula. Left behind is the core,",400,300),new Text("known as a white dwarf. A process called electron",400,350),new Text("degeneracy pressure keeps the dwarf from collapsing further.",400,400),};
 
 void setup() {
   size(800, 800);
@@ -323,6 +323,9 @@ void draw() {
           for(int i = 0; i < textsHighEnd.length; i++){
             textsHighEnd[i].reset();
           }
+          for(int i = 0; i < textsMedDwarf.length; i++){
+            textsMedDwarf[i].reset();
+          }
         }
       }
       break;
@@ -330,6 +333,9 @@ void draw() {
       case 7:
       displayBackground();
       textTimer++;
+      textAlign(CENTER);
+      textSize(25);
+      fill(255);
       runText(textsMedDwarf);
       text("Press space to continue",400,500);
       if(keyPressed && key == ' '){
@@ -508,9 +514,6 @@ void game() {
       }
       break;
     }
-  }
-  if(pressure <= 20 && difficulty == 1 && stage == 1){
-    //alert for low pressure idk supernova needs to be more dramatic
   }
   if(difficulty != -1 && !threshhold) {
     if(pressure <= 10 && (!fuseable.contains(Element.He) || difficulty == 1)){
