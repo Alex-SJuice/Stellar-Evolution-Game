@@ -285,11 +285,11 @@ void draw() {
           skip = false;
           skipMenu = false;
           screen = 6;
+          keyPressed = false;
         }
       break;
       
     case 6:
-    boolean canSkip;
             if(skipMenu){
           screen = 0;
           textTimer = 0;
@@ -339,13 +339,8 @@ void draw() {
         textFont(font);
         textSize(20);
         runText(textsHighEnd);
-        if(!keyPressed){
-          canSkip = true;
-        } else {
-          canSkip = false;
-        }
         text("Press space to go back to the menu",400,600);
-        if(keyPressed && key == ' ' && canSkip){
+        if(keyPressed && key == ' '){
           skipMenu = true;
         }
         }
@@ -475,11 +470,11 @@ void game() {
       break;
     case Na:
       atoms.add(new Atom(Element.Si, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 64;
+      pressure += 48;
       break;
     case Si:
       atoms.add(new Atom(Element.Fe, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
-      pressure += 80;
+      pressure += 60;
       break;
     default:
       break;
