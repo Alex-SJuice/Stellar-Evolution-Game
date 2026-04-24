@@ -325,25 +325,25 @@ void draw() {
             textsBlackDwarf[i].reset();
           }
          } else {
-        displayBackground();
-        fill(255);
-        textFont(hkFont);
-        textAlign(CENTER);
-        textSize(40);
-        if(textsHighEnd[0].textDone){
-          text("Black Hole",200,350);
-        }
-        if(textsHighEnd[2].textDone){
-          text("Neutron Star",600,350);
-        }
-        textFont(font);
-        textSize(20);
-        runText(textsHighEnd);
-        text("Press space to go back to the menu",400,600);
-        if(keyPressed && key == ' '){
-          skipMenu = true;
-        }
-        }
+           displayBackground();
+           fill(255);
+           textFont(hkFont);
+           textAlign(CENTER);
+           textSize(40);
+           if(textsHighEnd[0].textDone){
+             text("Black Hole",200,350);
+           }
+           if(textsHighEnd[3].textDone){
+             text("Neutron Star",600,350);
+           }
+           textFont(font);
+           textSize(20);
+           runText(textsHighEnd);
+           text("Press space to go back to the menu",400,600);
+           if(keyPressed && key == ' '){
+             skipMenu = true;
+           }
+         }
       break;
       
       case 7:
