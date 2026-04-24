@@ -20,7 +20,7 @@ boolean threshhold = false;
 int stage; //0 = main sequence, 1 = giants, 2 = supernova/black hole
 
 boolean skip;
-boolean skipSupernova;
+boolean skipMenu;
 
 boolean cap;
 
@@ -51,7 +51,7 @@ void setup() {
   hkFont = createFont("Perpetua.otf",16);
   textFont(font);
   skip = false;
-  skipSupernova = false;
+  skipMenu = false;
   cap = true;
 }
 
@@ -238,18 +238,18 @@ void draw() {
           texts2Low[0].reset();
           texts2High[0].reset();
           for(int i = 0; i < atoms.size(); i++){
-            if(i > atoms.size()/2){atoms.remove(i); i--;}
+            if(i > atoms.size()/1.5){atoms.remove(i); i--;}
             else {
               atoms.set(i, new Atom(Element.He, atoms.get(i).avgVel, atoms.get(i).avgPos, diameter));
             }
           }
-          aCount /= 2;
+          aCount /= 1.5;
         }
       }
       break;
       
     case 5:
-      if(keyPressed && key == ' '){skip = true;}else{skip = false;}
+        if(keyPressed && key == ' '){skip = true;}else{skip = false;}
         if(millis()-cutsceneTimer <= 25000 && millis()-cutsceneTimer >= 20000 && !skip) { //last number is in milliseconds, change as needed
           int shakeX;
           int shakeY;
@@ -279,36 +279,24 @@ void draw() {
           runText(textsSupernova);
           text("Press space to skip",400,600);
         } else if(skip || millis()-cutsceneTimer >= 25000){
-          screen = 6;
           pressureRate = 0;
           textFont(font);
           cutsceneTimer = millis();
           skip = false;
+          skipMenu = false;
+          screen = 6;
         }
       break;
       
     case 6:
-        displayBackground();
-        fill(255);
-        textFont(hkFont);
-        textAlign(CENTER);
-        textSize(40);
-        if(textsHighEnd[0].textDone){
-          text("Black Hole",200,350);
-        }
-        if(textsHighEnd[2].textDone){
-          text("Neutron Star",600,350);
-        }
-        textFont(font);
-        textSize(20);
-        runText(textsHighEnd);
-        text("Press space to go back to the menu",400,600);
-        if(keyPressed && key == ' ' && millis()-cutsceneTimer >= 2){
+    boolean canSkip;
+            if(skipMenu){
           screen = 0;
           textTimer = 0;
           stage = 0;
           skip = false;
           cap = true;
+          skipMenu = false;
           for(int i = 0; i < texts1.length; i++){
             texts1[i].reset();
           }
@@ -336,6 +324,30 @@ void draw() {
           for(int i = 0; i<textsBlackDwarf.length;i++){
             textsBlackDwarf[i].reset();
           }
+         } else {
+        displayBackground();
+        fill(255);
+        textFont(hkFont);
+        textAlign(CENTER);
+        textSize(40);
+        if(textsHighEnd[0].textDone){
+          text("Black Hole",200,350);
+        }
+        if(textsHighEnd[2].textDone){
+          text("Neutron Star",600,350);
+        }
+        textFont(font);
+        textSize(20);
+        runText(textsHighEnd);
+        if(!keyPressed){
+          canSkip = true;
+        } else {
+          canSkip = false;
+        }
+        text("Press space to go back to the menu",400,600);
+        if(keyPressed && key == ' ' && canSkip){
+          skipMenu = true;
+        }
         }
       break;
       
@@ -494,7 +506,7 @@ void game() {
       if(atoms.size() < aCount){
         atoms.add(new Atom(Element.H, pv(0,0), atoms.get(a).avgPos.copy().add(pv(random(-0.1,0.1),random(-0.1,0.1))), diameter));
         aCount++;
-      }  
+      }
     }
   }
   for (int a = 0; a < aCount; a++) {
@@ -570,13 +582,12 @@ void game() {
         pressureRate = -20;
         pressure -= pressureRate;
         cap = false;
-        if(pressure > 1900 && pressure < 2000){
-          cutsceneTimer = millis();
-        } else if(pressure > 2000){
+        if(pressure > 2000){
             screen = 5;
             stage = 2;
-            skip = false;
+            //skip = false;
             textTimer = 0;
+            cutsceneTimer = millis();
         }
       }
       break;
@@ -607,9 +618,7 @@ void game() {
   if(pressure > 1950 && pressure < 2000 && difficulty == 1){
           cutsceneTimer = millis();
         } else if(pressure > 2000){
-          if(millis()-cutsceneTimer <= 5000) { //last number is in milliseconds, change as needed
             screen = 5;
-          }
         }
 }
 
