@@ -8,6 +8,7 @@ PImage bg;
 int aCount = 100;
 float diameter = 20;
 float strength;
+float mouseMag;
 ArrayList<Atom> atoms;
 ArrayList<Integer> atomDestroy;
 ArrayList<PVector> atomMake;
@@ -136,6 +137,7 @@ void draw() {
           screen = 3;      
           initSim(aCount);            
           pressureRate = 0.1;      
+          mouseMag = 30;
           strength = 20;            
           skip = false;
         } //<>//
@@ -159,6 +161,7 @@ void draw() {
           screen = 3;
           initSim(aCount);
           pressureRate = 0.075;
+          mouseMag = 30;
           strength = 20;
           skip = false;
         }
@@ -180,11 +183,11 @@ void draw() {
           pressure = 100;
           cutsceneTimer = millis();
           screen = 3;
-          initSim(aCount);
+          initSim(50);
           pressureRate = 0.05;
-          strength = 30;
+          mouseMag = 30;
+          strength = 20;
           skip = false;
-          aCount = 50;
         }
       }
       break;
@@ -229,6 +232,7 @@ void draw() {
           skip = true;
           stage = 1;
           pressure = 100;
+          //mouseMag = 10;
           screen = 3;
           cutsceneTimer = millis();
           strength = 30;
@@ -459,6 +463,7 @@ void game() {
     case H:
       atoms.add(new Atom(Element.He, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
       pressure += 6;
+      println("hi");
       break;
     case He:
       atoms.add(new Atom(Element.C, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
@@ -491,7 +496,7 @@ void game() {
   }
 
   for (int a = 0; a < aCount; a++) {
-    if(atoms.get(a).update(refill)){
+    if(atoms.get(a).update(refill, mouseMag)){
       if(atoms.get(a).e == Element.C){
         atoms.remove(a);
         a--;
@@ -611,10 +616,10 @@ void game() {
     threshhold = false;
   }
   if(pressure > 1950 && pressure < 2000 && difficulty == 1){
-          cutsceneTimer = millis();
-        } else if(pressure > 2000){
-            screen = 5;
-        }
+    cutsceneTimer = millis();
+  } else if(pressure > 2000){
+    screen = 5;
+  }
 }
 
 void runText(Text[] tempTexts){
