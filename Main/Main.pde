@@ -119,33 +119,33 @@ void draw() {
       fill(250,222, 3);
       rect(400, 475, 200, 100);
       fill(250,0,0);
-      rect(400,625,200,100);
+      rect(400,625,200,100); //<>//
       fill(0);
-      textSize(20);
-      text("High Mass Star", 400, 310); //<>//
+      textSize(20); //<>//
+      text("High Mass Star", 400, 310); //<>// //<>//
       text("(Hard)", 400, 340); //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) { //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) { //<>// //<>//
         stroke(0,227,255); //<>// //<>//
         strokeWeight(10);       //<>//
         fill(0, 227, 255);             //<>//
-        rect(400, 325, 200, 100);       //<>//
+        rect(400, 325, 200, 100);       //<>// //<>//
         fill(0);                  
-        textSize(22);             
+        textSize(22);              //<>//
         text("High Mass Star", 400, 310);       //<>//
-        text("(Hard)", 400, 340);              //<>//
+        text("(Hard)", 400, 340);              //<>// //<>//
         if (mousePressed == true) {  //<>//
           difficulty = 1; //<>//
           pressure = 100;        //<>//
           cutsceneTimer = millis();             //<>//
           screen = 3;      
-          initSim(aCount);            
+          initSim(aCount);             //<>//
           pressureRate = 0.1;      
-          mouseMag = 30;
-          strength = 20;             //<>//
-          skip = false;
-        } //<>// //<>//
-      }  //<>//
-      textSize(20); //<>// //<>//
+          mouseMag = 30; //<>//
+          strength = 20;             //<>// //<>//
+          skip = false; //<>//
+        } //<>// //<>// //<>//
+      }  //<>// //<>//
+      textSize(20); //<>// //<>// //<>//
       text("Medium Mass Star", 400, 460);    //<>// //<>//
       text("(Medium)", 400, 490);                //<>// //<>//
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {    //<>// //<>//
@@ -364,6 +364,7 @@ void draw() {
       text("Press space to continue",400,500);
       if(keyPressed && key == ' '){
         screen = 9;
+        keyPressed = false;
       }
       break;
       
@@ -374,6 +375,9 @@ void draw() {
       textSize(25);
       fill(255);
       runText(texts2);
+      if(texts2[texts2.length -1].textDone){
+        runText(texts2small);
+      }
       text("Press space to continue",400,500);
       if(keyPressed && key == ' '){
         
