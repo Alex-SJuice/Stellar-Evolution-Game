@@ -304,6 +304,7 @@ void draw() {
           skip = false;
           cap = true;
           skipMenu = false;
+          aCount = 100;
           for(int i = 0; i < texts1.length; i++){
             texts1[i].reset();
           }
@@ -393,6 +394,7 @@ void draw() {
           stage = 0;
           skip = false;
           cap = true;
+          aCount = 100;
           for(int i = 0; i < texts1.length; i++){
             texts1[i].reset();
           }
