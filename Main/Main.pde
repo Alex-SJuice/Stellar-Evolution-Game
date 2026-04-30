@@ -31,15 +31,18 @@ int cutsceneTimer;
 PFont font;
 PFont hkFont;
 
-Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, gravitational heating", 400, 300), new Text("helped your star reach a temperature of 15 million", 400, 350), new Text("degrees Kelvin. Now fusion can begin.", 400, 400)};
-Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements.",400,300)};
+Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, compression", 400, 300), new Text("helped your star reach a temperature of 15 million", 400, 350), new Text("degrees Kelvin. Now fusion can begin.", 400, 400)};
+Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements like helium.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
+Text texts2small[] = {new Text("You are now a blue dwarf.",400,350)};
 Text texts2High[] = {new Text("You are now a red supergiant.",400,350)};
 Text textsSupernova[] = {new Text("Iron builds up in the core of your star, making it harder for",400,200), new Text("your star to produce outward pressure with fusion.",400,250), new Text("Eventually, there is too little fusion to stop gravity",400,300), new Text("and the core collapses, creating a violent explosion known as a ",400,350)};
 Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
-Text textsMedDwarf[] = {new Text("As your star runs out of elements to fuse, the core",400,200),new Text("begins to fall apart. The outer layers lift off",400,250), new Text("to form a planetary nebula. Left behind is the core,",400,300),new Text("known as a white dwarf. A process called electron",400,350),new Text("degeneracy pressure keeps the dwarf from collapsing further.",400,400),};
-Text textsBlueDwarf[] = {new Text("blue dwarf text goes here",400,200)};
-Text textsBlackDwarf[] = {new Text("black dwarf text goes here",400,200)};
+Text textsMedDwarf[] = {new Text("As your star keeps fusing heavier elements, the outer",400,200),new Text("layers get blown off to form a planetary nebula.",400,250)};
+//blue dwarf text is same as text2
+Text textsWhiteDwarf[] = {new Text("Eventually, the core runs out of fuel it can fuse.",400,300),new Text("What remains is known as a white dwarf.",400,350),new Text("Instead of fusion, electron degeneracy pressure",400,400),new Text("keeps the dwarf from collapsing further.",400,450)};
+//reuse white dwarf text for low and med
+Text textsBlackDwarf[] = {new Text("Without fusion, the white dwarf slowly cools down over trillions of years",400,200), new Text("until it stops emitting light entirely. It is now a black dwarf.",400,250)};
 
 void setup() {
   size(800, 800);
@@ -322,8 +325,8 @@ void draw() {
           for(int i = 0; i < textsMedDwarf.length; i++){
             textsMedDwarf[i].reset();
           }
-          for(int i = 0; i<textsBlueDwarf.length;i++){
-            textsBlueDwarf[i].reset();
+          for(int i = 0; i<textsWhiteDwarf.length;i++){
+            textsWhiteDwarf[i].reset();
           }
           for(int i = 0; i<textsBlackDwarf.length;i++){
             textsBlackDwarf[i].reset();
@@ -369,7 +372,7 @@ void draw() {
       textAlign(CENTER);
       textSize(25);
       fill(255);
-      runText(textsBlueDwarf);
+      runText(texts2);
       text("Press space to continue",400,500);
       if(keyPressed && key == ' '){
         
@@ -385,7 +388,7 @@ void draw() {
       runText(textsBlackDwarf);
       text("Press space to go back to the menu",400,500);
       if(keyPressed && key == ' '){
-                  screen = 0;
+          screen = 0;
           textTimer = 0;
           stage = 0;
           skip = false;
@@ -411,8 +414,8 @@ void draw() {
           for(int i = 0; i < textsMedDwarf.length; i++){
             textsMedDwarf[i].reset();
           }
-          for(int i = 0; i<textsBlueDwarf.length;i++){
-            textsBlueDwarf[i].reset();
+          for(int i = 0; i<textsWhiteDwarf.length;i++){
+            textsWhiteDwarf[i].reset();
           }
           for(int i = 0; i<textsBlackDwarf.length;i++){
             textsBlackDwarf[i].reset();
