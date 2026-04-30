@@ -301,6 +301,7 @@ void draw() {
           skip = false;
           cap = true;
           skipMenu = false;
+          aCount = 100;
           for(int i = 0; i < texts1.length; i++){
             texts1[i].reset();
           }
@@ -385,11 +386,12 @@ void draw() {
       runText(textsBlackDwarf);
       text("Press space to go back to the menu",400,500);
       if(keyPressed && key == ' '){
-                  screen = 0;
+          screen = 0;
           textTimer = 0;
           stage = 0;
           skip = false;
           cap = true;
+          aCount = 100;
           for(int i = 0; i < texts1.length; i++){
             texts1[i].reset();
           }
