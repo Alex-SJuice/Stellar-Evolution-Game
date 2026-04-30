@@ -79,6 +79,7 @@ class Atom {
   }
   
   public boolean collision(Atom other, float strength) {
+    if(grabbed != -1) return false;
     if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
     if(!(this.avgPos.x >= -width/2 && this.avgPos.x <= width/2 && this.avgPos.y >= -height/2 && this.avgPos.y <= height/2 && other.avgPos.x >= -width/2 && other.avgPos.x <= width/2 && other.avgPos.y >= -height/2 && other.avgPos.y <= height/2)){
       return false;}
@@ -151,9 +152,7 @@ class Atom {
     sum = pv(0,0);
     for(int p = 0; p < total; p++){
       particles[p].vel = particles[p].pos.copy().sub(particles[p].prevPos).mult(0.995);
-      if(e == Element.Fe){
-        particles[p].vel.add(particles[p].pos.copy().setMag(-calcDst(particles[p].pos,pv(0,0))/1000));
-      }
+      particles[p].vel.add(particles[p].pos.copy().setMag(-calcDst(particles[p].pos,pv(0,0))/100000));
       sum.add(particles[p].vel.copy());
     }
     avgVel = sum.div(total);
@@ -210,9 +209,10 @@ class Atom {
         }
       }
       for(int p = 0; p < total; p++){
-        if(particles[p].pos.x > width/2||particles[p].pos.x < -width/2||particles[p].pos.y > height/2||particles[p].pos.y < -height/2 ) {
-          particles[p].vel.sub(particles[p].pos.copy().setMag(0.1));
-        }
+        //if(particles[p].pos.x > width/2||particles[p].pos.x < -width/2||particles[p].pos.y > height/2||particles[p].pos.y < -height/2 ) {
+        //  particles[p].vel.sub(particles[p].pos.copy().setMag(0.1));
+        //}
+        if(particles[p].vel.mag() >= 100) particles[p].vel.setMag(30);
       }
     
     if(Float.isNaN(avgPos.x) || Float.isNaN(avgPos.y) || Float.isNaN(avgPos.z)){
