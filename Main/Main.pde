@@ -282,7 +282,7 @@ void draw() {
           background(255,74,3);
           fill(0);
           textFont(font);
-          textSize(20);
+          textSize(25);
           runText(textsSupernova);
           text("Press space to skip",400,600);
         } else if(skip || millis()-cutsceneTimer >= 25000){
@@ -651,4 +651,3 @@ void runText(Text[] tempTexts){
     }
   }
 }
-//e
