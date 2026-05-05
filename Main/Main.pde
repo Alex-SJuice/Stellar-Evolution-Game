@@ -540,7 +540,7 @@ void game() {
       stroke(255,255,0);
       fill(255,255,0);      
       ellipse(150, 150, 200,200);
-      fill(250,233,194);      
+      fill(245,242,215);      
     } else if(stage == 1){
       stroke(255,0,0);
       fill(255,0,0);
@@ -557,7 +557,7 @@ void game() {
     } else if(stage == 1){
       fill(255,0,0);
       ellipse(150,150,225,225);
-      fill(255,74,3);
+      fill(252,166,0);
     }
     noStroke();
     ellipse(150, 150, (pressure/100)*180,(pressure/100)*180);
