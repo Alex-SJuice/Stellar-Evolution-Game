@@ -162,12 +162,12 @@ class Atom {
       if(p == grabbed){
         if(!mousePressed){
           grabbed = -1;
-          //PVector prevAvgPos = avgPos.copy();
-          //avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy()));
+          PVector prevAvgPos = avgPos.copy();
+          avgPos = mouse.copy().sub(particles[p].pos.copy().sub(prevAvgPos.copy()));
           avgVel.add(mouse.copy().sub(particles[p].pos.copy()).mult(0.5));
           
           for(int i = 0; i < total; i++){
-            //particles[i].pos = avgPos.copy().add(particles[i].pos.copy().sub(prevAvgPos.copy()));
+            particles[i].pos = avgPos.copy().add(particles[i].pos.copy().sub(prevAvgPos.copy()));
             particles[i].vel = avgVel.copy().add(pv(0.1,0.1).setHeading(random(2*PI))).setMag(mouseMag);
           }
         } else {
