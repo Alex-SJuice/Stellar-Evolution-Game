@@ -450,6 +450,7 @@ void displayBackground() {
 void game() {
   println(pressure);
   println(stage);
+  println(pressureRate);
   displayBackground();
   if(keyPressed && key == 'g'){pressureRate = 1;}
   for (int a = 0; a < aCount; a++) {
@@ -617,9 +618,9 @@ void game() {
       fuseable.add(Element.He);
       threshhold = true;
       if(difficulty == 0){
-        pressureRate = 0.05;
+        pressureRate = 0.09;
       } else if(difficulty == 1 && stage == 0){
-        pressureRate = 0.06; //keeping it lower because we want them to get to iron
+        pressureRate = 0.06;
       }
       screen = 4;
     }
