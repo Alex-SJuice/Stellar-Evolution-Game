@@ -79,7 +79,7 @@ class Atom {
   }
   
   public boolean collision(Atom other, float strength) {
-    if(grabbed != -1) return false;
+    if(grabbed != -1 || other.grabbed != -1) return false;
     if(calcDst(other.avgPos,this.avgPos) > (other.diameter*other.total + this.diameter*this.total)/2.0){return false;}
     if(!(this.avgPos.x >= -width/2 && this.avgPos.x <= width/2 && this.avgPos.y >= -height/2 && this.avgPos.y <= height/2 && other.avgPos.x >= -width/2 && other.avgPos.x <= width/2 && other.avgPos.y >= -height/2 && other.avgPos.y <= height/2)){
       return false;}
@@ -224,6 +224,14 @@ class Atom {
         particles[i].vel = avgVel.copy();
         particles[i].prevPos = p.copy();
       }
+    }
+    switch(total) {
+      case 1: this.e = Element.H;break;
+      case 4: this.e = Element.He;break;
+      case 12: this.e = Element.C;break;
+      case 22: this.e = Element.Na;break;
+      case 28: this.e = Element.Si;break;
+      case 52: this.e = Element.Fe;break;
     }
     return make;
   }

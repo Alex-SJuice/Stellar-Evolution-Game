@@ -5,6 +5,7 @@ int screen;
 int difficulty; //-1 low, 0 medium, 1 = high mass
 
 PImage bg;
+PImage cyclepic;
 int aCount = 100;
 float diameter = 20;
 float strength;
@@ -31,7 +32,7 @@ int cutsceneTimer;
 PFont font;
 PFont hkFont;
 
-Text texts1[] = {new Text("Your star began in a nebula, where a cloud of dust and gas", 400, 200), new Text("was squeezed together by density compressional waves", 400, 250), new Text("to form a protostar. Over time, compression", 400, 300), new Text("helped your star reach a temperature of 15 million", 400, 350), new Text("degrees Kelvin. Now fusion can begin.", 400, 400)};
+Text texts1[] = {new Text("Your star begins in a nebula, where a cloud of dust and gas", 400, 200), new Text("is squeezed together to form a protostar.", 400, 250), new Text("Over time, gravity helps your star grow and", 400, 300), new Text("reach a temperature of 15 million degrees Kelvin.", 400, 350), new Text("Now fusion can begin.", 400, 400)};
 Text texts2[] = {new Text("As your star runs out of hydrogen,",400,200),new Text("the radiation pressure drops. Gravity crushes the core,",400,250),new Text("making it hot enough to fuse heavier elements like helium.",400,300)};
 Text texts2Low[] = {new Text("You are now a red giant.",400,350)};
 Text texts2small[] = {new Text("You are now a blue dwarf.",400,350)};
@@ -40,13 +41,14 @@ Text textsSupernova[] = {new Text("Iron builds up in the core of your star, maki
 Text textsHighEnd[] = {new Text("There are two fates of a high mass star:    ",400, 200), new Text("The star collapses into a point of",200,400), new Text("infinite density. It has so much", 200, 450), new Text ("gravity, even light cannot escape.", 200, 500), new Text("The star collapses, but neutron", 600, 400), new Text("degeneracy pressure keeps the", 600, 450), new Text("star from contracting further", 600, 500)};
 //blue dwarf text is same as text2
 Text textsWhiteDwarf[] = {new Text("Eventually, your star runs out of fuel to fuse. The outer",400,200), new Text("layers of the star are blown off to form a planetary nebula",400,250),new Text("The white hot core that remains is known as a white dwarf.",400,300),new Text("Instead of fusion, electron degeneracy pressure",400,350),new Text("keeps the dwarf from collapsing further.",400,400)};
-Text textsBlueToWhiteDwarf[] = {new Text("This is a transitional text",400,200), new Text("Blue dwarf go into white dwarf",400,250), new Text("talk about white dwarf too",400,300)};
+Text textsBlueToWhiteDwarf[] = {new Text("However, low mass stars are so small,",400,250), new Text("they cannot go much further than helium.",400, 300), new Text("Some very small stars can't even fuse helium.", 400, 350), new Text("The star runs out of fuel quickly, becoming a white dwarf",400,400)};
 //reuse white dwarf text for low and med
 Text textsBlackDwarf[] = {new Text("Without fusion, the white dwarf slowly cools down over",400,200), new Text("trillions of years, until it stops emitting light entirely.",400,250), new Text("It is now a black dwarf.",400,300)};
 
 void setup() {
   size(800, 800);
   bg = loadImage("bg1.png");
+  cyclepic = loadImage("Star_life_cycles_red_dwarf_en.png");
   imageMode(CENTER);
   screen = 0;
   textTimer = 0;
@@ -88,6 +90,10 @@ void draw() {
           screen = 1;
         }
       }
+      image(cyclepic, 400, 600, 350, 200);
+      fill(255);
+      textSize(10);
+      text("cool picture that I found but couldn't think of a place to put it", 400, 750);
       break;
       
     case 1:
@@ -140,7 +146,7 @@ void draw() {
           screen = 3;      
           initSim(aCount);             //<>//
           pressureRate = 0.1;      
-          mouseMag = 30; //<>//
+          mouseMag = 50; //<>//
           strength = 20;             //<>// //<>//
           skip = false; //<>//
         } //<>// //<>// //<>//
@@ -164,7 +170,7 @@ void draw() {
           screen = 3;
           initSim(aCount);
           pressureRate = 0.075;
-          mouseMag = 30;
+          mouseMag = 50;
           strength = 20;
           skip = false;
         }
@@ -188,7 +194,7 @@ void draw() {
           screen = 3;
           initSim(50);
           pressureRate = 0.05;
-          mouseMag = 30;
+          mouseMag = 50;
           strength = 20;
           skip = false;
         }
@@ -235,7 +241,7 @@ void draw() {
           skip = true;
           stage = 1;
           pressure = 100;
-          //mouseMag = 10;
+          mouseMag = 70;
           screen = 3;
           cutsceneTimer = millis();
           strength = 30;
@@ -481,7 +487,6 @@ void game() {
     case H:
       atoms.add(new Atom(Element.He, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
       pressure += 6;
-      println("hi");
       break;
     case He:
       atoms.add(new Atom(Element.C, pv(0, 0), a.avgPos.copy().add(b.avgPos.copy()).div(2), diameter));
