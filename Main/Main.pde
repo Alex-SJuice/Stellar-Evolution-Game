@@ -456,6 +456,7 @@ void displayBackground() {
 void game() {
   println(pressure);
   println(stage);
+  println(pressureRate);
   displayBackground();
   if(keyPressed && key == 'g'){pressureRate = 1;}
   for (int a = 0; a < aCount; a++) {
@@ -545,7 +546,7 @@ void game() {
       stroke(255,255,0);
       fill(255,255,0);      
       ellipse(150, 150, 200,200);
-      fill(250,233,194);      
+      fill(245,242,215);      
     } else if(stage == 1){
       stroke(255,0,0);
       fill(255,0,0);
@@ -562,7 +563,7 @@ void game() {
     } else if(stage == 1){
       fill(255,0,0);
       ellipse(150,150,225,225);
-      fill(255,74,3);
+      fill(252,166,0);
     }
     noStroke();
     ellipse(150, 150, (pressure/100)*180,(pressure/100)*180);
@@ -622,9 +623,9 @@ void game() {
       fuseable.add(Element.He);
       threshhold = true;
       if(difficulty == 0){
-        pressureRate = 0.05;
+        pressureRate = 0.09;
       } else if(difficulty == 1 && stage == 0){
-        pressureRate = 0.06; //keeping it lower because we want them to get to iron
+        pressureRate = 0.06;
       }
       screen = 4;
     }
