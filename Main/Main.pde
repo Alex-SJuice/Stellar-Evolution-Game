@@ -122,9 +122,10 @@ void draw() {
       rect(400, 325, 200, 100);
       fill(250,222, 3);   
       rect(400, 475, 200, 100);
-      rect(400,625,200,100);    
-      fill(0);     //<>//
-      textSize(20);     
+      fill(250,0,0);
+      rect(400,625,200,100);     //<>//
+      fill(0);    
+      textSize(20);      //<>//
       text("High Mass Star", 400, 330);    //<>//
       if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {       //<>//
         stroke(0,227,255);       //<>//
@@ -157,7 +158,7 @@ void draw() {
         textSize(22);               //<>//
         text("Medium Mass Star", 400, 480);   //<>//
         if (mousePressed) {  //<>//
-          difficulty = 0; //<>//
+          difficulty = 0;
           pressure = 100;
           cutsceneTimer = millis();
           screen = 3;
