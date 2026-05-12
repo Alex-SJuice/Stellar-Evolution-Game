@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 
 int screen;
@@ -121,49 +120,44 @@ void draw() {
       text("Choose a difficulty:", 400, 150);
       fill(0, 227, 255);
       rect(400, 325, 200, 100);
-      fill(250,222, 3);   //<>//
+      fill(250,222, 3);   
       rect(400, 475, 200, 100);
-      fill(250,0,0);   //<>//
-      rect(400,625,200,100);    //<>//
-      fill(0);   //<>//
-      textSize(20);    //<>//
-      text("High Mass Star", 400, 310);     //<>//
-      text("(Hard)", 400, 340);    //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {     //<>//
-        stroke(0,227,255);     //<>//
-        strokeWeight(10);         //<>//
-        fill(0, 227, 255);                //<>//
-        rect(400, 325, 200, 100);           //<>//
+      rect(400,625,200,100);    
+      fill(0);     //<>//
+      textSize(20);     
+      text("High Mass Star", 400, 330);    //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {       //<>//
+        stroke(0,227,255);       //<>//
+        strokeWeight(10);           //<>//
+        fill(0, 227, 255);                  //<>//
+        rect(400, 325, 200, 100);             //<>//
+        fill(0);                       //<>//
+        textSize(22);                   //<>//
+        text("High Mass Star", 400, 330);                 //<>//
+        if (mousePressed == true) {       //<>//
+          difficulty = 1;     //<>//
+          pressure = 100;             //<>//
+          cutsceneTimer = millis();                 //<>//
+          screen = 3;           //<>//
+          initSim(aCount);                  //<>//
+          pressureRate = 0.07;           //<>//
+          mouseMag = 50;      //<>//
+          strength = 20;                   //<>//
+          skip = false;      //<>//
+        }     //<>//
+      }        //<>//
+      textSize(20);        //<>//
+      text("Medium Mass Star", 400, 480);                        //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {         //<>//
+        stroke(250,222,3);                       //<>//
+        strokeWeight(10);  //<>//
+        fill(250,222,3);                    //<>//
+        rect(400, 475, 200, 100);                     //<>//
         fill(0);                     //<>//
-        textSize(22);                 //<>//
-        text("High Mass Star", 400, 310);          //<>//
-        text("(Hard)", 400, 340);                  //<>//
-        if (mousePressed == true) {     //<>//
-          difficulty = 1;   //<>//
-          pressure = 100;           //<>//
-          cutsceneTimer = millis();               //<>//
-          screen = 3;         //<>//
-          initSim(aCount);                //<>//
-          pressureRate = 0.07;         //<>//
-          mouseMag = 50;    //<>//
-          strength = 20;                 //<>//
-          skip = false;    //<>//
-        }   //<>//
-      }      //<>//
-      textSize(20);      //<>//
-      text("Medium Mass Star", 400, 460);        //<>//
-      text("(Medium)", 400, 490);                    //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {       //<>//
-        stroke(250,222,3);                     //<>//
-        strokeWeight(10);                      //<>//
-        fill(250,222,3);                  
-        rect(400, 475, 200, 100);                   
-        fill(0);                   
-        textSize(22);             
-        text("Medium Mass Star", 400, 460); 
-        text("(Medium)", 400, 490); 
-        if (mousePressed) { 
-          difficulty = 0;
+        textSize(22);               //<>//
+        text("Medium Mass Star", 400, 480);   //<>//
+        if (mousePressed) {  //<>//
+          difficulty = 0; //<>//
           pressure = 100;
           cutsceneTimer = millis();
           screen = 3;
@@ -175,8 +169,7 @@ void draw() {
         }
       }
       textSize(20);
-      text("Low Mass Star",400,610);
-      text("(Easy)",400,640);
+      text("Low Mass Star",400,630);
       if(mouseX >= 300 && mouseX <= 500 && mouseY >= 575 && mouseY <= 675){
         stroke(250,0,0);
         strokeWeight(10);
@@ -184,8 +177,7 @@ void draw() {
         rect(400,625,200,100);
         fill(0);
         textSize(22);
-        text("Low Mass Star",400,610);
-        text("(Easy)",400,640);
+        text("Low Mass Star",400,630);
         if(mousePressed){
           difficulty = -1;
           pressure = 100;
