@@ -93,10 +93,6 @@ void draw() {
         }
       }
       image(cyclepic, 400, 600, 350, 200);
-      fill(255);
-      textSize(15);
-      text("Made by Anton Qin", 400, 745);
-      text("and Alex Park", 400, 760);
       break;
       
     case 1:
@@ -125,41 +121,41 @@ void draw() {
       text("Choose a difficulty:", 400, 150);
       fill(0, 227, 255);
       rect(400, 325, 200, 100);
-      fill(250,222, 3); //<>//
+      fill(250,222, 3); //<>// //<>//
       rect(400, 475, 200, 100);
-      fill(250,0,0); //<>//
-      rect(400,625,200,100);  //<>//
-      fill(0); //<>//
-      textSize(20);  //<>//
-      text("High Mass Star", 400, 310);   //<>//
-      text("(Hard)", 400, 340);  //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {   //<>//
-        stroke(0,227,255);   //<>//
-        strokeWeight(10);       //<>//
-        fill(0, 227, 255);              //<>//
-        rect(400, 325, 200, 100);         //<>//
-        fill(0);                   //<>//
-        textSize(22);               //<>//
-        text("High Mass Star", 400, 310);        //<>//
-        text("(Hard)", 400, 340);                //<>//
-        if (mousePressed == true) {   //<>//
-          difficulty = 1; //<>//
-          pressure = 100;         //<>//
-          cutsceneTimer = millis();             //<>//
-          screen = 3;       //<>//
-          initSim(aCount);              //<>//
-          pressureRate = 0.07;       //<>//
-          mouseMag = 50;  //<>//
-          strength = 20;               //<>//
-          skip = false;  //<>//
-        } //<>//
-      }    //<>//
-      textSize(20);    //<>//
-      text("Medium Mass Star", 400, 460);      //<>//
-      text("(Medium)", 400, 490);                  //<>//
-      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {     //<>//
-        stroke(250,222,3);                   //<>//
-        strokeWeight(10);                    //<>//
+      fill(250,0,0); //<>// //<>//
+      rect(400,625,200,100);  //<>// //<>//
+      fill(0); //<>// //<>//
+      textSize(20);  //<>// //<>//
+      text("High Mass Star", 400, 310);   //<>// //<>//
+      text("(Hard)", 400, 340);  //<>// //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 275 && mouseY <= 375) {   //<>// //<>//
+        stroke(0,227,255);   //<>// //<>//
+        strokeWeight(10);       //<>// //<>//
+        fill(0, 227, 255);              //<>// //<>//
+        rect(400, 325, 200, 100);         //<>// //<>//
+        fill(0);                   //<>// //<>//
+        textSize(22);               //<>// //<>//
+        text("High Mass Star", 400, 310);        //<>// //<>//
+        text("(Hard)", 400, 340);                //<>// //<>//
+        if (mousePressed == true) {   //<>// //<>//
+          difficulty = 1; //<>// //<>//
+          pressure = 100;         //<>// //<>//
+          cutsceneTimer = millis();             //<>// //<>//
+          screen = 3;       //<>// //<>//
+          initSim(aCount);              //<>// //<>//
+          pressureRate = 0.07;       //<>// //<>//
+          mouseMag = 50;  //<>// //<>//
+          strength = 20;               //<>// //<>//
+          skip = false;  //<>// //<>//
+        } //<>// //<>//
+      }    //<>// //<>//
+      textSize(20);    //<>// //<>//
+      text("Medium Mass Star", 400, 460);      //<>// //<>//
+      text("(Medium)", 400, 490);                  //<>// //<>//
+      if (mouseX >= 300 && mouseX <= 500 && mouseY >= 425 && mouseY <= 525) {     //<>// //<>//
+        stroke(250,222,3);                   //<>// //<>//
+        strokeWeight(10);                    //<>// //<>//
         fill(250,222,3);                  
         rect(400, 475, 200, 100);                   
         fill(0);                   
