@@ -72,8 +72,10 @@ void draw() {
       rect(400, 400, 200, 100);
       textSize(60);
       fill(255);
-      text("The Life Cycle of a Star:", 400, 150);
-      text("Fusion Minigame", 400, 225);
+      text("The Life Cycle of a Star:", 400, 125);
+      text("Fusion Minigame", 400, 200);
+      textSize(30);
+      text("By Alex Park & Anton Qin",400,275);
       fill(0);
       textSize(40);
       text("Play!", 400, 412);
